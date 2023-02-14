@@ -1,0 +1,62 @@
+<svg
+                  width="17"
+                  height="17"
+                  viewBox="0 0 17 17"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g clip-path="url(#clip0_460_10180)">
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M7.8586 4.05102C6.6437 2.83808 4.67396 2.83808 3.45906 4.05102C2.24416 5.26397 2.24416 7.23054 3.45906 8.44348L3.9797 8.96329C3.98821 8.97178 3.99647 8.98049 4.00447 8.98938L8.85141 13.8285L13.6981 8.98959C13.7062 8.98066 13.7145 8.97188 13.7231 8.96329L14.2438 8.44348C15.4587 7.23054 15.4587 5.26397 14.2438 4.05102C13.0289 2.83808 11.0591 2.83808 9.84422 4.05102L9.32358 4.57083C9.06281 4.83118 8.64002 4.83118 8.37925 4.57083L7.8586 4.05102ZM14.6931 9.88047C14.6851 9.88941 14.6767 9.89818 14.6681 9.90678L9.32426 15.242C9.199 15.3671 9.02909 15.4374 8.85194 15.4373C8.85177 15.4373 8.85212 15.4373 8.85194 15.4373C8.85177 15.4373 8.85106 15.4373 8.85088 15.4373C8.67373 15.4374 8.50382 15.3671 8.37856 15.242L3.03469 9.90678C3.02608 9.89818 3.01775 9.88941 3.00971 9.88047L2.51473 9.38629C0.778294 7.65265 0.778291 4.84186 2.51473 3.10822C4.25117 1.37457 7.06649 1.37457 8.80293 3.10822L8.85141 3.15662L8.89989 3.10822C10.6363 1.37457 13.4517 1.37457 15.1881 3.10822C16.9245 4.84186 16.9245 7.65265 15.1881 9.38629L14.6931 9.88047Z"
+                      fill="#2E3132"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_460_10180">
+                      <path
+                        d="M0.838623 4.98345C0.838623 2.49409 2.85664 0.476074 5.346 0.476074H12.3571C14.8464 0.476074 16.8644 2.49409 16.8644 4.98345V16.4761H0.838623V4.98345Z"
+                        fill="white"
+                      />
+                    </clipPath>
+                  </defs>
+                <!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+</svg>
