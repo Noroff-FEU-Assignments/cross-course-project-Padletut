@@ -434,6 +434,7 @@ footer img {
 
 .checkout-summary span {
     text-align: end;
+    padding-right: 8px;
 }
 
 .checkout-summary h4 {
@@ -454,13 +455,13 @@ footer img {
     color: black;
     padding: 10px 24px 10px 24px;
     border-radius: 100px;
-    text-decoration: none;
     margin-top: 0;
     align-items: center;
     font-weight: 700;
     font-size: 14px;
     line-height: 16px;
     letter-spacing: 0.5px;
+    align-self: center;
    }
 
    .paymentinfo__formbuttons a:hover, .paymentinfo__mobilecheckoutbuttons a:hover {
@@ -1593,8 +1594,11 @@ min-width: 40%;
     .left-bar__checkout {
         align-self: center;
         margin-bottom: 1.5em;
-        min-width: 95%;
-        max-height: 15%;
+        max-height: 11em
+    }
+
+    .left-bar__checkout, .checkout-summary, #checkoutnow:checked ~.right-bar-checkoutpage {
+        width: 95%;
     }
 
     .left-bar-checkoutpage {
@@ -1611,7 +1615,7 @@ min-width: 40%;
     }
     
     .left-bar__checkout-textArea {
-          min-width: 47%;
+          min-width: 50%;
           padding-left: 5px;
     }
     
@@ -1623,16 +1627,13 @@ min-width: 40%;
 
     .checkout-summary {
         align-self: center;
-        width: 70%;
         margin-bottom: 4em;
     }
 
     .paymentinfo__mobilecheckoutbuttons {
-        display: flex;
         flex-direction: column;
         align-self: center;
         gap: 1em;
-        width: 50%;
     }
 
     .paymentinfo__paymentmethod input, .paymentinfo__mobilecheckoutbuttons input {
@@ -1649,7 +1650,6 @@ min-width: 40%;
 
     #checkoutnow:checked ~.right-bar-checkoutpage {
         display: flex;
-        min-width: 90%;
     }
 
     #submit-label, #checkout-label {
@@ -1661,7 +1661,7 @@ min-width: 40%;
         margin-bottom: 3em;
     }
 
-    .paymentinfo__formbuttons, .paymentinfo__mobilecheckoutbuttons {
+    .paymentinfo__formbuttons {
         flex-direction: column;
         align-self: center;
         gap: 1em;
@@ -1737,8 +1737,8 @@ min-width: 40%;
         margin-right: 30px;
     }
 
-    .left-bar__checkout {
-        min-width: 60%;
+    .left-bar__checkout, .checkout-summary, #checkoutnow:checked ~.right-bar-checkoutpage  {
+        width: 70%;
     }   
 
     .carousel-cell {
@@ -1761,6 +1761,10 @@ min-width: 40%;
     .product-detail__imageReview {
         margin-right: 60px;
     }
+
+    .left-bar__checkout, .checkout-summary, #checkoutnow:checked ~.right-bar-checkoutpage {
+        width: 50%;
+    }   
 }
 
 @media screen and (min-width: 800px) {
@@ -2183,10 +2187,6 @@ min-width: 40%;
     align-self: auto;
 }
 
-#submit-label {
-    padding: 15px 24px 15px 24px;
-}
-
 .paymentinfo__mobilecheckoutbuttons a {
     padding: 15px 24px 15px 24px;
     margin-bottom: 0;
@@ -2268,9 +2268,5 @@ min-width: 40%;
     .products__content {
         grid-template-columns: repeat(4, 1fr);
         max-width: 100%;
-    }
-
-    .left-bar {
-        flex: 1;
     }
 }
