@@ -220,7 +220,7 @@
                 Size
               </label>
               <label for="size-container__toggler">
-                <figure>
+                <div class="toggler-icon">
                   <svg
                     width="24"
                     height="24"
@@ -230,7 +230,7 @@
                   >
                     <path d="M7 10L12 15L17 10H7Z" fill="black" />
                   </svg>
-                </figure>
+                </div>
               </label>
             </h3>
 
@@ -275,7 +275,7 @@
                 Color
               </label>
               <label for="color-selector__toggler">
-                <figure>
+                <div class="toggler-icon">
                   <svg
                     width="24"
                     height="24"
@@ -285,10 +285,17 @@
                   >
                     <path d="M7 10L12 15L17 10H7Z" fill="black" />
                   </svg>
-                </figure>
+                </div>
               </label>
             </h3>
-            <input type="radio" name="color" value="red" id="red" checked />
+            <input
+              type="radio"
+              name="color"
+              value="red"
+              id="red"
+              checked
+              title="Red color"
+            />
             <label for="red">
               <svg
                 width="25"
@@ -300,7 +307,13 @@
                 <circle cx="12.5" cy="12.5" r="12.5" fill="#BA1A1A" />
               </svg>
             </label>
-            <input type="radio" name="color" value="orange" id="orange" />
+            <input
+              type="radio"
+              name="color"
+              value="orange"
+              id="orange"
+              title="Orange color"
+            />
             <label for="orange">
               <svg
                 width="25"
@@ -312,7 +325,13 @@
                 <circle cx="12.5" cy="12.5" r="12.5" fill="#EDB900" />
               </svg>
             </label>
-            <input type="radio" name="color" value="yellow" id="yellow" />
+            <input
+              type="radio"
+              name="color"
+              value="yellow"
+              id="yellow"
+              title="Yellow color"
+            />
             <label for="yellow">
               <svg
                 width="25"
@@ -324,7 +343,13 @@
                 <circle cx="12.5" cy="12.5" r="12.5" fill="#FBFF2E" />
               </svg>
             </label>
-            <input type="radio" name="color" value="green" id="green" />
+            <input
+              type="radio"
+              name="color"
+              value="green"
+              id="green"
+              title="Green color"
+            />
             <label for="green">
               <svg
                 width="25"
@@ -336,7 +361,13 @@
                 <circle cx="12.5" cy="12.5" r="12.5" fill="#408A34" />
               </svg>
             </label>
-            <input type="radio" name="color" value="violet" id="violet" />
+            <input
+              type="radio"
+              name="color"
+              value="violet"
+              id="violet"
+              title="Violet color"
+            />
             <label for="violet">
               <svg
                 width="25"
@@ -348,7 +379,13 @@
                 <circle cx="12.5" cy="12.5" r="12.5" fill="#3921C8" />
               </svg>
             </label>
-            <input type="radio" name="color" value="purple" id="purple" />
+            <input
+              type="radio"
+              name="color"
+              value="purple"
+              id="purple"
+              title="Purple color"
+            />
             <label for="purple">
               <svg
                 width="25"
@@ -360,7 +397,13 @@
                 <circle cx="12.5" cy="12.5" r="12.5" fill="#820C95" />
               </svg>
             </label>
-            <input type="radio" name="color" value="brown" id="brown" />
+            <input
+              type="radio"
+              name="color"
+              value="brown"
+              id="brown"
+              title="Brown color"
+            />
             <label for="brown">
               <svg
                 width="25"
@@ -372,7 +415,13 @@
                 <circle cx="12.5" cy="12.5" r="12.5" fill="#A47C15" />
               </svg>
             </label>
-            <input type="radio" name="color" value="grey" id="grey" />
+            <input
+              type="radio"
+              name="color"
+              value="grey"
+              id="grey"
+              title="Grey color"
+            />
             <label for="grey">
               <svg
                 width="25"
@@ -384,7 +433,13 @@
                 <circle cx="12.5" cy="12.5" r="12.5" fill="#888888" />
               </svg>
             </label>
-            <input type="radio" name="color" value="black" id="black" />
+            <input
+              type="radio"
+              name="color"
+              value="black"
+              id="black"
+              title="Black color"
+            />
             <label for="black">
               <svg
                 width="25"
@@ -396,7 +451,13 @@
                 <circle cx="12.5" cy="12.5" r="12.5" fill="#1B1A1A" />
               </svg>
             </label>
-            <input type="radio" name="color" value="white" id="white" />
+            <input
+              type="radio"
+              name="color"
+              value="white"
+              id="white"
+              title="White color"
+            />
             <label for="white">
               <svg
                 width="25"
@@ -414,7 +475,13 @@
                 />
               </svg>
             </label>
-            <input type="radio" name="color" value="pink" id="pink" />
+            <input
+              type="radio"
+              name="color"
+              value="pink"
+              id="pink"
+              title="Pink color"
+            />
             <label for="pink">
               <svg
                 width="25"
@@ -439,13 +506,13 @@
             </div>
           </div>
           <div class="carousel">
-            <!-- Flickity HTML init -->
+            <!-- Carousel -->
             <div
               class="carousel js-flickity"
               data-flickity-options='{ "freeScroll": true, "wrapAround": true, "autoPlay": true }'
             >
               <div class="carousel-cell">
-                <a href="/productdetail.html">
+                <div class="carousel-cell__favoritecontainer">
                   <input
                     type="checkbox"
                     id="favIcon-checkbox-carousel0"
@@ -455,15 +522,23 @@
                     class="favorite-checked carousel-cell__favorite"
                     for="favIcon-checkbox-carousel0"
                   >
-                    <img src="svg/favIconChecked.svg" alt="" />
+                    <img
+                      src="svg/favIconChecked.svg"
+                      alt="Remove from favorite"
+                    />
                   </label>
                   <label
                     class="favorite-unchecked carousel-cell__favorite"
                     for="favIcon-checkbox-carousel0"
                   >
-                    <img src="svg/favIcon.svg" alt="" />
+                    <img src="svg/favIcon.svg" alt="Add to favorite" />
                   </label>
-                  <img src="/images/products/RainyDays_Jacket1.png" />
+                </div>
+                <a href="/productdetail.html">
+                  <img
+                    src="/images/products/RainyDays_Jacket1.png"
+                    alt="Korrsund parkas"
+                  />
                   <div class="carousel-cell__container">
                     <div class="carousel-cell__textArea">
                       Korrsund parkas
@@ -471,7 +546,10 @@
                     </div>
                     <div class="carousel-cell__reviews">
                       <div>
-                        <object data="/svg/carousel.svg"></object>
+                        <object
+                          data="/svg/carousel.svg"
+                          title="Carousel"
+                        ></object>
                       </div>
                       <div class="carousel-cell__reviewsText">(4 reviews)</div>
                     </div>
@@ -479,24 +557,30 @@
                 >
               </div>
               <div class="carousel-cell">
-                <a href="/productdetail.html">
+                <div class="carousel-cell__favoritecontainer">
                   <input
                     type="checkbox"
                     id="favIcon-checkbox-carousel1"
                     name="fav-checkbox"
                   />
+
                   <label
                     class="favorite-checked carousel-cell__favorite"
                     for="favIcon-checkbox-carousel1"
                   >
-                    <img src="svg/favIconChecked.svg" alt="" />
+                    <img
+                      src="svg/favIconChecked.svg"
+                      alt="Remove from favorite"
+                    />
                   </label>
                   <label
                     class="favorite-unchecked carousel-cell__favorite"
                     for="favIcon-checkbox-carousel1"
                   >
-                    <img src="svg/favIcon.svg" alt="" />
+                    <img src="svg/favIcon.svg" alt="Add to favorite" />
                   </label>
+                </div>
+                <a href="/productdetail.html">
                   <img src="/images/products/RainyDays_Jacket2.png" />
                   <div class="carousel-cell__container">
                     <div class="carousel-cell__textArea">
@@ -513,7 +597,7 @@
                 >
               </div>
               <div class="carousel-cell">
-                <a href="/productdetail.html">
+                <div class="carousel-cell__favoritecontainer">
                   <input
                     type="checkbox"
                     id="favIcon-checkbox-carousel2"
@@ -523,14 +607,19 @@
                     class="favorite-checked carousel-cell__favorite"
                     for="favIcon-checkbox-carousel2"
                   >
-                    <img src="svg/favIconChecked.svg" alt="" />
+                    <img
+                      src="svg/favIconChecked.svg"
+                      alt="Remove from favorite"
+                    />
                   </label>
                   <label
                     class="favorite-unchecked carousel-cell__favorite"
                     for="favIcon-checkbox-carousel2"
                   >
-                    <img src="svg/favIcon.svg" alt="" />
+                    <img src="svg/favIcon.svg" alt="Add to favorite" />
                   </label>
+                </div>
+                <a href="/productdetail.html">
                   <img src="/images/products/RainyDays_Jacket3.png" />
                   <div class="carousel-cell__container">
                     <div class="carousel-cell__textArea">
@@ -547,7 +636,7 @@
                 >
               </div>
               <div class="carousel-cell">
-                <a href="/productdetail.html">
+                <div class="carousel-cell__favoritecontainer">
                   <input
                     type="checkbox"
                     id="favIcon-checkbox-carousel3"
@@ -557,14 +646,19 @@
                     class="favorite-checked carousel-cell__favorite"
                     for="favIcon-checkbox-carousel3"
                   >
-                    <img src="svg/favIconChecked.svg" alt="" />
+                    <img
+                      src="svg/favIconChecked.svg"
+                      alt="Remove from favorite"
+                    />
                   </label>
                   <label
                     class="favorite-unchecked carousel-cell__favorite"
                     for="favIcon-checkbox-carousel3"
                   >
-                    <img src="svg/favIcon.svg" alt="" />
+                    <img src="svg/favIcon.svg" alt="Add to favorite" />
                   </label>
+                </div>
+                <a href="/productdetail.html">
                   <img src="/images/products/RainyDays_Jacket4.png" />
                   <div class="carousel-cell__container">
                     <div class="carousel-cell__textArea">
@@ -581,7 +675,7 @@
                 >
               </div>
               <div class="carousel-cell">
-                <a href="/productdetail.html">
+                <div class="carousel-cell__favoritecontainer">
                   <input
                     type="checkbox"
                     id="favIcon-checkbox-carousel4"
@@ -591,14 +685,19 @@
                     class="favorite-checked carousel-cell__favorite"
                     for="favIcon-checkbox-carousel4"
                   >
-                    <img src="svg/favIconChecked.svg" alt="" />
+                    <img
+                      src="svg/favIconChecked.svg"
+                      alt="Remove from favorite"
+                    />
                   </label>
                   <label
                     class="favorite-unchecked carousel-cell__favorite"
                     for="favIcon-checkbox-carousel4"
                   >
-                    <img src="svg/favIcon.svg" alt="" />
+                    <img src="svg/favIcon.svg" alt="Add to favorite" />
                   </label>
+                </div>
+                <a href="/productdetail.html">
                   <img src="/images/products/RainyDays_Jacket5.png" />
                   <div class="carousel-cell__container">
                     <div class="carousel-cell__textArea">
@@ -615,7 +714,7 @@
                 >
               </div>
               <div class="carousel-cell">
-                <a href="/productdetail.html">
+                <div class="carousel-cell__favoritecontainer">
                   <input
                     type="checkbox"
                     id="favIcon-checkbox-carousel5"
@@ -625,14 +724,19 @@
                     class="favorite-checked carousel-cell__favorite"
                     for="favIcon-checkbox-carousel5"
                   >
-                    <img src="svg/favIconChecked.svg" alt="" />
+                    <img
+                      src="svg/favIconChecked.svg"
+                      alt="Remove from favorite"
+                    />
                   </label>
                   <label
                     class="favorite-unchecked carousel-cell__favorite"
                     for="favIcon-checkbox-carousel5"
                   >
-                    <img src="svg/favIcon.svg" alt="" />
+                    <img src="svg/favIcon.svg" alt="Add to favorite" />
                   </label>
+                </div>
+                <a href="/productdetail.html">
                   <img src="/images/products/RainyDays_Jacket6.png" />
                   <div class="carousel-cell__container">
                     <div class="carousel-cell__textArea">
@@ -649,7 +753,7 @@
                 >
               </div>
               <div class="carousel-cell">
-                <a href="/productdetail.html">
+                <div class="carousel-cell__favoritecontainer">
                   <input
                     type="checkbox"
                     id="favIcon-checkbox-carousel6"
@@ -659,14 +763,19 @@
                     class="favorite-checked carousel-cell__favorite"
                     for="favIcon-checkbox-carousel6"
                   >
-                    <img src="svg/favIconChecked.svg" alt="" />
+                    <img
+                      src="svg/favIconChecked.svg"
+                      alt="Remove from favorite"
+                    />
                   </label>
                   <label
                     class="favorite-unchecked carousel-cell__favorite"
                     for="favIcon-checkbox-carousel6"
                   >
-                    <img src="svg/favIcon.svg" alt="" />
+                    <img src="svg/favIcon.svg" alt="Add to favorite" />
                   </label>
+                </div>
+                <a href="/productdetail.html">
                   <img src="/images/products/RainyDays_Jacket7.png" />
                   <div class="carousel-cell__container">
                     <div class="carousel-cell__textArea">
@@ -690,182 +799,251 @@
             <div>
               <a href="">See all</a>
             </div>
-            <a href="productdetail.html" class="products__item">
-              <div class="products__item">
-                <div class="products__item-imageArea">
-                  <input
-                    type="checkbox"
-                    id="favIcon-checkbox0"
-                    name="fav-checkbox"
+
+            <div class="products__item">
+              <div class="products__item-favoritecontainer">
+                <input
+                  type="checkbox"
+                  id="favIcon-checkbox0"
+                  name="fav-checkbox"
+                />
+                <label class="favorite-checked" for="favIcon-checkbox0">
+                  <img
+                    src="svg/favIconChecked.svg"
+                    alt="Remove from favorite"
                   />
-                  <label class="favorite-checked" for="favIcon-checkbox0">
-                    <img src="svg/favIconChecked.svg" alt="" />
-                  </label>
-                  <label class="favorite-unchecked" for="favIcon-checkbox0">
-                    <img src="svg/favIcon.svg" alt="" />
-                  </label>
-                  <img src="images/products/RainyDays_Jacket1.png" alt="" />
+                </label>
+                <label class="favorite-unchecked" for="favIcon-checkbox0">
+                  <img src="svg/favIcon.svg" alt="Add to favorite" />
+                </label>
+              </div>
+              <a href="productdetail.html" class="products__item">
+                <div class="products__item-imageArea">
+                  <img
+                    src="images/products/RainyDays_Jacket1.png"
+                    alt="Korrsund parkas"
+                  />
                 </div>
                 <div class="products__item-textArea">
                   <h3>Korrsund parkas</h3>
                   <span>$45.00</span>
                 </div>
-              </div>
-            </a>
-            <a href="productdetail.html" class="products__item">
-              <div class="products__item">
-                <div class="products__item-imageArea">
-                  <input
-                    type="checkbox"
-                    id="favIcon-checkbox1"
-                    name="fav-checkbox"
+              </a>
+            </div>
+            <div class="products__item">
+              <div class="products__item-favoritecontainer">
+                <input
+                  type="checkbox"
+                  id="favIcon-checkbox1"
+                  name="fav-checkbox"
+                />
+                <label class="favorite-checked" for="favIcon-checkbox1">
+                  <img
+                    src="svg/favIconChecked.svg"
+                    alt="Remove from favorite"
                   />
-                  <label class="favorite-checked" for="favIcon-checkbox1">
-                    <img src="svg/favIconChecked.svg" alt="" />
-                  </label>
-                  <label class="favorite-unchecked" for="favIcon-checkbox1">
-                    <img src="svg/favIcon.svg" alt="" />
-                  </label>
-                  <img src="images/products/RainyDays_Jacket2.png" alt="" />
+                </label>
+                <label class="favorite-unchecked" for="favIcon-checkbox1">
+                  <img src="svg/favIcon.svg" alt="Add to favorite" />
+                </label>
+              </div>
+              <a href="productdetail.html" class="products__item">
+                <div class="products__item-imageArea">
+                  <img
+                    src="images/products/RainyDays_Jacket2.png"
+                    alt="Nordic black style"
+                  />
                 </div>
                 <div class="products__item-textArea">
                   <h3>Nordic black style</h3>
                   <span>$35.00</span>
                 </div>
-              </div>
-            </a>
-            <a href="productdetail.html" class="products__item">
-              <div class="products__item">
-                <div class="products__item-imageArea">
-                  <input
-                    type="checkbox"
-                    id="favIcon-checkbox2"
-                    name="fav-checkbox"
+              </a>
+            </div>
+
+            <div class="products__item">
+              <div class="products__item-favoritecontainer">
+                <input
+                  type="checkbox"
+                  id="favIcon-checkbox2"
+                  name="fav-checkbox"
+                />
+                <label class="favorite-checked" for="favIcon-checkbox2">
+                  <img
+                    src="svg/favIconChecked.svg"
+                    alt="Remove from favorite"
                   />
-                  <label class="favorite-checked" for="favIcon-checkbox2">
-                    <img src="svg/favIconChecked.svg" alt="" />
-                  </label>
-                  <label class="favorite-unchecked" for="favIcon-checkbox2">
-                    <img src="svg/favIcon.svg" alt="" />
-                  </label>
-                  <img src="images/products/RainyDays_Jacket2.png" alt="" />
+                </label>
+                <label class="favorite-unchecked" for="favIcon-checkbox2">
+                  <img src="svg/favIcon.svg" alt="Add to favorite" />
+                </label>
+              </div>
+              <a href="productdetail.html" class="products__item">
+                <div class="products__item-imageArea">
+                  <img
+                    src="images/products/RainyDays_Jacket2.png"
+                    alt="Nordic black style"
+                  />
                 </div>
                 <div class="products__item-textArea">
                   <h3>Nordic black style</h3>
                   <span>$35.00</span>
                 </div>
-              </div>
-            </a>
-            <a href="productdetail.html" class="products__item">
-              <div class="products__item">
-                <div class="products__item-imageArea">
-                  <input
-                    type="checkbox"
-                    id="favIcon-checkbox3"
-                    name="fav-checkbox"
+              </a>
+            </div>
+
+            <div class="products__item">
+              <div class="products__item-favoritecontainer">
+                <input
+                  type="checkbox"
+                  id="favIcon-checkbox3"
+                  name="fav-checkbox"
+                />
+                <label class="favorite-checked" for="favIcon-checkbox3">
+                  <img
+                    src="svg/favIconChecked.svg"
+                    alt="Remove from favorite"
                   />
-                  <label class="favorite-checked" for="favIcon-checkbox3">
-                    <img src="svg/favIconChecked.svg" alt="" />
-                  </label>
-                  <label class="favorite-unchecked" for="favIcon-checkbox3">
-                    <img src="svg/favIcon.svg" alt="" />
-                  </label>
-                  <img src="images/products/RainyDays_Jacket2.png" alt="" />
+                </label>
+                <label class="favorite-unchecked" for="favIcon-checkbox3">
+                  <img src="svg/favIcon.svg" alt="Add to favorite" />
+                </label>
+              </div>
+              <a href="productdetail.html" class="products__item">
+                <div class="products__item-imageArea">
+                  <img
+                    src="images/products/RainyDays_Jacket2.png"
+                    alt="Nordic black style"
+                  />
                 </div>
                 <div class="products__item-textArea">
                   <h3>Nordic black style</h3>
                   <span>$35.00</span>
                 </div>
-              </div>
-            </a>
-            <a href="productdetail.html" class="products__item">
-              <div class="products__item">
-                <div class="products__item-imageArea">
-                  <input
-                    type="checkbox"
-                    id="favIcon-checkbox4"
-                    name="fav-checkbox"
+              </a>
+            </div>
+
+            <div class="products__item">
+              <div class="products__item-favoritecontainer">
+                <input
+                  type="checkbox"
+                  id="favIcon-checkbox4"
+                  name="fav-checkbox"
+                />
+                <label class="favorite-checked" for="favIcon-checkbox4">
+                  <img
+                    src="svg/favIconChecked.svg"
+                    alt="Remove from favorite"
                   />
-                  <label class="favorite-checked" for="favIcon-checkbox4">
-                    <img src="svg/favIconChecked.svg" alt="" />
-                  </label>
-                  <label class="favorite-unchecked" for="favIcon-checkbox4">
-                    <img src="svg/favIcon.svg" alt="" />
-                  </label>
-                  <img src="images/products/RainyDays_Jacket3.png" alt="" />
+                </label>
+                <label class="favorite-unchecked" for="favIcon-checkbox4">
+                  <img src="svg/favIcon.svg" alt="Add to favorite" />
+                </label>
+              </div>
+              <a href="productdetail.html" class="products__item">
+                <div class="products__item-imageArea">
+                  <img
+                    src="images/products/RainyDays_Jacket3.png"
+                    alt="Red skiing"
+                  />
                 </div>
                 <div class="products__item-textArea">
                   <h3>Red skiing</h3>
                   <span>$55.00</span>
                 </div>
-              </div>
-            </a>
-            <a href="productdetail.html" class="products__item">
-              <div class="products__item">
-                <div class="products__item-imageArea">
-                  <input
-                    type="checkbox"
-                    id="favIcon-checkbox5"
-                    name="fav-checkbox"
+              </a>
+            </div>
+            <div class="products__item">
+              <div class="products__item-favoritecontainer">
+                <input
+                  type="checkbox"
+                  id="favIcon-checkbox5"
+                  name="fav-checkbox"
+                />
+                <label class="favorite-checked" for="favIcon-checkbox5">
+                  <img
+                    src="svg/favIconChecked.svg"
+                    alt="Remove from favorite"
                   />
-                  <label class="favorite-checked" for="favIcon-checkbox5">
-                    <img src="svg/favIconChecked.svg" alt="" />
-                  </label>
-                  <label class="favorite-unchecked" for="favIcon-checkbox5">
-                    <img src="svg/favIcon.svg" alt="" />
-                  </label>
-                  <img src="images/products/RainyDays_Jacket4.png" alt="" />
+                </label>
+                <label class="favorite-unchecked" for="favIcon-checkbox5">
+                  <img src="svg/favIcon.svg" alt="Add to favorite" />
+                </label>
+              </div>
+              <a href="productdetail.html" class="products__item">
+                <div class="products__item-imageArea">
+                  <img
+                    src="images/products/RainyDays_Jacket4.png"
+                    alt="Comfortable warm"
+                  />
                 </div>
                 <div class="products__item-textArea">
                   <h3>Comfortable warm</h3>
                   <span>$45.00</span>
                 </div>
-              </div>
-            </a>
-            <a href="productdetail.html" class="products__item">
-              <div class="products__item">
-                <div class="products__item-imageArea">
-                  <input
-                    type="checkbox"
-                    id="favIcon-checkbox6"
-                    name="fav-checkbox"
+              </a>
+            </div>
+
+            <div class="products__item">
+              <div class="products__item-favoritecontainer">
+                <input
+                  type="checkbox"
+                  id="favIcon-checkbox6"
+                  name="fav-checkbox"
+                />
+                <label class="favorite-checked" for="favIcon-checkbox6">
+                  <img
+                    src="svg/favIconChecked.svg"
+                    alt="Remove from favorite"
                   />
-                  <label class="favorite-checked" for="favIcon-checkbox6">
-                    <img src="svg/favIconChecked.svg" alt="" />
-                  </label>
-                  <label class="favorite-unchecked" for="favIcon-checkbox6">
-                    <img src="svg/favIcon.svg" alt="" />
-                  </label>
-                  <img src="images/products/RainyDays_Jacket4.png" alt="" />
+                </label>
+                <label class="favorite-unchecked" for="favIcon-checkbox6">
+                  <img src="svg/favIcon.svg" alt="Add to favorite" />
+                </label>
+              </div>
+              <a href="productdetail.html" class="products__item">
+                <div class="products__item-imageArea">
+                  <img
+                    src="images/products/RainyDays_Jacket4.png"
+                    alt="Comfortable warm"
+                  />
                 </div>
                 <div class="products__item-textArea">
                   <h3>Comfortable warm</h3>
                   <span>$45.00</span>
                 </div>
-              </div>
-            </a>
-            <a href="productdetail.html" class="products__item">
-              <div class="products__item">
-                <div class="products__item-imageArea">
-                  <input
-                    type="checkbox"
-                    id="favIcon-checkbox7"
-                    name="fav-checkbox"
+              </a>
+            </div>
+            <div class="products__item">
+              <div class="products__item-favoritecontainer">
+                <input
+                  type="checkbox"
+                  id="favIcon-checkbox7"
+                  name="fav-checkbox"
+                />
+                <label class="favorite-checked" for="favIcon-checkbox7">
+                  <img
+                    src="svg/favIconChecked.svg"
+                    alt="Remove from favorite"
                   />
-                  <label class="favorite-checked" for="favIcon-checkbox7">
-                    <img src="svg/favIconChecked.svg" alt="" />
-                  </label>
-                  <label class="favorite-unchecked" for="favIcon-checkbox7">
-                    <img src="svg/favIcon.svg" alt="" />
-                  </label>
-                  <img src="images/products/RainyDays_Jacket4.png" alt="" />
+                </label>
+                <label class="favorite-unchecked" for="favIcon-checkbox7">
+                  <img src="svg/favIcon.svg" alt="Add to favorite" />
+                </label>
+              </div>
+              <a href="productdetail.html" class="products__item">
+                <div class="products__item-imageArea">
+                  <img
+                    src="images/products/RainyDays_Jacket4.png"
+                    alt="Comfortable warm"
+                  />
                 </div>
                 <div class="products__item-textArea">
                   <h3>Comfortable warm</h3>
                   <span>$45.00</span>
                 </div>
-              </div>
-            </a>
+              </a>
+            </div>
           </section>
         </section>
 
@@ -875,7 +1053,10 @@
           <h3>My Cart</h3>
           <div class="right-bar__cart">
             <div class="right-bar__cart-imageArea">
-              <img src="images/products/RainyDays_Jacket1.png" alt="" />
+              <img
+                src="images/products/RainyDays_Jacket1.png"
+                alt="Korrsund parkas"
+              />
             </div>
             <div class="right-bar__cart-textArea">
               <h4>Korrsund parkas</h4>
@@ -884,7 +1065,10 @@
           </div>
           <div class="right-bar__cart">
             <div class="right-bar__cart-imageArea">
-              <img src="images/products/RainyDays_Jacket4.png" alt="" />
+              <img
+                src="images/products/RainyDays_Jacket4.png"
+                alt="Comfortable warm"
+              />
             </div>
             <div class="right-bar__cart-textArea">
               <h4>Korrsund parkas</h4>
@@ -893,7 +1077,10 @@
           </div>
           <div class="right-bar__cart">
             <div class="right-bar__cart-imageArea">
-              <img src="images/products/RainyDays_Jacket3.png" alt="" />
+              <img
+                src="images/products/RainyDays_Jacket3.png"
+                alt="Red skiing"
+              />
             </div>
             <div class="right-bar__cart-textArea">
               <h4>Korrsund parkas</h4>
