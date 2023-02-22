@@ -284,6 +284,10 @@ footer img {
 /* Left bar
 --------- */
 
+legend {
+  display: none;
+}
+
 .container {
   display: flex;
   min-height: 100vh;
@@ -340,8 +344,15 @@ footer img {
   display: none;
 }
 
+.color-selector .toggler-icon {
+  display: block;
+}
+
 .color-selector fieldset {
   border-width: 0;
+  padding-left: 0;
+  padding-right: 0;
+  margin: 0;
 }
 
 .color-selector input[type="radio"] {
