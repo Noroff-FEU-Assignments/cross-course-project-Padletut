@@ -1410,8 +1410,15 @@ legend {
   }
 
   .product-detail__description {
-    margin-top: -10%;
     margin-bottom: 20px;
+  }
+
+  .product-detail__description h2 {
+    transform: translateY(-40px);
+  }
+
+  .product-detail__description .product-detail__price h2 {
+    transform: translate(0);
   }
 
   .product-detail form {
@@ -1803,6 +1810,10 @@ legend {
   .container-productdetail {
     flex-direction: row;
     background: white;
+  }
+
+  .product-detail__description h2 {
+    transform: translateY(0);
   }
 
   .product-detail {
