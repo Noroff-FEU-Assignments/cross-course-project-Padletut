@@ -476,6 +476,7 @@ legend {
 .checkout-summary span {
   text-align: end;
   padding-right: 8px;
+  align-items: flex-end;
 }
 
 .checkout-summary .checkout-summary__total {
@@ -2002,10 +2003,6 @@ legend {
     font-size: 22px;
     margin-top: 15px;
     margin-bottom: 5px;
-  }
-
-  .left-bar-checkoutpage span {
-    align-self: flex-start;
   }
 
   .left-bar__remove {
