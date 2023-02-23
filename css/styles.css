@@ -59,7 +59,15 @@ input[name="fav-checkbox"] {
 
 .carousel {
   display: flex;
+  flex-direction: column;
   padding: 1em 0 1em 0;
+}
+
+.carousel__header {
+  display: flex;
+  justify-content: space-between;
+  align-self: center;
+  width: 96%;
 }
 
 /* Home Page */
