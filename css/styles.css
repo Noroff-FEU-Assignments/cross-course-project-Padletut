@@ -818,6 +818,14 @@ legend {
   display: none;
 }
 
+.product-detail__checklist {
+  font-weight: 700;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  margin: 1em 0 1.5em 0;
+}
+
 #submit-label,
 #checkout-label {
   display: flex;
@@ -1406,7 +1414,7 @@ legend {
 
   .product-detail__image {
     align-self: center;
-    width: 104.25%;
+    width: 106.4%;
   }
 
   .product-detail img {
@@ -1552,6 +1560,7 @@ legend {
   .right-bar-checkoutpage h2 {
     font-size: 16px;
     text-align: start;
+    min-width: max-content;
   }
 
   .shipmentinfo {
