@@ -469,11 +469,8 @@ legend {
   width: 129%;
   grid-gap: 0.8em;
   font-size: 14px;
-}
-
-#checkout-summary__total {
-  margin-top: 1em;
-  font-size: 16px;
+  font-weight: 700;
+  align-items: flex-end;
 }
 
 .checkout-summary span {
@@ -481,8 +478,10 @@ legend {
   padding-right: 8px;
 }
 
-.checkout-summary h4 {
-  margin: 0;
+.checkout-summary .checkout-summary__total {
+  text-align: start;
+  font-weight: inherit;
+  margin-top: 1em;
 }
 
 .paymentinfo__formbuttons,
@@ -587,37 +586,36 @@ legend {
   display: none;
 }
 
-.creditcard-checked {
+.paymentinfo__paymentmethod .creditcard-checked {
   display: none;
-  gap: 1em;
+  /* gap: 1em;
   margin-left: 0.2em;
-  align-items: end;
+  align-items: end; */
+  width: 24px;
 }
 
-.creditcard-unchecked {
+.paymentinfo__paymentmethod .creditcard {
   display: flex;
   gap: 1em;
   margin-left: 0.2em;
   align-items: end;
 }
 
-.creditcard-checked img {
-  width: 24px;
-}
-
-.creditcard-unchecked img {
+.paymentinfo__paymentmethod .creditcard-unchecked {
   width: 24px;
 }
 
 .paymentinfo__paymentmethod
   input[name="payment"]:checked
-  ~ .creditcard-unchecked {
+  ~ .creditcard
+  .creditcard-unchecked {
   display: none;
 }
 
 .paymentinfo__paymentmethod
   input[name="payment"]:checked
-  ~ .creditcard-checked {
+  ~ .creditcard
+  .creditcard-checked {
   display: flex;
 }
 
@@ -1907,7 +1905,7 @@ legend {
     width: 129%;
   }
 
-  .creditcard-unchecked {
+  .creditcard {
     display: flex;
     gap: 1em;
     margin-left: 0.2em;
