@@ -1397,6 +1397,20 @@ legend {
     align-self: baseline;
     width: 24px;
     height: 24px;
+    cursor: pointer;
+  }
+
+  .hamburger-invisible {
+    display: none;
+  }
+
+  .menu-close {
+    cursor: pointer;
+  }
+
+  .menu-close:hover {
+    box-shadow: 0px 1px 2px rgb(0 0 0 / 30%), 0px 2px 6px 2px rgb(0 0 0 / 15%);
+    background: rgba(103, 80, 164, 0.08);
   }
 
   nav .nav__container > menu {
