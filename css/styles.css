@@ -3,6 +3,7 @@
   --primary-light-color: #00668a;
   --fontsize-h1: 24px;
   --fontsize-h2: 22px;
+  --button-size: 15px 24px;
 }
 
 * {
@@ -828,7 +829,7 @@ legend {
   gap: 10px;
   background-color: var(--primary-light-color);
   color: white;
-  padding: 10px 24px 10px 24px;
+  padding: var(--button-size);
   border-radius: 100px;
   border-width: 0;
   font-weight: 500;
@@ -865,7 +866,7 @@ legend {
   gap: 10px;
   background-color: #d4e5f1;
   color: black;
-  padding: 15px 24px 15px 24px;
+  padding: var(--button-size);
   border-radius: 100px;
   text-decoration: none;
   margin-top: 0;
@@ -922,7 +923,7 @@ legend {
   margin-top: 4.5em;
   color: var(--primary-light-color);
   border: 1px solid #72787c;
-  padding: 15px 24px 15px 24px;
+  padding: var(--button-size);
   border-radius: 100px;
   font-weight: 700;
   text-decoration: none;
@@ -1002,7 +1003,7 @@ legend {
   gap: 10px;
   color: white;
   background: var(--primary-light-color);
-  padding: 15px 24px 15px 24px;
+  padding: var(--button-size);
   border-radius: 100px;
   margin: 2.5em 0 2.5em 0;
   justify-content: center;
@@ -1525,11 +1526,6 @@ legend {
     display: flex;
   }
 
-  #submit-label,
-  #checkout-label {
-    padding: 10px 20px 10px 20px;
-  }
-
   .paymentinfo__mobilecheckoutbuttons a {
     padding: 10px 20px 10px 20px;
     margin-bottom: 3em;
@@ -2038,7 +2034,7 @@ legend {
   }
 
   .paymentinfo__mobilecheckoutbuttons a {
-    padding: 15px 24px 15px 24px;
+    padding: var(--button-size);
     margin-bottom: 0;
   }
 
