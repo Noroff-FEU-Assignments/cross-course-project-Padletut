@@ -95,7 +95,6 @@ input[name="fav-checkbox"] {
   position: sticky;
   padding: 30px 25px 30px 25px;
   gap: 12.34px;
-  /* width: fit-content; */
   height: 31.84px;
   left: 0;
   top: 45rem;
@@ -228,10 +227,6 @@ nav li {
   font-style: normal;
   letter-spacing: 0.1px;
 }
-
-/* nav span {
-    opacity: 0.38;
-} */
 
 nav .enabled {
   color: white;
@@ -602,9 +597,6 @@ legend {
 
 .paymentinfo__paymentmethod .creditcard-checked {
   display: none;
-  /* gap: 1em;
-  margin-left: 0.2em;
-  align-items: end; */
   width: 24px;
 }
 
@@ -675,10 +667,6 @@ legend {
   justify-content: space-between;
   transform: translateY(20px);
 }
-
-/* .products__content .products__content__header {
-  grid-column: -2/1;
-} */
 
 .main-container .products__item {
   text-decoration: none;
@@ -1096,8 +1084,6 @@ legend {
 
 .right-bar__reviews {
   display: flex;
-  /* justify-content: space-between; */
-
   gap: 1em;
   margin-bottom: 2em;
 }
@@ -1734,10 +1720,6 @@ legend {
     align-items: center;
     justify-content: space-between;
   }
-
-  /* .left-bar span {
-        align-self: flex-end;
-    } */
 
   .right-bar {
     display: flex;
