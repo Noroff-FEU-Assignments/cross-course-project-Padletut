@@ -1584,11 +1584,6 @@ legend {
     display: none;
   }
 
-  .paymentinfo__mobilecheckoutbuttons a {
-    padding: 10px 20px 10px 20px;
-    margin-bottom: 3em;
-  }
-
   .paymentinfo__formbuttons {
     flex-direction: column;
     align-self: center;
