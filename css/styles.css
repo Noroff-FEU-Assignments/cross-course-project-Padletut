@@ -26,6 +26,10 @@ body a {
   color: white;
 }
 
+figure {
+  margin: 0;
+}
+
 /* Favorite styling */
 
 .favorite-unchecked {
@@ -478,6 +482,7 @@ legend {
   max-width: 10em;
   min-width: 50%;
   border-radius: 4.51px 0 0 4.51px;
+  margin: 0;
 }
 
 .left-bar__checkout-textArea {
@@ -1556,13 +1561,6 @@ legend {
     flex-direction: column;
   }
 
-  .left-bar__checkout-imageArea {
-    padding: 10px;
-    max-width: 10em;
-    min-width: 50%;
-    border-radius: 4.51px 0 0 4.51px;
-  }
-
   .left-bar__checkout-textArea {
     min-width: 50%;
     padding-left: 5px;
@@ -2118,16 +2116,6 @@ legend {
   .left-bar__checkout {
     min-width: 95%;
     max-height: 15%;
-  }
-
-  .left-bar__checkout-imageArea {
-    background-color: #e3e2e2;
-    display: flex;
-    justify-content: center;
-    padding: 10px;
-    max-width: 10em;
-    min-width: 50%;
-    border-radius: 4.51px 0 0 4.51px;
   }
 
   .left-bar__checkout-textArea {
