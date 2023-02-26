@@ -90,8 +90,6 @@ input[name="fav-checkbox"] {
   justify-content: center;
   margin: 0;
   padding: 0;
-  left: 0;
-  right: 0;
   min-height: 35vh;
   background: url("/images/bakgrunn.png");
   background-repeat: no-repeat;
