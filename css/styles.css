@@ -18,7 +18,9 @@ body > * {
 body {
   margin: 0;
   background: #f7f2f9;
-  height: 100vh;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 body a {
@@ -90,11 +92,12 @@ input[name="fav-checkbox"] {
   padding: 0;
   left: 0;
   right: 0;
-  min-height: 63.1vh;
+  min-height: 35vh;
   background: url("/images/bakgrunn.png");
   background-repeat: no-repeat;
   background-position: center;
   background-position-y: top;
+  background-size: contain;
 }
 
 .main-home a {
@@ -104,10 +107,8 @@ input[name="fav-checkbox"] {
   justify-content: center;
   align-items: center;
   position: sticky;
-  padding: 30px 25px 30px 25px;
   gap: 12.34px;
   height: 31.84px;
-  left: 0;
   top: 45rem;
   background-color: var(--primary-light-color);
   border-radius: 154.198px;
@@ -115,6 +116,8 @@ input[name="fav-checkbox"] {
   font-size: 14px;
   line-height: 20px;
   letter-spacing: 0.1px;
+  padding: 30px 25px 30px 25px;
+  transform: translateY(79px);
 }
 
 .main-home a:hover {
@@ -128,8 +131,8 @@ input[name="fav-checkbox"] {
 }
 
 .header-home img {
-  width: 17.2rem;
-  margin: 3em;
+  width: 10em;
+  margin: 2em 0;
   padding-bottom: 0;
 }
 
@@ -275,8 +278,13 @@ footer {
     ),
     #fcfcfe;
   bottom: 0;
-  width: 100%;
   font-size: 14px;
+  position: sticky;
+  padding: 30px 0 5px 0;
+  font-weight: 500;
+  line-height: 25px;
+  letter-spacing: 1.5px;
+  min-width: 100%;
 }
 
 footer img {
@@ -293,10 +301,12 @@ footer img {
 
 .footer__copyright {
   color: var(--text-color);
+  display: none;
 }
 
 .footer__links {
   justify-content: space-between;
+  display: none;
 }
 
 .footer a {
@@ -305,6 +315,18 @@ footer img {
 
 .footer a:hover {
   text-decoration: underline;
+}
+
+.mobile-footer__links {
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  justify-content: center;
+  text-align: center;
+}
+
+#homepage-footer {
+  position: fixed;
 }
 
 /* ------- 
@@ -1200,12 +1222,6 @@ legend {
    ----------------------------------- */
 
 @media screen and (min-width: 360px) {
-  body {
-    display: flex;
-    justify-self: center;
-    flex-direction: column;
-  }
-
   .container {
     margin: 0;
     padding: 0 3% 2% 3%;
@@ -1223,11 +1239,6 @@ legend {
     flex-wrap: nowrap;
     align-items: center;
     flex-direction: column;
-  }
-
-  .header-home img {
-    width: 10rem;
-    margin: 2em 0 2em 0;
   }
 
   .header-style {
@@ -1396,25 +1407,9 @@ legend {
     display: none;
   }
 
-  footer {
-    position: fixed;
-    padding: 30px 0 5px 0;
-    font-weight: 500;
-    line-height: 25px;
-    letter-spacing: 1.5px;
-  }
-
   footer section {
     display: flex;
     justify-content: space-between;
-  }
-
-  .mobile-footer__links {
-    display: flex;
-    flex-direction: row;
-    width: 90%;
-    justify-content: center;
-    text-align: center;
   }
 
   .svg {
@@ -1428,27 +1423,6 @@ legend {
   }
 
   /* Footer styling end */
-
-  /* -----------------------------------
-     Home page (index.html)
-     ----------------------------------- */
-
-  .main-home {
-    display: flex;
-    justify-content: center;
-    background-size: 25rem;
-  }
-
-  .main-home a {
-    padding: 30px 25px 30px 25px;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 20px;
-    letter-spacing: 0.1px;
-    top: 30rem;
-  }
-
-  /* Home page section end */
 
   /* -----------------------------------
      Product detail page
@@ -1707,13 +1681,6 @@ legend {
 }
 
 @media screen and (min-width: 1150px) {
-  .main-home {
-    display: flex;
-    justify-content: center;
-    background-size: 40rem;
-    height: 100%;
-  }
-
   .main-home a {
     top: 75vh;
   }
