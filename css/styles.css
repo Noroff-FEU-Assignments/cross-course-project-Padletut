@@ -679,6 +679,7 @@ legend {
 .products__item {
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .products__item a {
@@ -713,6 +714,7 @@ legend {
   align-items: flex-start;
   gap: 0.5em;
   text-wrap: nowrap;
+  height: inherit;
 }
 
 .products__item-textArea h2 {

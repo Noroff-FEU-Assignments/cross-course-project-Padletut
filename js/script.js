@@ -1,22 +1,40 @@
+import { idKey } from "./constants.js";
+import { loadFromStorage, saveToStorage } from "./storage/local.js";
+
+
+
 const url = "https://api.noroff.dev/api/v1/rainy-days";
 
 const productContainer = document.querySelector(".products__content");
 
+let productId;
+
 async function fetchProducts() {
+
     try {
         const response = await fetch(url);
 
+        if (response.status === 404) {
+            productContainer.innerHTML = '<div class="products__content__header"><h2>Ooops...something went wrong while loading the page</h2></div>';
+        }
+
         const data = await response.json();
 
+        const productList = [];
 
         for (let i = 0; i < data.length; i++) {
+            productId = data[i].id
             createProductCard(data[i].id, data[i].title, data[i].discountedPrice, data[i].image);
+            productList.push(data[i].id);
         }
+        saveToStorage(idKey, productList);
     }
     catch (error) {
-        console.log(error);
+        productContainer.innerHTML = '<div class="products__content__header"><h2>Ooops...something went wrong while loading the page</h2></div>';
+        console.warn(error);
     }
 }
+
 
 fetchProducts();
 
@@ -42,7 +60,7 @@ function createProductCard(id, title, price, image, onSale) {
     cardImage.innerHTML = `<img src="${image}" alt="${title}">`;
 
     const cardLink = document.createElement('a');
-    cardLink.href = 'productdetail.html';
+    cardLink.href = `productdetail.html?id=${productId}`;
     cardLink.classList.add('products__item');
 
     const cardPrice = document.createElement('span');
