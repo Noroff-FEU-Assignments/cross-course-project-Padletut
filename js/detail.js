@@ -1,13 +1,11 @@
+import { addToShoppingCart } from "./cart.js";
+
 const detailContainer = document.querySelector(".product-detail");
-
 const leftBarContainer = document.querySelector(".left-bar");
-
+const loaderContainer = document.querySelectorAll(".loader");
 const queryString = document.location.search;
-
 const params = new URLSearchParams(queryString);
-
 const id = params.get("id");
-
 const url = `https://api.noroff.dev/api/v1/rainy-days`;
 
 async function fetchSingleProduct() {
@@ -17,8 +15,8 @@ async function fetchSingleProduct() {
     createHtml(details);
   }
   catch (error) {
-    console.log(error);
-    detailContainer.innerHTML = "Error";
+    console.warn(error);
+    detailContainer.innerHTML = "Error loading page";
   }
 }
 
@@ -27,37 +25,50 @@ async function fetchProducts() {
   try {
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
+    loaderContainer[1].style.display = "none";
     renderProductsLeftBar(data);
   }
   catch (error) {
-    console.log(error);
+    leftBarContainer.innerHTML = "Error loading page"
+    console.warn(error);
   }
 }
 
 function renderProductsLeftBar(data) {
 
+  const randomProducts = [];
+
   for (let i = 0; i < 4; i++) {
 
-    leftBarContainer.innerHTML += `<div class="products__item">
+    const randomProduct = Math.floor(Math.random() * data.length);
+
+    if (!randomProducts.includes(randomProduct)) {
+
+      randomProducts.push(randomProduct);
+
+      leftBarContainer.innerHTML += `<div class="products__item">
                                   <div class="products__item-favoritecontainer">
-                                  <input type="checkbox" id="favIcon-checkbox${data[i].id}" name="fav-checkbox">
-                                  <label class="favorite" for="favIcon-checkbox${data[i].id}">
+                                  <input type="checkbox" id="favIcon-checkbox${data[randomProduct].id}" name="fav-checkbox">
+                                  <label class="favorite" for="favIcon-checkbox${data[randomProduct].id}">
                                     <img class="favorite-checked" src="svg/favIconChecked.svg" alt="Remove from favorite">
                                     <img class="favorite-unchecked" src="svg/favIcon.svg" alt="Add to favorite">
                                   </label>
                                 </div>
-                                <a href="productdetail.html?id=${data[i].id}">
+                                <a href="productdetail.html?id=${data[randomProduct].id}">
                                   <figure class="products__item-imageArea">
-                                    <img src="${data[i].image}" alt="${data[i].title}">
+                                    <img src="${data[randomProduct].image}" alt="${data[randomProduct].title}">
                                   </figure>
                                   <div class="products__item-textArea">
-                                    <h2>${data[i].title}</h2>
-                                    <span>$${data[i].price}</span>
+                                    <h2>${data[randomProduct].title}</h2>
+                                    <span>$${data[randomProduct].price}</span>
                                   </div>
                                 </a>
                                 </div>`
 
+    } else {
+      i--;
+    }
+    loaderContainer[0].style.display = "none";
   }
 }
 
@@ -67,7 +78,6 @@ fetchProducts();
 
 function createHtml(details) {
   const detailProductContainer = document.querySelector('.product-detail__description');
-  // detailProductContainer.classList.add('product-detail__description');
 
   const detailImageContainer = document.createElement('div');
   detailImageContainer.classList.add('product-detail__image');
@@ -154,9 +164,14 @@ function createHtml(details) {
   detailProductContainer.prepend(detailTitle);
   detailContainer.prepend(detailImageContainer);
   detailImageContainer.prepend(detailImage);
-
-
-  //  const detailImage = document.createElement('div');
-  //  detailImage.classList.add = 'product-detail__image';
-
 }
+
+const addToCartButton = document.querySelector(".addToCart");
+
+addToCartButton.addEventListener("click", () => {
+  const queryString = document.location.search;
+  const params = new URLSearchParams(queryString);
+  const id = params.get("id");
+
+  addToShoppingCart(id);
+});

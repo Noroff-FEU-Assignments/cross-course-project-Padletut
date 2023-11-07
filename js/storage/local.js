@@ -1,4 +1,3 @@
-
 export function saveToStorage(key, value) {
     value = JSON.stringify(value);
 
@@ -10,7 +9,7 @@ export function loadFromStorage(key) {
         return JSON.parse(localStorage.getItem(key));
     }
     catch (error) {
-        console.warn('JSNO Error: ', error);
+        console.warn('JSON Error: ', error);
         return null;
     }
 }
