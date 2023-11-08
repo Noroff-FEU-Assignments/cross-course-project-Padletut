@@ -1,61 +1,61 @@
 import { cartKey } from "./constants.js";
 import { loadFromStorage, saveToStorage } from "./storage/local.js";
+import { fetchProducts } from "./fetch.js";
 
 
 let checkoutTotal = 0;
 let globalData;
+
 const checkoutContainer = document.querySelector(".left-bar-checkoutpage");
-const checkoutStorage = loadFromStorage(cartKey);
-const url = `https://api.noroff.dev/api/v1/rainy-days`;
-
-async function fetchProducts() {
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        globalData = data;
-        renderCheckout(data);
-    }
-    catch (error) {
-        checkoutContainer.innerHTML = "Error loading page"
-        console.warn(error);
-    }
-}
-
-fetchProducts();
 
 
-function removeFromCheckout(event, key) {
+fetchProducts(checkoutContainer, undefined, renderCheckout)
 
-    const checkoutItemElement = event.target.closest(".left-bar__remove");
-
-    if (!checkoutItemElement) return;
-
-    const checkoutItemId = checkoutItemElement.id;
-
-    const checkoutItemToRemove = checkoutStorage.indexOf(checkoutItemId);
-    if (checkoutItemToRemove !== -1) {
-        checkoutStorage.splice(checkoutItemToRemove, 1);
-        saveToStorage(key, checkoutStorage);
-
-        checkoutContainer.innerHTML = "";
-        checkoutTotal = 0;
-        renderCheckout(globalData);
-    }
-}
+  .then(data => {
+    const checkoutStorage = loadFromStorage(cartKey);
+    globalData = data;
+    renderCheckout(data, checkoutStorage);
+  })
+  .catch(error => {
+    console.error(error);
+  });
 
 
-function renderCheckout(data) {
+function removeFromCheckout(event, key, data, checkoutStorage) {
 
-    if (!checkoutStorage) return;
+  const checkoutItemElement = event.target.closest(".left-bar__remove");
 
+  if (!checkoutItemElement) return;
+
+  const checkoutItemId = checkoutItemElement.id;
+
+  const checkoutItemToRemove = checkoutStorage.indexOf(checkoutItemId);
+  if (checkoutItemToRemove !== -1) {
+    checkoutStorage.splice(checkoutItemToRemove, 1);
+    saveToStorage(key, checkoutStorage);
+
+    checkoutContainer.innerHTML = "";
     checkoutTotal = 0;
+    renderCheckout(data, checkoutStorage);
+  }
+}
 
-    for (const checkoutItemId of checkoutStorage) {
-        const product = data.find(item => item.id === checkoutItemId);
 
-        if (product) {
-            checkoutTotal += product.price;
-            checkoutContainer.innerHTML += `<div class="left-bar__checkout">
+function renderCheckout(data, checkoutStorage) {
+
+
+  if (!checkoutStorage) return;
+
+  checkoutTotal = 0;
+
+
+  for (const checkoutItemId of checkoutStorage) {
+
+    const product = data.find(item => item.id === checkoutItemId);
+
+    if (product) {
+      checkoutTotal += product.price;
+      checkoutContainer.innerHTML += `<div class="left-bar__checkout">
             <figure class="left-bar__checkout-imageArea">
               <img src="${product.image}" alt="${product.title}">
             </figure>
@@ -83,9 +83,9 @@ function renderCheckout(data) {
               </div>
             </div>
           </div>`;
-        }
     }
-    checkoutContainer.innerHTML += `<div class="checkout-summary">
+  }
+  checkoutContainer.innerHTML += `<div class="checkout-summary">
                                                 Items
                                                 <span>$ ${checkoutTotal.toFixed(2)}</span>
                                                 Shipping
@@ -98,14 +98,14 @@ function renderCheckout(data) {
                                                 <span>$ ${((checkoutTotal * 1.25) + 10).toFixed(2)}</span>
                                     </div>`;
 
-    addRemoveEventListeners();
+  addRemoveEventListeners(checkoutStorage);
 };
 
-function addRemoveEventListeners() {
-    const removeButtons = document.querySelectorAll(".left-bar__remove");
-    removeButtons.forEach(button => {
-        button.addEventListener("click", (event) => {
-            removeFromCheckout(event, cartKey);
-        });
+function addRemoveEventListeners(checkoutStorage) {
+  const removeButtons = document.querySelectorAll(".left-bar__remove");
+  removeButtons.forEach(button => {
+    button.addEventListener("click", (event) => {
+      removeFromCheckout(event, cartKey, globalData, checkoutStorage);
     });
+  });
 }

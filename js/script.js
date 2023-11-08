@@ -1,43 +1,26 @@
-import { cartKey, idKey } from "./constants.js";
-
-import { loadFromStorage, removeFromStorage, saveToStorage } from "./storage/local.js";
-
-const url = "https://api.noroff.dev/api/v1/rainy-days";
+import { cartKey } from "./constants.js";
+import { fetchProducts } from "./fetch.js";
+import { renderShoppingCart, removeFromCart } from "./cart.js";
 
 const productContainer = document.querySelector(".products__content");
 const loaderContainer = document.querySelector(".loader");
-let globalData;
-
-export async function fetchProducts() {
-
-    try {
-        const response = await fetch(url);
-
-        if (response.status === 404) {
-            productContainer.innerHTML = '<div class="products__content__header"><h2>Ooops...something went wrong while loading the page</h2></div>';
-        }
-
-        const data = await response.json();
-        globalData = data;
-        renderShoppingCart(data);
-
-        const productList = [];
-
-        for (let i = 0; i < data.length; i++) {
-
-            productList.push(data[i].id);
-        }
-        createProductCard(data);
-        saveToStorage(idKey, productList);
-    }
-    catch (error) {
-        productContainer.innerHTML = '<div class="products__content__header"><h2>Ooops...something went wrong while loading the page</h2></div>';
-        console.warn(error);
-    }
-}
+const shoppingCartContainer = document.querySelector(".right-bar");
 
 
-fetchProducts();
+fetchProducts(productContainer, loaderContainer, createProductCard)
+
+    .then(data => {
+        const shoppingCartStorage = renderShoppingCart(data, shoppingCartContainer);
+        renderShoppingCart(data, shoppingCartContainer);
+
+        shoppingCartContainer.addEventListener("click", (event) => {
+            removeFromCart(event, cartKey, data, shoppingCartContainer);
+        });
+    })
+    .catch(error => {
+        console.error(error);
+    });
+
 
 function createProductCard(data) {
     loaderContainer.style.display = "none";
@@ -79,61 +62,3 @@ function createProductCard(data) {
     }
 
 }
-
-
-let shoppingCartTotal = 0;
-const shoppingCartContainer = document.querySelector(".right-bar");
-const shoppingCartStorage = loadFromStorage(cartKey);
-
-function removeFromCart(event, cartKey) {
-    const shoppingCartItemElement = event.target.closest(".right-bar__cart");
-
-
-    if (!shoppingCartItemElement) return;
-
-    const shoppingCartItemId = shoppingCartItemElement.id;
-
-    const shoppingCartItemToRemove = shoppingCartStorage.indexOf(shoppingCartItemId);
-    if (shoppingCartItemToRemove !== -1) {
-        shoppingCartStorage.splice(shoppingCartItemToRemove, 1);
-        saveToStorage(cartKey, shoppingCartStorage);
-
-        shoppingCartContainer.innerHTML = "";
-        shoppingCartTotal = 0;
-        renderShoppingCart(globalData);
-    }
-}
-
-
-
-function renderShoppingCart(data) {
-    shoppingCartContainer.innerHTML = `<h2>My Cart</h2>`;
-
-    if (!shoppingCartStorage) return;
-
-    shoppingCartTotal = 0;
-
-    for (const shoppingCartItemId of shoppingCartStorage) {
-        const product = data.find(item => item.id === shoppingCartItemId);
-
-        if (product) {
-            shoppingCartTotal += product.price;
-
-            shoppingCartContainer.innerHTML += `<div class="right-bar__cart" id="${shoppingCartItemId}">
-                <figure class="right-bar__cart-imageArea">
-                    <img src="${product.image}" alt="${product.title}">
-                </figure>
-                <div class="right-bar__cart-textArea">
-                    <h3>${product.title}</h3>
-                    <span>$${product.price}</span>
-                </div>
-            </div>`;
-        }
-    }
-    shoppingCartContainer.innerHTML += `<h3>Total in cart: <span>$${shoppingCartTotal.toFixed(2)}</span></h3>`;
-}
-
-
-shoppingCartContainer.addEventListener("click", (event) => {
-    removeFromCart(event, cartKey);
-});
