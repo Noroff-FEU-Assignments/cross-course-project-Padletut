@@ -10,7 +10,6 @@ const shoppingCartContainer = document.querySelector(".right-bar");
 fetchProducts(productContainer, loaderContainer, createProductCard)
 
     .then(data => {
-        const shoppingCartStorage = renderShoppingCart(data, shoppingCartContainer);
         renderShoppingCart(data, shoppingCartContainer);
 
         shoppingCartContainer.addEventListener("click", (event) => {
@@ -29,11 +28,11 @@ function createProductCard(data) {
         const card = document.createElement('div');
         card.classList.add('products__item');
         card.innerHTML = `<div class="products__item-favoritecontainer">
-                      <input type="checkbox" id="favIcon-checkbox${data[i].id}" name="fav-checkbox">
-                      <label class="favorite" for="favIcon-checkbox${data[i].id}">
-                      <img class="favorite-checked" src="svg/favIconChecked.svg" alt="Remove from favorite">
-                      <img class="favorite-unchecked" src="svg/favIcon.svg" alt="Add to favorite">
-                      </label>`
+                            <input type="checkbox" id="favIcon-checkbox${data[i].id}" name="fav-checkbox">
+                            <label class="favorite" for="favIcon-checkbox${data[i].id}">
+                                <img class="favorite-checked" src="svg/favIconChecked.svg" alt="Remove from favorite">
+                                <img class="favorite-unchecked" src="svg/favIcon.svg" alt="Add to favorite">
+                            </label>`
 
         const cardTitle = document.createElement('h2');
         cardTitle.innerText = data[i].title;

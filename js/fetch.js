@@ -1,10 +1,8 @@
-//import { renderShoppingCart } from "./script.js";
 import { saveToStorage } from "./storage/local.js";
-import { idKey } from "./constants.js";
+import { idKey, url } from "./constants.js";
 
 export async function fetchProducts(productContainer, loaderContainer, renderFunction) {
 
-    const url = "https://api.noroff.dev/api/v1/rainy-days";
     let globalData;
 
     try {
@@ -35,5 +33,17 @@ export async function fetchProducts(productContainer, loaderContainer, renderFun
     catch (error) {
         productContainer.innerHTML = '<div class="products__content__header"><h2>Ooops...something went wrong while loading the page</h2></div>';
         console.warn(error);
+    }
+}
+
+export async function fetchSingleProduct(id, detailContainer, url, createHtml) {
+    try {
+        const response = await fetch(`${url}/${id}`);
+        const details = await response.json();
+        createHtml(details);
+    }
+    catch (error) {
+        console.warn(error);
+        detailContainer.innerHTML = "Error loading page";
     }
 }

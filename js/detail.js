@@ -1,6 +1,6 @@
+import { url } from "./constants.js";
 import { addToShoppingCart } from "./cart.js";
-import { fetchProducts } from "./fetch.js";
-
+import { fetchProducts, fetchSingleProduct } from "./fetch.js";
 
 const detailContainer = document.querySelector(".product-detail");
 const leftBarContainer = document.querySelector(".left-bar");
@@ -8,20 +8,7 @@ const loaderContainer = document.querySelectorAll(".loader");
 const queryString = document.location.search;
 const params = new URLSearchParams(queryString);
 const id = params.get("id");
-const url = `https://api.noroff.dev/api/v1/rainy-days`;
 
-
-async function fetchSingleProduct() {
-  try {
-    const response = await fetch(`${url}/${id}`);
-    const details = await response.json();
-    createHtml(details);
-  }
-  catch (error) {
-    console.warn(error);
-    detailContainer.innerHTML = "Error loading page";
-  }
-}
 
 function renderProductsLeftBar(data) {
 
@@ -57,15 +44,14 @@ function renderProductsLeftBar(data) {
     } else {
       i--;
     }
-    loaderContainer[0].style.display = "none";
   }
+  loaderContainer[0].style.display = "none";
 }
 
-
-fetchSingleProduct();
+fetchSingleProduct(id, detailContainer, url, createHtml);
 fetchProducts(leftBarContainer, loaderContainer, renderProductsLeftBar);
 
-function createHtml(details) {
+export function createHtml(details) {
   const detailProductContainer = document.querySelector('.product-detail__description');
 
   const detailImageContainer = document.createElement('div');
@@ -157,10 +143,8 @@ function createHtml(details) {
 
 const addToCartButton = document.querySelector(".addToCart");
 
-addToCartButton.addEventListener("click", () => {
-  const queryString = document.location.search;
-  const params = new URLSearchParams(queryString);
-  const id = params.get("id");
-
-  addToShoppingCart(id);
-});
+if (addToCartButton) {
+  addToCartButton.addEventListener("click", () => {
+    addToShoppingCart(id);
+  });
+}
