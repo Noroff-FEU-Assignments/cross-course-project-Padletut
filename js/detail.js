@@ -54,10 +54,11 @@ fetchProducts(leftBarContainer, loaderContainer, renderProductsLeftBar);
 export function createHtml(details) {
   const detailProductContainer = document.querySelector('.product-detail__description');
 
-  const detailImageContainer = document.createElement('div');
+  const detailImageContainer = document.createElement('figure');
   detailImageContainer.classList.add('product-detail__image');
 
   detailImageContainer.innerHTML = `<div class="product-detail__imageReview">
+                                    <div>
     <svg width="102" height="16" viewBox="0 0 102 16" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M7.75 0L9.48998 5.35512H15.1207L10.5654 8.66476L12.3053 14.0199L7.75 10.7102L3.19466 14.0199L4.93465 8.66476L0.379312 5.35512H6.01002L7.75 0Z"
@@ -77,6 +78,7 @@ export function createHtml(details) {
     </svg>
     <div>
       <span>(4 reviews)</span>
+    </div>
     </div>
   </div>`;
 

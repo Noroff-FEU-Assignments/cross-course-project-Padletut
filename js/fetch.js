@@ -3,7 +3,7 @@ import { idKey, url } from "./constants.js";
 
 export async function fetchProducts(productContainer, loaderContainer, renderFunction) {
 
-    let globalData;
+    //  let globalData;
 
     try {
         const response = await fetch(url);
@@ -13,7 +13,7 @@ export async function fetchProducts(productContainer, loaderContainer, renderFun
         }
 
         const data = await response.json();
-        globalData = data;
+        //  globalData = data;
 
         // Check if loaderContainer exists before trying to access its properties
         if (loaderContainer && loaderContainer.length > 0) {

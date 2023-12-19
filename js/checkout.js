@@ -99,7 +99,7 @@ function renderCheckout(data, checkoutStorage) {
                                     </div>`;
 
   addRemoveEventListeners(checkoutStorage);
-};
+}
 
 function addRemoveEventListeners(checkoutStorage) {
   const removeButtons = document.querySelectorAll(".left-bar__remove");

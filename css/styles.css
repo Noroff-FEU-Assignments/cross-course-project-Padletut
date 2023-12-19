@@ -698,12 +698,12 @@ legend {
   background-color: #e3e2e2;
   border-radius: 4.51px 4.51px 0 0;
   padding: 20px 30px;
-  min-height: 12.7em;
   min-width: 10em;
 }
 
 .products__item-imageArea img {
   max-height: 10em;
+  mix-blend-mode: multiply;
 }
 
 .products__item-textArea {
@@ -761,18 +761,19 @@ legend {
   margin-bottom: 1.5em;
 }
 
-.product-detail img {
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2));
+.product-detail__image img {
   border-radius: 4px;
   padding: 1em;
   margin-bottom: 0.5em;
   cursor: pointer;
+  mix-blend-mode: multiply;
 }
 
 .product-detail__image {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2));
 }
 
 .product-detail__image span {
@@ -790,7 +791,9 @@ legend {
 .product-detail__imageReview {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: flex-end;
+  background-color: white;
+  width: 100%;
 }
 
 .product-detail__description span {
@@ -809,16 +812,30 @@ legend {
   max-width: 30em;
 }
 
+.select-color__image__container {
+  background-color: #e3e2e2;
+  max-width: max-content;
+}
+
+.select-color__image::before {
+  content: "Select Color";
+  background-color: white;
+  height: 100%;
+  display: flex;
+}
+
 .select-color__image img {
   display: flex;
-  background: #e3e2e2;
   width: 30%;
   margin-top: 5%;
   border-style: solid;
   border-width: 1px;
   border-radius: 0;
   border-color: #00677c;
+  mix-blend-mode: multiply;
 }
+
+
 
 #select-color {
   display: none;
@@ -1089,7 +1106,7 @@ legend {
 
 .right-bar h3 {
   margin: 0 0 3px 0;
-  font-size: 16px;
+  font-size: 14px;
   white-space: nowrap;
 }
 
@@ -1178,11 +1195,15 @@ legend {
   border-radius: 4.51px 0 0 4.51px;
 }
 
+.right-bar__cart-imageArea img {
+  mix-blend-mode: multiply;
+}
+
 .right-bar__cart-textArea {
   background-color: white;
   padding-left: 10px;
-  min-width: 6em;
-  width: 100%;
+  min-width: 86%;
+  padding: 1em;
   border-radius: 0 4.51px 4.51px 0;
 }
 
@@ -1445,11 +1466,13 @@ legend {
   }
 
   .product-detail__imageReview {
-    margin-right: 20px;
+    margin-right: 0;
+    padding-right: 20px;
   }
 
   .product-detail__description {
     margin-bottom: 20px;
+    padding-top: 70px;
   }
 
   .product-detail__description h2 {
@@ -1467,6 +1490,13 @@ legend {
   .select-color__image img {
     padding: 0.5em;
     width: 100px;
+  }
+
+  .select-color__image::before {
+    content: "Select Color";
+    background-color: #f7f2f9;
+    height: 100%;
+    display: flex;
   }
 
   /* -----------------------------------
@@ -1621,12 +1651,11 @@ legend {
   .products__content .products__content__header {
     grid-column: -1/1;
   }
+
 }
 
 @media screen and (min-width: 540px) {
-  .product-detail__imageReview {
-    margin-right: 30px;
-  }
+
 
   .left-bar__checkout,
   .checkout-summary,
@@ -1642,10 +1671,6 @@ legend {
     align-items: end;
   }
 
-  .product-detail__imageReview {
-    margin-right: 60px;
-  }
-
   .left-bar__checkout,
   .checkout-summary,
   #checkoutnow:checked~.right-bar-checkoutpage {
@@ -1654,9 +1679,7 @@ legend {
 }
 
 @media screen and (min-width: 800px) {
-  .product-detail__imageReview {
-    margin-right: 90px;
-  }
+
 
   .product-detail img {
     padding: 8em;
@@ -1878,7 +1901,7 @@ legend {
   }
 
   .product-detail__image {
-    align-self: auto;
+    align-self: flex-start;
     margin: 0;
     flex: 1;
   }
@@ -1892,10 +1915,11 @@ legend {
     max-width: 25em;
     padding: 3em;
     transition: all 0.3s ease-in;
+    align-self: center;
   }
 
   .product-detail__imageReview {
-    margin-right: 10px;
+    padding-right: 10px;
   }
 
   .product-detail__description {
@@ -1921,8 +1945,18 @@ legend {
 
   .select-color__image img {
     padding: 0.5em;
-    transition: all 0.3s ease-in;
+    margin: 0;
   }
+
+  .select-color__image img:hover {
+    transform: none;
+    transition: none;
+  }
+
+  .select-color__image::before {
+    background-color: white;
+  }
+
 
   .right-bar-productpage {
     align-self: flex-start;
