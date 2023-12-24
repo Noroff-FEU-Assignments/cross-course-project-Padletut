@@ -1926,6 +1926,7 @@ legend {
     margin-top: 0;
     min-width: 10%;
     flex: 1;
+    padding-top: 0;
   }
 
   .product-detail__description h4 {
