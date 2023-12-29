@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
+    <script defer src="js/validate.js"></script>
     <!-- Hotjar Tracking Code for https://inquisitive-lily-bba2a7.netlify.app -->
     <script>
       (function (h, o, t, j, a, r) {
@@ -152,13 +153,25 @@
           </div>
           <div>
             <form action="POST">
-              <label for="name">Enter Your Name</label>
-              <input type="text" id="name">
-              <label for="email">Enter Valid Email Address</label>
-              <input type="email" id="email">
-              <label for="message">Write Your Message</label>
-              <textarea name="message" id="message"></textarea>
-              <label for="submit" id="submit-label">
+              <div class="input-group">
+                <label for="name">Enter Your Name</label>
+                <div class="input-wrapper">
+                  <input type="text" id="name">
+                </div>
+              </div>
+              <div class="input-group">
+                <label for="email">Enter Valid Email Address</label>
+                <div class="input-wrapper">
+                  <input type="email" id="email">
+                </div>
+              </div>
+              <div class="input-group">
+                <label for="message">Write Your Message</label>
+                <div class="input-wrapper">
+                  <textarea name="message" id="message"></textarea>
+                </div>
+              </div>
+              <label for="submit" class="disabled" id="submit-label">
                 <object data="svg/email_button.svg"></object>
                 Send Message</label>
               <input type="submit" id="submit" value="Send Message">

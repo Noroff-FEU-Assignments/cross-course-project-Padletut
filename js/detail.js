@@ -1,6 +1,6 @@
 import { url } from "./constants.js";
 import { addToShoppingCart } from "./cart.js";
-import { fetchProducts, fetchSingleProduct } from "./fetch.js";
+import { fetchProducts, fetchSingleProduct, fetchProductsForCarousel } from "./fetch.js";
 
 const detailContainer = document.querySelector(".product-detail");
 const leftBarContainer = document.querySelector(".left-bar");
@@ -50,6 +50,7 @@ function renderProductsLeftBar(data) {
 
 fetchSingleProduct(id, detailContainer, url, createHtml);
 fetchProducts(leftBarContainer, loaderContainer, renderProductsLeftBar);
+fetchProductsForCarousel(leftBarContainer, loaderContainer, renderProductsLeftBar);
 
 export function createHtml(details) {
   const detailProductContainer = document.querySelector('.product-detail__description');

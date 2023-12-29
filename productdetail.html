@@ -144,7 +144,7 @@
 
         <!-- Main (center products) -->
 
-        <div class="item main-container">
+        <div class="item main-container main-container__detail">
           <section class="product-detail">
             <div class="loader"></div>
 
@@ -187,17 +187,20 @@
             <hr class="mobile-seperator">
           </section>
 
-          <!-- Carousel -->
-          <section class="carousel">
-            <div class="carousel__header">
-              <h2>Finish the look</h2>
-              <a href="#">See all</a>
+          <!-- Carousel container -->
+          <div class="carousel">
+            <button class="carousel__arrow carousel__arrow--left">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <div class="carousel__track-container">
+              <ul class="carousel__track" id="carouselTrack">
+                <!-- Carousel items will be inserted here by JavaScript -->
+              </ul>
             </div>
-            <a href="products.html">
-              <img src="images/carousel_mimic_transp.png" alt="Carousel mimic">
-              <hr class="mobile-seperator">
-            </a>
-          </section>
+            <button class="carousel__arrow carousel__arrow--right">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
         </div>
 
         <!-- Left bar -->

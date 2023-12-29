@@ -10,6 +10,7 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
         <!-- <script src="https://kit.fontawesome.com/b318972c4d.js" crossorigin="anonymous"></script> -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"
             crossorigin="anonymous"></script>
@@ -156,11 +157,21 @@
                             <a href="">See all</a>
                         </div>
                     </div>
+                    <!-- Carousel container -->
                     <div class="carousel">
-                        <a href="productdetail.html">
-                            <img src="images/carousel_mimic.png" alt="Mimic carousel">
-                        </a>
+                        <button class="carousel__arrow carousel__arrow--left">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="carousel__track-container">
+                            <ul class="carousel__track" id="carouselTrack">
+                                <!-- Carousel items will be inserted here by JavaScript -->
+                            </ul>
+                        </div>
+                        <button class="carousel__arrow carousel__arrow--right">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
                     </div>
+
 
                     <section class="products__content">
                         <div class="products__content__header">

@@ -1,10 +1,13 @@
 import { cartKey } from "./constants.js";
 import { fetchProducts } from "./fetch.js";
 import { renderShoppingCart, removeFromCart } from "./cart.js";
+import { fetchProductsForCarousel } from "./fetch.js";
+
 
 const productContainer = document.querySelector(".products__content");
 const loaderContainer = document.querySelector(".loader");
 const shoppingCartContainer = document.querySelector(".right-bar");
+const carouselContainer = document.querySelector(".carousel");
 
 
 fetchProducts(productContainer, loaderContainer, createProductCard)
@@ -20,6 +23,9 @@ fetchProducts(productContainer, loaderContainer, createProductCard)
         console.error(error);
     });
 
+if (carouselContainer) {
+    fetchProductsForCarousel(productContainer, loaderContainer, createProductCard);
+}
 
 function createProductCard(data) {
     loaderContainer.style.display = "none";
