@@ -1,6 +1,7 @@
-import { url } from "./constants.js";
+import { url, cartKey } from "./constants.js";
 import { addToShoppingCart } from "./cart.js";
 import { fetchProducts, fetchSingleProduct, fetchProductsForCarousel } from "./fetch.js";
+import { loadFromStorage } from "./storage/local.js";
 
 const detailContainer = document.querySelector(".product-detail");
 const leftBarContainer = document.querySelector(".left-bar");
@@ -151,3 +152,23 @@ if (addToCartButton) {
     addToShoppingCart(id);
   });
 }
+
+const buyNowButton = document.querySelector(".buynow");
+
+document.addEventListener("DOMContentLoaded", function () {
+  if (buyNowButton) {
+    buyNowButton.addEventListener("click", function (event) {
+      event.preventDefault(); // Prevent form submission
+
+      const shoppingCart = loadFromStorage(cartKey) || []; // Load the entire cart
+      const productInCart = shoppingCart.find(item => item.id === id);
+
+      if (!productInCart) {
+        addToShoppingCart(id, 1);
+      }
+
+      // Redirect to checkout page
+      window.location.href = "checkout.html";
+    });
+  }
+});
