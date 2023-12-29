@@ -28,6 +28,7 @@ export async function fetchProducts(productContainer, loaderContainer, renderFun
         return data;
     }
     catch (error) {
+
         productContainer.innerHTML = '<div class="products__content__header"><h2>Ooops...something went wrong while loading the page</h2></div>';
         console.warn(error);
     }

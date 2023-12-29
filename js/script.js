@@ -3,19 +3,39 @@ import { fetchProducts } from "./fetch.js";
 import { addToShoppingCart, renderShoppingCart, removeFromCart } from "./cart.js";
 import { fetchProductsForCarousel } from "./fetch.js";
 import { loadFromStorage } from "./storage/local.js";
+import { toggleCartVisibility, initializeCart, closeCartOnClickOutside } from './togglecart.js';
 
 
 const productContainer = document.querySelector(".products__content");
+
+
 const loaderContainer = document.querySelector(".loader");
-const shoppingCartContainer = document.querySelector(".right-bar");
+//const shoppingCartContainer = document.querySelector(".right-bar");
 const carouselContainer = document.querySelector(".carousel");
+const collapsibleCartContainer = document.querySelector('.collapsible-cart');
+
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const cartIcon = document.querySelector('.cart');
+    const collapsibleCart = document.getElementById('collapsible-cart');
+    const loaderContainer = document.getElementById('loader'); // Ensure this is the correct selector for your loader
+
+    // Initialize the cart with products
+    await initializeCart(collapsibleCart, loaderContainer);
+
+    // Toggle cart visibility when the cart icon is clicked
+    cartIcon.addEventListener('click', () => toggleCartVisibility(collapsibleCart));
+
+    // Optionally, close cart when clicking outside
+    closeCartOnClickOutside(collapsibleCart);
+});
 
 
 fetchProducts(productContainer, loaderContainer, createProductCard)
     .then(data => {
-        renderShoppingCart(data, shoppingCartContainer);
-        shoppingCartContainer.addEventListener("click", (event) => {
-            removeFromCart(event, cartKey, data, shoppingCartContainer);
+        renderShoppingCart(data, collapsibleCartContainer);
+        collapsibleCartContainer.addEventListener("click", (event) => {
+            removeFromCart(event, cartKey, data, collapsibleCartContainer);
         });
     })
     .catch(error => {
@@ -72,7 +92,7 @@ function createProductCard(data) {
         addToCartButton.disabled = isProductAdded;
         addToCartButton.setAttribute('data-id', product.id);
         addToCartButton.addEventListener('click', () => {
-            addToShoppingCart(product.id, data, shoppingCartContainer);
+            addToShoppingCart(product.id, data, collapsibleCartContainer);
         });
 
         // Buy Now button
@@ -82,7 +102,7 @@ function createProductCard(data) {
         buyNowButton.addEventListener('click', function () {
             // If the product is not in the cart, add it
             if (!isProductAdded) {
-                addToShoppingCart(product.id, data, shoppingCartContainer);
+                addToShoppingCart(product.id, data, collapsibleCartContainer);
             }
             window.location.href = 'checkout.html';
         });
