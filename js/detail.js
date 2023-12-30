@@ -2,8 +2,8 @@ import { url, cartKey } from "./constants.js";
 import { addToShoppingCart } from "./cart.js";
 import { fetchProducts, fetchSingleProduct, fetchProductsForCarousel } from "./fetch.js";
 import { loadFromStorage } from "./storage/local.js";
-import { toggleCartVisibility, initializeCart, closeCartOnClickOutside } from './togglecart.js';
-import { renderShoppingCart, removeFromCart } from "./cart.js";
+import { toggleCartVisibility, closeCartOnClickOutside } from './togglecart.js';
+import { renderShoppingCart } from "./cart.js";
 
 const detailContainer = document.querySelector(".product-detail");
 const leftBarContainer = document.querySelector(".left-bar");
@@ -15,32 +15,26 @@ const id = params.get("id");
 
 const collapsibleCartContainer = document.querySelector('.collapsible-cart');
 
-
-fetchProducts(detailContainer, loaderContainer, createHtml)
-  .then(data => {
-    renderShoppingCart(data, collapsibleCartContainer);
-    collapsibleCartContainer.addEventListener("click", (event) => {
-      removeFromCart(event, cartKey, data, collapsibleCartContainer);
-    });
-  })
-  .catch(error => {
-    console.error(error);
-  });
-
 document.addEventListener('DOMContentLoaded', async () => {
   const cartIcon = document.querySelector('.cart');
   const collapsibleCart = document.getElementById('collapsible-cart');
-  const loaderContainer = document.getElementById('loader'); // Ensure this is the correct selector for your loader
+  const loaderContainer = document.getElementById('loader');
 
-  // Initialize the cart with products
-  await initializeCart(collapsibleCart, loaderContainer);
+  // Fetch products and render the shopping cart
+  try {
+    const data = await fetchProducts(collapsibleCartContainer, loaderContainer, renderShoppingCart);
+    renderShoppingCart(data, collapsibleCart);
+  } catch (error) {
+    console.error('Failed to fetch products:', error);
+  }
 
-  // Toggle cart visibility when the cart icon is clicked
+  // Event listener for the cart icon to toggle visibility
   cartIcon.addEventListener('click', () => toggleCartVisibility(collapsibleCart));
 
-  // Optionally, close cart when clicking outside
+  // Close cart when clicking outside
   closeCartOnClickOutside(collapsibleCart);
 });
+
 
 function renderProductsLeftBar(data) {
 
