@@ -125,6 +125,7 @@ function updateProductListCartButtons(cartData) {
 
         button.textContent = isInCart ? 'In Cart' : 'Add to Cart';
         button.disabled = isInCart;
+        if (button.classList.contains('buy-now-btn')) return;
         button.classList.toggle('in-cart', isInCart);
         button.classList.toggle('add-to-cart-btn', !isInCart);
     });
