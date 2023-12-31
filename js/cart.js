@@ -122,7 +122,7 @@ function updateProductListCartButtons(cartData) {
     addToCartButtons.forEach(button => {
         const productId = button.dataset.id;
         const isInCart = cartData.some(item => item.id === productId);
-
+        if (button.classList.contains('buy-now-btn')) return;
         button.textContent = isInCart ? 'In Cart' : 'Add to Cart';
         button.disabled = isInCart;
         if (button.classList.contains('buy-now-btn')) return;
