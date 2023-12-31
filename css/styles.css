@@ -9,6 +9,7 @@
   --fontsize-h1: 24px;
   --fontsize-h2: 22px;
   --button-size: 15px 24px;
+  --icon-color: #061E25;
 }
 
 * {
@@ -1089,17 +1090,33 @@ legend {
   border-radius: 100px;
   text-decoration: none;
   margin-top: 0;
-  align-items: end;
+  align-items: center;
   font-size: 14px;
   line-height: 16px;
   letter-spacing: 0.5px;
   white-space: nowrap;
+} 
+
+.product-detail__formbuttons span {
+  display: block;
+  margin: 0;
 }
 
-.product-detail__formbuttons a:hover {
+.product-detail__formbuttons a:not(:disabled):hover {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 3%),
     0 1px 3px 1px rgba(0, 0, 0, 15%);
   border-radius: 100px;
+}
+
+.product-detail__formbuttons a.in-cart {
+  background-color: #e3e3e3; 
+  color: #a1a1a1; 
+  cursor: not-allowed; 
+  box-shadow: none;
+}
+
+.product-detail__formbuttons a.in-cart .icon-container svg path {
+  fill: #a1a1a1; /* Change this to the color you want for the icon */
 }
 
 /* -----------------------------------
@@ -1408,22 +1425,25 @@ textarea {
   line-height: 23px;
 }
 
+.collapsibleCartContainer-item-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  padding: 10px;
+}
+
 .collapsibleCartContainer-item {
   display: flex;
   align-items: center;
-  margin: 40px 15px;
 }
 
 .collapsibleCartContainer-image {
-  width: 60px; 
-  margin-right: 10px; 
-  display: flex;
-  justify-content: center;
-  padding: 10px;
-  max-width: 4em;
-  min-width: 25%;
-  border-radius: 4.51px 0 0 4.51px;
-  mix-blend-mode: multiply;
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  margin-right: 10px;
+  border-radius: 4px;
 }
 
 .collapsibleCartContainer-item-info {
@@ -1432,64 +1452,67 @@ textarea {
 
 .collapsibleCartContainer-title {
   font-weight: bold;
-  margin-bottom: 5px; 
-  font-size: 14px;
-}
-
-.collapsible-cart h3 {
-  text-align: center;
+  font-size: 16px;
 }
 
 .collapsibleCartContainer-price {
-  display: block;
-  margin-bottom: 10px; 
+  font-size: 14px;
 }
 
-.collapsibleCartContainer-quantity {
+.collapsibleCartContainer-item-buttons {
   display: flex;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 10px; 
+  padding: 5px 0 30px;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .collapsibleCartContainer-quantity-decrease,
 .collapsibleCartContainer-quantity-increase {
-  padding: 5px 10px; 
-  margin: 0 5px; 
-  background: #ccc; 
+  background-color: #ddd;
   border: none;
+  padding: 5px;
+  margin: 0 5px;
   cursor: pointer;
 }
 
 .collapsibleCartContainer-quantity-number {
-  min-width: 30px; 
+  min-width: 30px;
   text-align: center;
 }
 
 .collapsibleCartContainer-item-remove {
-  padding: 5px 15px; 
-  background: #f3f3f3;
+  background-color: #cf5353;
+  color: white;
   border: none;
+  padding: 5px 10px;
   cursor: pointer;
 }
 
 .checkout-button {
   display: block;
-  padding: 10px 20px;
-  width: fit-content;
-  background-color: #4CAF50; /* or your preferred button color */
+  width: calc(100% - 70px); 
+  margin: 10px auto; 
+  background-color: #4CAF50; 
   color: white;
-  text-align: center;
-  text-decoration: none;
-  align-self: center;
-  border: none;
+  padding: 10px;
   border-radius: 4px;
-  cursor: pointer;
-  margin: 0 auto;
+  text-decoration: none;
+  text-align: center;
 }
 
-/* Optional: Add hover effect */
+/* Hover states */
+.collapsibleCartContainer-quantity-decrease:hover,
+.collapsibleCartContainer-quantity-increase:hover {
+  background-color: #ccc;
+}
+
+.collapsibleCartContainer-item-remove:hover {
+  background-color: #d32f2f; 
+}
+
 .checkout-button:hover {
-  background-color: #45a049;
+  background-color: #45a049; 
 }
 
 /* -----------------------------------
@@ -1600,11 +1623,12 @@ textarea {
 
 .cart-sticky-footer {
   position: sticky;
-  bottom: 0; /* Stick to the bottom */
-  background: white; /* Match the background with the cart's background */
-  z-index: 1000; /* Ensure it's above other content */
-  padding: 10px 0 65px; /* Adjust the padding as necessary */
-  border-top: 1px solid #eaeaea; /* Optional border for a visual separation */
+  bottom: 0; 
+  background: white; 
+  z-index: 1000; 
+  padding: 10px 0 135px; 
+  border-top: 1px solid #eaeaea;
+  text-align: center;
 }
 
   .header__link span {

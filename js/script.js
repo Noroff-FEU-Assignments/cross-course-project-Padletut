@@ -28,6 +28,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Optionally, close cart when clicking outside
     closeCartOnClickOutside(collapsibleCart);
+
+
 });
 
 

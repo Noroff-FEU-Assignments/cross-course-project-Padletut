@@ -20,62 +20,104 @@ export function addToShoppingCart(id, data, collapsibleCartContainer) {
     renderShoppingCart(data, collapsibleCartContainer);
 }
 
+
 // Function to render the shopping cart
 export function renderShoppingCart(data, collapsibleCartContainer) {
-    if (!Array.isArray(data) || !collapsibleCartContainer || typeof collapsibleCartContainer !== 'object') return; // Ensure data is an array and container is defined and an object
+    if (!Array.isArray(data) || !collapsibleCartContainer || typeof collapsibleCartContainer !== 'object') return;
 
     let shoppingCartTotal = 0;
     const shoppingCartStorage = loadFromStorage(cartKey) || [];
 
-    collapsibleCartContainer.innerHTML = `<div class="cart-sticky-header">
-                                            <button class="cart-close-button">X</button>
-                                            <h2 id="cartTitle">Shopping Cart</h2>
-                                          </div>
-                                          `;
+    // Clear existing content
+    collapsibleCartContainer.innerHTML = '';
 
+    // Add cart header
+    const header = document.createElement('div');
+    header.className = 'cart-sticky-header';
+    header.innerHTML = `
+        <button class="cart-close-button">X</button>
+        <h2 id="cartTitle">Shopping Cart</h2>`;
+    collapsibleCartContainer.appendChild(header);
 
+    // Add cart items
     shoppingCartStorage.forEach(cartItem => {
         const product = data.find(item => item.id === cartItem.id);
         if (product) {
             const totalItemPrice = product.price * cartItem.quantity;
             shoppingCartTotal += totalItemPrice;
 
-            collapsibleCartContainer.innerHTML += `
-                                                <div class="collapsibleCartContainer-item" id="${cartItem.id}" data-id="${cartItem.id}">
-                                                    <img src="${product.image}" alt="${product.title}" class="collapsibleCartContainer-image">
-                                                    <div class="collapsibleCartContainer-item-info">
-                                                        <h2 class="collapsibleCartContainer-title">${product.title}</h2>
-                                                        <span class="collapsibleCartContainer-price">$${totalItemPrice.toFixed(2)}</span>
-                                                        <div class="collapsibleCartContainer-quantity">
-                                                            <button class="collapsibleCartContainer-quantity-decrease" aria-label="Decrease quantity">-</button>
-                                                            <span class="collapsibleCartContainer-quantity-number">Qty ${cartItem.quantity}</span>
-                                                            <button class="collapsibleCartContainer-quantity-increase" aria-label="Increase quantity">+</button>
-                                                        </div>
-                                                        <button class="collapsibleCartContainer-item-remove">Remove</button>
-                                                    </div>
-                                                </div>`;
+            // Create cart item elements
+            const itemLink = document.createElement('a');
+            itemLink.href = `productdetail.html?id=${product.id}`;
+            itemLink.className = 'collapsibleCartContainer-item-link';
+
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'collapsibleCartContainer-item';
+            itemDiv.id = cartItem.id;
+            itemDiv.setAttribute('data-id', cartItem.id);
+            itemDiv.innerHTML = `
+                <img src="${product.image}" alt="${product.title}" class="collapsibleCartContainer-image">
+                <div class="collapsibleCartContainer-item-info">
+                    <h2 class="collapsibleCartContainer-title">${product.title}</h2>
+                    <span class="collapsibleCartContainer-price">$${totalItemPrice.toFixed(2)}</span>
+                </div>`;
+
+            itemLink.appendChild(itemDiv);
+            collapsibleCartContainer.appendChild(itemLink);
+
+            // Buttons container
+            const buttonsDiv = document.createElement('div');
+            buttonsDiv.className = 'collapsibleCartContainer-item-buttons';
+            buttonsDiv.innerHTML = `
+                <button class="collapsibleCartContainer-quantity-decrease" aria-label="Decrease quantity">-</button>
+                <span class="collapsibleCartContainer-quantity-number">Qty ${cartItem.quantity}</span>
+                <button class="collapsibleCartContainer-quantity-increase" aria-label="Increase quantity">+</button>
+                <button class="collapsibleCartContainer-item-remove">Remove</button>`;
+
+            // Attach event listeners to buttons
+            buttonsDiv.querySelector('.collapsibleCartContainer-quantity-decrease').addEventListener('click', (event) => {
+                updateQuantity(cartItem.id, -1, data, collapsibleCartContainer);
+                event.stopPropagation();
+            });
+
+            buttonsDiv.querySelector('.collapsibleCartContainer-quantity-increase').addEventListener('click', (event) => {
+                updateQuantity(cartItem.id, 1, data, collapsibleCartContainer);
+                event.stopPropagation();
+            });
+
+            buttonsDiv.querySelector('.collapsibleCartContainer-item-remove').addEventListener('click', (event) => {
+                removeFromCart(cartItem.id, collapsibleCartContainer, data);
+                event.stopPropagation();
+            });
+
+            document.addEventListener('click', (event) => {
+                if (event.target.matches('.cart-close-button')) {
+                    // Close the cart
+                    collapsibleCartContainer.style.right = '-100%';
+                    event.preventDefault();
+                }
+            });
+
+
+            collapsibleCartContainer.appendChild(buttonsDiv);
         }
     });
 
-    collapsibleCartContainer.innerHTML += `<div class="cart-sticky-footer">
-                                              <h3>Total in cart: <span>$${shoppingCartTotal.toFixed(2)}</span></h3>
-                                              <a href="checkout.html" class="checkout-button">Checkout</a>
-                                           </div>`;
+    updateProductListCartButtons(shoppingCartStorage);
+    detail_updateAddToCartButtonState(shoppingCartStorage);
 
-
-    const cartData = loadFromStorage(cartKey) || [];
-    const closeButton = collapsibleCartContainer.querySelector('.cart-close-button');
-    if (closeButton) {
-        closeButton.addEventListener('click', () => {
-            collapsibleCartContainer.style.right = '-100%'; // Or your logic to hide the cart
-        });
-    }
-    updateAddToCartButtons(cartData);
-    attachCartEventListeners(collapsibleCartContainer, data);
+    // Add cart footer
+    const footer = document.createElement('div');
+    footer.className = 'cart-sticky-footer';
+    footer.innerHTML = `
+        <h3>Total in cart: <span>$${shoppingCartTotal.toFixed(2)}</span></h3>
+        <a href="checkout.html" class="checkout-button">Checkout</a>`;
+    collapsibleCartContainer.appendChild(footer);
 }
 
-function updateAddToCartButtons(cartData) {
-    const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+
+function updateProductListCartButtons(cartData) {
+    const addToCartButtons = document.querySelectorAll('.products__item-button');
 
     addToCartButtons.forEach(button => {
         const productId = button.dataset.id;
@@ -84,30 +126,7 @@ function updateAddToCartButtons(cartData) {
         button.textContent = isInCart ? 'In Cart' : 'Add to Cart';
         button.disabled = isInCart;
         button.classList.toggle('in-cart', isInCart);
-    });
-}
-
-
-
-// Function to attach event listeners to cart items
-function attachCartEventListeners(collapsibleCartContainer, data) {
-    const cartItems = collapsibleCartContainer.querySelectorAll('.collapsibleCartContainer-item');
-
-    cartItems.forEach(item => {
-        item.querySelector('.collapsibleCartContainer-quantity-decrease').addEventListener('click', () => {
-            updateQuantity(item.getAttribute('data-id'), -1, data, collapsibleCartContainer);
-            event.stopPropagation();
-        });
-
-        item.querySelector('.collapsibleCartContainer-quantity-increase').addEventListener('click', () => {
-            updateQuantity(item.getAttribute('data-id'), 1, data, collapsibleCartContainer);
-            event.stopPropagation();
-        });
-
-        item.querySelector('.collapsibleCartContainer-item-remove').addEventListener('click', () => {
-            removeFromCart(item.getAttribute('data-id'), collapsibleCartContainer, data);
-            event.stopPropagation();
-        });
+        button.classList.toggle('add-to-cart-btn', !isInCart);
     });
 }
 
@@ -122,7 +141,8 @@ function updateQuantity(id, change, data, collapsibleCartContainer) {
         if (cartArray[itemIndex].quantity <= 0) {
             cartArray.splice(itemIndex, 1); // Remove the item if quantity is 0 or less
             const cartData = loadFromStorage(cartKey) || [];
-            updateAddToCartButtons(cartData);
+            updateProductListCartButtons(cartData);
+            detail_updateAddToCartButtonState(cartData);
         }
 
         saveToStorage(cartKey, cartArray);
@@ -130,19 +150,34 @@ function updateQuantity(id, change, data, collapsibleCartContainer) {
     }
 }
 
+const detail_updateAddToCartButtonState = (cartData) => {
+    const queryString = document.location.search;
+    const params = new URLSearchParams(queryString);
+    const id = params.get("id");
+    const addToCartButton = document.querySelector('.addToCart');
+    if (!addToCartButton) return;
+    const buttonText = addToCartButton.querySelector('span');
+    const productInCart = cartData.some(item => item.id === id);
+
+    addToCartButton.disabled = productInCart;
+    if (productInCart) {
+        addToCartButton.classList.add('in-cart');
+        buttonText.textContent = 'In Cart';
+    } else {
+        addToCartButton.classList.remove('in-cart');
+        buttonText.textContent = 'Add to Cart';
+    }
+};
+
 // Function to remove an item from the cart
 export function removeFromCart(id, collapsibleCartContainer, data) {
     const cartArray = loadFromStorage(cartKey) || [];
-    // Filter out the item with the matching id
     const updatedCartArray = cartArray.filter(item => item.id !== id);
 
-    // Save the updated cart back to storage
     saveToStorage(cartKey, updatedCartArray);
-    // Re-render the cart to update the page
-    const cartData = loadFromStorage(cartKey) || [];
-    updateAddToCartButtons(cartData);
     renderShoppingCart(data, collapsibleCartContainer);
 }
+
 
 export function decrementQuantity(id, collapsibleCartContainer, data) {
     const cartArray = loadFromStorage(cartKey) || [];
@@ -151,8 +186,6 @@ export function decrementQuantity(id, collapsibleCartContainer, data) {
     if (index !== -1 && cartArray[index].quantity > 1) {
         cartArray[index].quantity -= 1;
         saveToStorage(cartKey, cartArray);
-        const cartData = loadFromStorage(cartKey) || [];
-        updateAddToCartButtons(cartData);
         renderShoppingCart(data, collapsibleCartContainer);
     }
 }

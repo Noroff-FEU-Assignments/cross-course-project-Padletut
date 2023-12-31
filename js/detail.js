@@ -12,17 +12,29 @@ const queryString = document.location.search;
 const params = new URLSearchParams(queryString);
 const id = params.get("id");
 
-
 const collapsibleCartContainer = document.querySelector('.collapsible-cart');
+const collapsibleCart = document.getElementById('collapsible-cart');
+
+let data = [];
+
+
+// Inject SVG into the DOM
+
+fetch('/svg/cart.svg')
+  .then(response => response.text())
+  .then(svg => {
+    document.querySelector('.icon-container').innerHTML = svg;
+  });
+
 
 document.addEventListener('DOMContentLoaded', async () => {
   const cartIcon = document.querySelector('.cart');
-  const collapsibleCart = document.getElementById('collapsible-cart');
   const loaderContainer = document.getElementById('loader');
+
 
   // Fetch products and render the shopping cart
   try {
-    const data = await fetchProducts(collapsibleCartContainer, loaderContainer, renderShoppingCart);
+    data = await fetchProducts(collapsibleCartContainer, loaderContainer, renderShoppingCart);
     renderShoppingCart(data, collapsibleCart);
   } catch (error) {
     console.error('Failed to fetch products:', error);
@@ -172,28 +184,33 @@ export function createHtml(details) {
 
 const addToCartButton = document.querySelector(".addToCart");
 
+
 if (addToCartButton) {
   addToCartButton.addEventListener("click", () => {
-    addToShoppingCart(id);
+    const shoppingCart = loadFromStorage(cartKey) || []; // Load the entire cart
+    const productInCart = shoppingCart.find(item => item.id === id);
+
+    if (!productInCart) {
+      addToShoppingCart(id, data, collapsibleCartContainer);
+    }
   });
 }
 
 const buyNowButton = document.querySelector(".buynow");
 
-document.addEventListener("DOMContentLoaded", function () {
-  if (buyNowButton) {
-    buyNowButton.addEventListener("click", function (event) {
-      event.preventDefault(); // Prevent form submission
 
-      const shoppingCart = loadFromStorage(cartKey) || []; // Load the entire cart
-      const productInCart = shoppingCart.find(item => item.id === id);
+if (buyNowButton) {
+  buyNowButton.addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent form submission
 
-      if (!productInCart) {
-        addToShoppingCart(id, 1);
-      }
+    const shoppingCart = loadFromStorage(cartKey) || []; // Load the entire cart
+    const productInCart = shoppingCart.find(item => item.id === id);
 
-      // Redirect to checkout page
-      window.location.href = "checkout.html";
-    });
-  }
-});
+    if (!productInCart) {
+      addToShoppingCart(id, data, collapsibleCartContainer);
+    }
+
+    // Redirect to checkout page
+    window.location.href = "checkout.html";
+  });
+}
