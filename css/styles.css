@@ -1528,7 +1528,7 @@ textarea {
    Media queries
    ----------------------------------- */
 
-@media screen and (min-width: 360px) {
+@media screen and (min-width: 358px) {
   .container {
     margin: 0;
     padding: 0 3% 2%;
