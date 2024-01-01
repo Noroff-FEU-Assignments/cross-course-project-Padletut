@@ -45,7 +45,7 @@ fetchProducts(productContainer, loaderContainer, createProductCard)
     });
 
 if (carouselContainer) {
-    fetchProductsForCarousel(productContainer, loaderContainer, createProductCard);
+    fetchProductsForCarousel(carouselContainer, loaderContainer);
 }
 
 function createProductCard(data) {

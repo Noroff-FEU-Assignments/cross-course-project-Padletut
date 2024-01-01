@@ -35,12 +35,12 @@ export async function fetchProducts(productContainer, loaderContainer, renderFun
 }
 
 
-export async function fetchProductsForCarousel(productContainer, loaderContainer, renderFunction) {
+export async function fetchProductsForCarousel(carouselContainer, loaderContainer) {
     try {
         const response = await fetch(url);
 
         if (response.status === 404) {
-            productContainer.innerHTML = '<div class="products__content__header"><h2>Ooops...something went wrong while loading the page</h2></div>';
+            carouselContainer.innerHTML = '<div class="products__content__header"><h2>Ooops...something went wrong while loading the page</h2></div>';
         }
 
         const data = await response.json();
@@ -60,12 +60,12 @@ export async function fetchProductsForCarousel(productContainer, loaderContainer
         const randomProducts = data.sort(() => 0.5 - Math.random()).slice(0, 5);
         initializeCarousel('.carousel__track', randomProducts);
 
-        renderFunction(data);
+        //renderFunction(data);
         saveToStorage(idKey, productList);
         return data;
     }
     catch (error) {
-        productContainer.innerHTML = '<div class="products__content__header"><h2>Ooops...something went wrong while loading the page</h2></div>';
+        carouselContainer.innerHTML = '<div class="products__content__header"><h2>Ooops...something went wrong while loading the page</h2></div>';
         console.warn(error);
     }
 }
