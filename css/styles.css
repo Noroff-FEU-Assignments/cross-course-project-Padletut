@@ -82,9 +82,10 @@ input[name="fav-checkbox"] {
 /* Container for the carousel track */
 .carousel__track-container {
   overflow: hidden;
-  margin: 0 auto; /* Center the track container */
+  margin: 0 auto; 
+  margin-bottom: 4em;
   position: relative;
-  width: 80%; /* Set to the width you desire */
+  width: 80%; 
 }
 
 .carousel__track {
@@ -94,26 +95,26 @@ input[name="fav-checkbox"] {
 }
 
 .carousel__slide:first-child {
-  margin-left: 0; /* Remove margin from the first slide */
+  margin-left: 0; 
 }
 
 .carousel__slide:last-child {
-  margin-right: 0; /* Remove margin from the last slide */
+  margin-right: 0; 
 }
 
 .carousel__slide {
-  min-width: 20%; /* Adjust based on number of items you want visible */
+  min-width: 20%; 
   transition: transform 0.5s ease-in-out;
-  opacity: 0.5; /* Start with slides semi-transparent */
-  margin: 0 15px; /* Add 15px margin on both sides, adjust as needed */
+  opacity: 0.5; 
+  margin: 0 15px; 
 }
 
 
 /* The current slide should be more prominent */
 .carousel__slide.current-slide {
-  opacity: 1; /* Fully opaque */
-  transform: scale(1.2); /* Scaled to be larger */
-  z-index: 1; /* Ensure it's above other slides */
+  opacity: 1; 
+  transform: scale(1.2); 
+  z-index: 1; 
 }
 
 /* Arrow styling */
@@ -175,7 +176,7 @@ input[name="fav-checkbox"] {
     #fbfcfe;
   box-shadow: 0 3px 2px rgba(0, 0, 0, 25%);
   display: flex;
-  position: sticky;
+  position: fixed;
   flex-wrap: wrap;
   width: 100%;
   top: 0;
@@ -297,9 +298,9 @@ footer {
       rgba(0, 102, 138, 14%),
       rgba(0, 102, 138, 14%)),
     #fcfcfe;
-  bottom: 0;
   font-size: 14px;
-  position: sticky;
+  position: fixed;
+  bottom: 0;
   padding: 30px 0 5px;
   font-weight: 500;
   line-height: 25px;
@@ -359,20 +360,19 @@ legend {
 }
 
 .container {
-  display: flex;
-  min-height: 100vh;
   border-radius: 4px;
 }
 
 .container span {
   font-weight: 400;
-  line-height: 20px;
+  line-height: 40px;
   letter-spacing: 0.25px;
 }
 
 .item img {
   object-fit: contain;
   width: 100%;
+  mix-blend-mode: multiply;
 }
 
 .left-bar h2,
@@ -710,6 +710,14 @@ legend {
    Main (center products)
    ----------------------------------- */
 
+.main-container {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  align-self: center;
+  flex: 5;
+}
+
 .main-container a {
   margin-top: 0;
   float: right;
@@ -740,7 +748,11 @@ legend {
 /* Products */
 
 .products__content {
+  flex: 1;
   display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14em, 1fr));
+  grid-gap: 3em 5em;
+  margin-bottom: 10%;
 }
 
 .products__content .products__content__header {
@@ -757,12 +769,23 @@ legend {
 .products__item {
   display: flex;
   flex-direction: column;
-  height: 100%;
   position: relative;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 1%); 
   margin-bottom: 20px;
   justify-content: space-between; 
+  background-color: #eee;
+  transition: transform 0.5s ease;
 }
+
+.products__item h2, span {
+  margin-left: 6px;
+}
+
+.products__item:hover {
+  transform: scale(1.05);
+}
+
+
 
 .products__carousel-item {
   display: flex;
@@ -775,7 +798,6 @@ legend {
   border-radius: 4px;
   overflow: hidden;
   background: white;
-  transition: transform 0.5s ease;
 }
 
 .products__carousel-item-imageArea {
@@ -1095,7 +1117,6 @@ legend {
   gap: 10px;
   background-color: #d4e5f1;
   color: black;
-  padding: var(--button-size);
   border-radius: 100px;
   text-decoration: none;
   margin-top: 0;
@@ -1104,6 +1125,7 @@ legend {
   line-height: 16px;
   letter-spacing: 0.5px;
   white-space: nowrap;
+  padding: 7px 24px;
 } 
 
 .product-detail__formbuttons span {
@@ -1125,7 +1147,7 @@ legend {
 }
 
 .product-detail__formbuttons a.in-cart .icon-container svg path {
-  fill: #a1a1a1; /* Change this to the color you want for the icon */
+  fill: #a1a1a1;
 }
 
 /* -----------------------------------
@@ -1510,7 +1532,7 @@ textarea {
   text-align: center;
 }
 
-/* Hover states */
+
 .collapsibleCartContainer-quantity-decrease:hover,
 .collapsibleCartContainer-quantity-increase:hover {
   background-color: #ccc;
@@ -1530,7 +1552,7 @@ textarea {
 
 @media screen and (min-width: 358px) {
   .container {
-    margin: 0;
+    margin: 11em 0 8em;
     padding: 0 3% 2%;
     justify-content: center;
     flex-direction: column;
@@ -1593,11 +1615,11 @@ textarea {
   
   .cart-sticky-header {
     position: sticky;
-    top: 0; /* Adjust this value based on your header's height if there is one */
-    background: white; /* This color should match the cart's background */
-    z-index: 1000; /* Ensure the sticky header is above other content */
-    padding: 10px; /* Adjust the padding as necessary */
-    border-bottom: 1px solid #eaeaea; /* Optional border for a visual separation */
+    top: 0; 
+    background: white; 
+    z-index: 1000; 
+    padding: 10px; 
+    border-bottom: 1px solid #eaeaea;
   }
 
   .cart-close-button {
@@ -1619,8 +1641,8 @@ textarea {
   .collapsible-cart {
     position: fixed;
     top: 0;
-    right: -100%; /* Start offscreen */
-    width: 300px; /* Set to desired width */
+    right: -100%; 
+    width: 300px;
     height: 100%;
     background: white;
     z-index: 1000;
@@ -1755,14 +1777,7 @@ textarea {
 
   /* Search form styling end */
 
-  .products__content {
-    grid-template-columns: 1fr;
-    max-width: 100%;
-    padding-bottom: 8em;
-    gap: 2em;
-  }
-
-  .left-bar {
+ .left-bar {
     display: flex;
     flex-direction: column;
     margin-top: 1em;
@@ -2012,36 +2027,18 @@ textarea {
 }
 
 @media screen and (min-width: 380px) {
-  .products__content {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   .products__content .products__content__header {
     grid-column: -1/1;
   }
 }
 
   @media screen and (min-width: 540px) {
-    .left-bar__checkout,
-    .checkout-summary,
-    #checkoutnow:checked~.right-bar-checkoutpage {
-      width: 70%;
-    }
+  .checkout-summary,
+  #checkoutnow:checked~.right-bar-checkoutpage {
+    width: 50%;
   }
+}
 
-  @media screen and (min-width: 740px) {
-    .products__content {
-      grid-template-columns: repeat(3, 1fr);
-      min-width: 100%;
-      align-items: end;
-    }
-
-    .left-bar__checkout,
-    .checkout-summary,
-    #checkoutnow:checked~.right-bar-checkoutpage {
-      width: 50%;
-    }
-  }
 
   @media screen and (min-width: 800px) {
     .product-detail img {
@@ -2190,6 +2187,7 @@ textarea {
       flex-direction: column;
       flex: 0.7;
       max-width: 13em;
+      min-width: 20%;
       margin-top: 0;
       order: -1;
     }
@@ -2205,10 +2203,11 @@ textarea {
     }
 
     .container {
-      margin: 2em 1%;
+      margin: 19em 0 0 41px;
       flex-direction: row;
-      padding: 2% 1%;
-    }
+      display: flex;
+      gap: 1.1em;
+  }
 
     /* Footer styling */
 
@@ -2240,10 +2239,6 @@ textarea {
 
     /* Footer styling end */
 
-    .main-container {
-      flex: 3;
-      overflow: hidden;
-    }
 
     /* -----------------------------------
        Product page
@@ -2350,7 +2345,7 @@ textarea {
     }
 
     .container-checkoutpage {
-      margin: 2% 5%;
+      margin: 18em 0;
       min-width: 65em;
       justify-content: space-around;
     }
@@ -2365,6 +2360,10 @@ textarea {
       gap: 1em;
       margin-left: 0.2em;
       justify-items: center;
+    }
+
+    #checkout-label {
+      display: none;
     }
 
     /* Payment & Shipment styling */
@@ -2455,7 +2454,7 @@ textarea {
       font-size: 12px;
       padding-left: 25px;
       background-color: white;
-      padding-bottom: 30px;
+      padding-bottom: 12em;
       min-width: 80%;
       border-radius: 0 4.51px 4.51px 0;
     }
@@ -2532,11 +2531,3 @@ textarea {
       display: flex;
     }
   }
-
-  @media screen and (min-width: 1450px) {
-    .products__content {
-      grid-template-columns: repeat(4, 1fr);
-      max-width: 100%;
-    }
-  }
-  

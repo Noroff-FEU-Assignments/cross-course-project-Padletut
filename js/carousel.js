@@ -47,7 +47,6 @@ export function initializeCarousel(trackSelector, data) {
             <div class="products__carousel-item-textArea">
               <h2>${product.title}</h2>
               <span>$${product.price}</span>
-              <!-- Insert stars and reviews here -->
             </div>
           </a>
         `;
