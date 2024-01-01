@@ -388,6 +388,15 @@ legend {
   margin-top: 1.5em;
 }
 
+.left-bar__remove {
+  display: flex;
+  margin: 1em 2em 1em 0;
+  background: #f3f3f3;
+  border: none;
+  cursor: pointer;
+  gap: 1.5em;
+}
+
 /* Size container */
 
 .size-container hr {
@@ -2457,14 +2466,6 @@ textarea {
       margin-bottom: 5px;
     }
 
-    .left-bar__remove {
-      display: flex;
-      margin: 1em 2em 1em 0;
-      background: #f3f3f3;
-      border: none;
-      cursor: pointer;
-      gap: 1.5em;
-    }
 
     /* -----------------------------------
        Checkout success page

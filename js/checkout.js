@@ -1,6 +1,7 @@
 import { cartKey } from "./constants.js";
 import { loadFromStorage, saveToStorage } from "./storage/local.js";
 import { fetchProducts } from "./fetch.js";
+import { goToTop } from "./gototop.js";
 
 
 let checkoutTotal = 0;
@@ -77,7 +78,9 @@ function renderCheckout(data, checkoutStorage) {
                           Total
                           </span>
                           <span>$ ${((checkoutTotal * 1.25) + 10).toFixed(2)}</span>
-                    </div>`;
+                    </div>
+                    <label for="checkoutnow" id="checkout-label" onclick="goToTop()">
+                    <object data="/svg/creditcard.svg"></object>Checkout Now</label>`;
 
   addRemoveEventListeners(checkoutStorage);
   addQuantityChangeListeners(checkoutStorage, data);
@@ -110,4 +113,10 @@ function addRemoveEventListeners(checkoutStorage) {
       removeFromCheckout(idToRemove, globalData, checkoutStorage);
     });
   });
+}
+
+document.onclick = function (event) {
+  if (event.target.matches('#checkoutnow')) {
+    goToTop();
+  }
 }
