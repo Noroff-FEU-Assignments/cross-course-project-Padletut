@@ -1,22 +1,11 @@
-import { url, cartKey } from "./constants.js";
-import { addToShoppingCart } from "./cart.js";
+import * as Constants from './constants.js';
+import { addToShoppingCart } from "./handlecart.js";
 import { fetchProducts, fetchSingleProduct, fetchProductsForCarousel } from "./fetch.js";
 import { loadFromStorage } from "./storage/local.js";
 import { toggleCartVisibility, closeCartOnClickOutside } from './togglecart.js';
-import { renderShoppingCart } from "./cart.js";
-
-const detailContainer = document.querySelector(".product-detail");
-const leftBarContainer = document.querySelector(".left-bar");
-const loaderContainer = document.querySelectorAll(".loader");
-const queryString = document.location.search;
-const params = new URLSearchParams(queryString);
-const id = params.get("id");
-
-const collapsibleCartContainer = document.querySelector('.collapsible-cart');
-const collapsibleCart = document.getElementById('collapsible-cart');
+import { renderShoppingCart } from "./renderCart.js";
 
 let data = [];
-
 
 // Inject SVG into the DOM
 
@@ -29,28 +18,30 @@ fetch('/svg/cart.svg')
 
 document.addEventListener('DOMContentLoaded', async () => {
   const cartIcon = document.querySelector('.cart');
-  const loaderContainer = document.getElementById('loader');
+  //const loaderContainer = document.getElementById('loader');
 
 
   // Fetch products and render the shopping cart
   try {
-    data = await fetchProducts(collapsibleCartContainer, loaderContainer, renderShoppingCart);
-    renderShoppingCart(data, collapsibleCart);
+    data = await fetchProducts(Constants.collapsibleCartContainer, Constants.loaderContainer, renderShoppingCart);
+    renderShoppingCart(data, Constants.collapsibleCart);
   } catch (error) {
     console.error('Failed to fetch products:', error);
   }
 
   // Event listener for the cart icon to toggle visibility
-  cartIcon.addEventListener('click', () => toggleCartVisibility(collapsibleCart));
+  cartIcon.addEventListener('click', () => toggleCartVisibility(Constants.collapsibleCart));
 
   // Close cart when clicking outside
-  closeCartOnClickOutside(collapsibleCart);
+  closeCartOnClickOutside(Constants.collapsibleCart);
 });
 
 
-function renderProductsLeftBar(data) {
-
+function renderProductsLeftBar(data, leftBarContainer) {
+  Constants.leftBarLoaderContainer.style.display = "none";
   const randomProducts = [];
+
+  leftBarContainer.innerHTML = '<h2>Other Customer also bought</h2>';
 
   for (let i = 0; i < 4; i++) {
 
@@ -83,12 +74,11 @@ function renderProductsLeftBar(data) {
       i--;
     }
   }
-  loaderContainer[0].style.display = "none";
 }
 
-fetchSingleProduct(id, detailContainer, url, createHtml);
-fetchProducts(leftBarContainer, loaderContainer, renderProductsLeftBar);
-fetchProductsForCarousel(leftBarContainer, loaderContainer, renderProductsLeftBar);
+fetchSingleProduct(Constants.id, Constants.detailContainer, Constants.url, createHtml);
+fetchProducts(Constants.leftBarContainer, Constants.loaderContainer, renderProductsLeftBar);
+fetchProductsForCarousel(Constants.leftBarContainer, Constants.loaderContainer, renderProductsLeftBar);
 
 export function createHtml(details) {
   const detailProductContainer = document.querySelector('.product-detail__description');
@@ -159,26 +149,22 @@ export function createHtml(details) {
   </div>`;
 
   const detailImage = document.createElement('img');
-
   detailImage.src = details.image;
   detailImage.alt = details.title;
-
 
   const detailTitle = document.createElement('h2');
   detailTitle.innerText = details.title;
 
-
   const detailSelectColorContainer = document.querySelector('.select-color__image');
   detailSelectColorContainer.innerHTML = `<img src="${details.image}" alt="Select color">`;
 
-
-  detailContainer.prepend(detailProductContainer);
+  Constants.detailContainer.prepend(detailProductContainer);
 
   detailProductContainer.prepend(detailPrice);
   detailProductContainer.prepend(detailDescription);
   detailProductContainer.prepend(detailCheckList);
   detailProductContainer.prepend(detailTitle);
-  detailContainer.prepend(detailImageContainer);
+  Constants.detailContainer.prepend(detailImageContainer);
   detailImageContainer.prepend(detailImage);
 }
 
@@ -187,11 +173,11 @@ const addToCartButton = document.querySelector(".addToCart");
 
 if (addToCartButton) {
   addToCartButton.addEventListener("click", () => {
-    const shoppingCart = loadFromStorage(cartKey) || []; // Load the entire cart
-    const productInCart = shoppingCart.find(item => item.id === id);
+    const shoppingCart = loadFromStorage(Constants.cartKey) || []; // Load the entire cart
+    const productInCart = shoppingCart.find(item => item.id === Constants.id);
 
     if (!productInCart) {
-      addToShoppingCart(id, data, collapsibleCartContainer);
+      addToShoppingCart(Constants.id, data, Constants.collapsibleCartContainer);
     }
   });
 }
@@ -203,11 +189,11 @@ if (buyNowButton) {
   buyNowButton.addEventListener("click", function (event) {
     event.preventDefault(); // Prevent form submission
 
-    const shoppingCart = loadFromStorage(cartKey) || []; // Load the entire cart
-    const productInCart = shoppingCart.find(item => item.id === id);
+    const shoppingCart = loadFromStorage(Constants.cartKey) || []; // Load the entire cart
+    const productInCart = shoppingCart.find(item => item.id === Constants.id);
 
     if (!productInCart) {
-      addToShoppingCart(id, data, collapsibleCartContainer);
+      addToShoppingCart(Constants.id, data, Constants.collapsibleCartContainer);
     }
 
     // Redirect to checkout page

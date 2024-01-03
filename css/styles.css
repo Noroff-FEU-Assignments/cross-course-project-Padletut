@@ -12,6 +12,20 @@
   --icon-color: #061E25;
 }
 
+@keyframes pulse {
+  0% {
+      transform: scale(1);
+  }
+
+  50% {
+      transform: scale(1.2);
+  }
+
+  100% {
+      transform: scale(1);
+  }
+}
+
 * {
   box-sizing: border-box;
 }
@@ -147,7 +161,43 @@ input[name="fav-checkbox"] {
   right: 5%;
 }
 
+.cart-item-count {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: -13px;
+  right: -57px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #00668a;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+  visibility: hidden;
+  text-align: center;
+  animation: pulse 0.5s ease-in-out;
+}
 
+.cart-item-count-mobile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 25px;
+  right: 65px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #00668a;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+  visibility: hidden;
+  text-align: center;
+  animation: pulse 0.5s ease-in-out;
+}
 
 /* -----------------------------------
    Home Page
@@ -391,10 +441,15 @@ legend {
 .left-bar__remove {
   display: flex;
   margin: 1em 2em 1em 0;
-  background: #f3f3f3;
+  background: #afafaf;
   border: none;
   cursor: pointer;
-  gap: 1.5em;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-weight: bold;
+  justify-content: center;
+  font-size: small;
+  color: white;
 }
 
 /* Size container */
@@ -532,11 +587,11 @@ legend {
   flex-direction: column;
   gap: 1.5em;
   font-size: 12px;
-  padding-left: 25px;
+  padding: 10px 0 5px 15px;
   background-color: white;
-  padding-bottom: 30px;
-  min-width: 80%;
+  min-width: 50%;
   border-radius: 0 4.51px 4.51px 0;
+  max-width: 14em;
 }
 
 .left-bar__checkout-textArea h4 {
@@ -933,7 +988,7 @@ legend {
   margin-top: 5px; 
 }
 
-.loader {
+.loader, .left-bar__loader {
   border: 16px solid #f3f3f3;
   border-top: 16px solid var(--primary-colour);
   border-radius: 50%;
@@ -1372,6 +1427,7 @@ textarea {
    Right bar
    ----------------------------------- */
 
+
 .right-bar {
   flex: 2;
   flex-direction: column;
@@ -1591,6 +1647,10 @@ textarea {
     align-items: flex-start;
   }
 
+  .header__link-cart-text {
+    display: none;
+  }
+
   .header-styleProductspage {
     min-height: 10rem;
   }
@@ -1632,7 +1692,6 @@ textarea {
     cursor: pointer;
 }
 
-
   #cartTitle {
     text-align: center;
     margin-bottom: 50px;
@@ -1661,10 +1720,6 @@ textarea {
   border-top: 1px solid #eaeaea;
   text-align: center;
 }
-
-  .header__link span {
-    display: none;
-  }
 
   /* Header styling end */
 
@@ -1890,7 +1945,10 @@ textarea {
      ----------------------------------- */
 
   .container-checkoutpage {
+    display: flex;
     margin-bottom: 5em;
+    margin-top: 4em;
+    place-items: center;
   }
 
   .container-checkoutpage h2 {
@@ -1903,10 +1961,45 @@ textarea {
   .left-bar__checkout {
     align-self: center;
     margin-bottom: 1.5em;
-    max-height: 13em;
   }
 
-  .left-bar__checkout,
+  .left-bar__quantity {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 10px; /* Adjust as needed */
+}
+
+.left-bar__quantity .quantity-selector {
+    margin-left: 10px;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+}
+
+/* Style focus state for accessibility */
+.left-bar__quantity .quantity-selector:focus {
+    outline: none;
+    border-color: #007bff; 
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 25%);
+}
+
+/* Style options in the dropdown */
+.left-bar__quantity .quantity-selector option {
+    padding: 5px 10px;
+    color: #333;
+}
+
+/* Optionally, style for hover state */
+.left-bar__quantity .quantity-selector:hover {
+    border-color: #007bff; 
+}
+
+
   .checkout-summary,
   #checkoutnow:checked~.right-bar-checkoutpage {
     width: 95%;
@@ -1915,11 +2008,6 @@ textarea {
   .left-bar-checkoutpage {
     display: flex;
     flex-direction: column;
-  }
-
-  .left-bar__checkout-textArea {
-    min-width: 50%;
-    padding-left: 5px;
   }
 
   .left-bar__checkout-textArea h4 {
@@ -1977,7 +2065,6 @@ textarea {
   }
 
   .right-bar-checkoutpage h2 {
-    font-size: 16px;
     text-align: start;
     min-width: max-content;
   }
@@ -2033,7 +2120,6 @@ textarea {
 }
 
   @media screen and (min-width: 540px) {
-  .checkout-summary,
   #checkoutnow:checked~.right-bar-checkoutpage {
     width: 50%;
   }
@@ -2088,8 +2174,8 @@ textarea {
       margin-right: 11%;
     }
 
-    .header__link span {
-      display: block;
+    .header__link-cart-text {
+      display: flex;
     }
 
     .cart {
@@ -2192,6 +2278,10 @@ textarea {
       order: -1;
     }
 
+    .left-bar-productpage {
+      margin-top: 2em;
+    }
+
     .right-bar {
       display: flex;
       padding-left: 3em;
@@ -2219,7 +2309,6 @@ textarea {
       text-align: center;
       letter-spacing: -0.01em;
       font-feature-settings: "calt" off;
-      position: relative;
     }
 
     footer img,
@@ -2256,7 +2345,7 @@ textarea {
 
     .product-detail__description h2 {
       transform: translateY(0);
-      padding-bottom: 1.5em;
+      padding-bottom: 3.5em;
     }
 
     .product-detail {
@@ -2325,7 +2414,7 @@ textarea {
     .right-bar-productpage {
       align-self: flex-start;
       flex-wrap: wrap;
-      margin: 0;
+      margin-top: 3em;
     }
 
     .form-searchProductspage {
@@ -2407,6 +2496,7 @@ textarea {
     .left-bar-checkoutpage {
       flex: unset;
       align-items: flex-start;
+      align-self: flex-start;
       gap: 1em;
       max-width: none;
     }
@@ -2417,6 +2507,7 @@ textarea {
 
     .left-bar__checkout {
       margin-bottom: 0;
+      max-height: 15em;
     }
 
     .left-bar__quantity {
@@ -2440,6 +2531,7 @@ textarea {
       display: flex;
       flex: unset;
       min-width: 40%;
+      align-self: flex-start;
     }
 
     .right-bar-checkoutpage h2 {
@@ -2474,8 +2566,8 @@ textarea {
     .container-about,
     .container-contact {
       flex-direction: column;
-      margin-top: 0;
       padding-top: 0;
+      gap: 0;
     }
 
     .checkout-info {
@@ -2529,5 +2621,10 @@ textarea {
 
     .container-about__wrapper div {
       display: flex;
+    }
+
+    .cart-item-count-mobile {
+      display: none;
+      visibility: hidden;
     }
   }

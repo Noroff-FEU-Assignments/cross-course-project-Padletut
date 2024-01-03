@@ -1,8 +1,14 @@
 // togglecart.js
 import { fetchProducts } from './fetch.js';
-import { renderShoppingCart } from './cart.js';
+import { renderShoppingCart } from './renderCart.js';
 import { cartKey } from './constants.js';
 import { loadFromStorage } from './storage/local.js';
+
+// Function to initialize the cart on page load if needed
+export const initializeCart = async (collapsibleCartContainer, loaderContainer) => {
+    const productsData = await fetchProducts(collapsibleCartContainer, loaderContainer, renderShoppingCart);
+    return productsData;
+};
 
 // Function to toggle cart visibility and refresh contents
 export const toggleCartVisibility = (cartElement, collapsibleCartContainer, loaderContainer) => {
@@ -19,12 +25,6 @@ export const toggleCartVisibility = (cartElement, collapsibleCartContainer, load
             }
         });
     }
-};
-
-// Function to initialize the cart on page load if needed
-export const initializeCart = async (collapsibleCartContainer, loaderContainer) => {
-    const productsData = await fetchProducts(collapsibleCartContainer, loaderContainer, renderShoppingCart);
-    return productsData;
 };
 
 // Function to close cart when clicking outside

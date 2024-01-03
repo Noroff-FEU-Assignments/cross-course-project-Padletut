@@ -1,25 +1,21 @@
+import * as Constants from './constants.js';
+
 document.addEventListener('DOMContentLoaded', function () {
-    let nameInput = document.querySelector('#name');
-    let emailInput = document.querySelector('#email');
-    let messageInput = document.querySelector('#message');
-    let submitButton = document.querySelector('#submit');
-    let submitLabel = document.querySelector('#submit-label'); // Get the submit label
 
-    let inputs = [nameInput, emailInput, messageInput];
 
-    if (submitButton.disabled) {
-        submitLabel.classList.add('disabled'); // Add the class if the button is disabled
+    if (Constants.submitButton.disabled) {
+        Constants.submitLabel.classList.add('disabled'); // Add the class if the button is disabled
     } else {
-        submitLabel.classList.remove('disabled'); // Remove it if the button is enabled
+        Constants.submitLabel.classList.remove('disabled'); // Remove it if the button is enabled
     }
 
     function validateInput(input) {
         // Remove previous error message and valid mark
-        let errorMessage = input.nextElementSibling;
+        const errorMessage = input.nextElementSibling;
         if (errorMessage && errorMessage.classList.contains('error-message')) {
             errorMessage.remove();
         }
-        let validMark = input.nextElementSibling;
+        const validMark = input.nextElementSibling;
         if (validMark && validMark.classList.contains('valid-mark')) {
             validMark.remove();
         }
@@ -29,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
             input.classList.remove('valid');
             input.classList.add('error');
             input.insertAdjacentHTML('afterend', '<span class="error-message">This field is required.</span>');
-        } else if (input === emailInput && !/\S+@\S+\.\S+/.test(input.value)) {
+        } else if (input === Constants.emailInput && !/\S+@\S+\.\S+/.test(input.value)) {
             input.classList.remove('valid');
             input.classList.add('error');
             input.insertAdjacentHTML('afterend', '<span class="error-message">Email is incorrectly formatted.</span>');
@@ -40,23 +36,24 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    inputs.forEach(function (input) {
+    Constants.inputs.forEach(function (input) {
         input.addEventListener('blur', function () {
             validateInput(input);
 
             // Enable or disable submit button based on validation
-            let allFieldsValid = inputs.every(function (input) {
+            const allFieldsValid = Constants.inputs.every(function (input) {
                 return input.classList.contains('valid');
             });
-            submitButton.disabled = !allFieldsValid;
+            Constants.submitButton.disabled = !allFieldsValid;
         });
     });
 
     // Add event listeners to the right and left arrow buttons
-    let rightArrow = document.querySelector('#right-arrow');
-    let leftArrow = document.querySelector('#left-arrow');
-    let carousel = document.querySelector('#carousel');
+    const rightArrow = document.querySelector('#right-arrow');
+    const leftArrow = document.querySelector('#left-arrow');
+    const carousel = document.querySelector('#carousel');
 
+    if (!rightArrow) return;
     rightArrow.addEventListener('click', function () {
         carousel.scrollLeft += carousel.offsetWidth;
     });
@@ -66,10 +63,10 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // You may also want to prevent the default form submission and validate all fields when attempting to submit
-    submitButton.addEventListener('click', function (event) {
+    Constants.submitButton.addEventListener('click', function (event) {
         event.preventDefault(); // Prevent form from submitting
-        inputs.forEach(validateInput);
-        let allFieldsValid = inputs.every(function (input) {
+        Constants.inputs.forEach(validateInput);
+        const allFieldsValid = Constants.inputs.every(function (input) {
             return input.classList.contains('valid');
         });
 

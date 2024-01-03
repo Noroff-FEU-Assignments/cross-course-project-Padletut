@@ -1,32 +1,13 @@
-import { cartKey } from "./constants.js";
-import { loadFromStorage, saveToStorage } from "./storage/local.js";
-
-
-// Function to add an item to the shopping cart
-export function addToShoppingCart(id, data, collapsibleCartContainer) {
-    const cartArray = loadFromStorage(cartKey) || [];
-    const existingItemIndex = cartArray.findIndex(item => item.id === id);
-
-    if (existingItemIndex !== -1) {
-        cartArray[existingItemIndex].quantity += 1;
-    } else {
-        const newItem = { id, quantity: 1 };
-        cartArray.push(newItem);
-    }
-
-    saveToStorage(cartKey, cartArray);
-
-    // Re-render the shopping cart to reflect the changes
-    renderShoppingCart(data, collapsibleCartContainer);
-}
-
+import * as Constants from './constants.js';
+import { updateQuantity, removeFromCart, updateProductListCartButtons, updateCartItemCount, detail_updateAddToCartButtonState } from "./handlecart.js";
+import { loadFromStorage } from "./storage/local.js";
 
 // Function to render the shopping cart
 export function renderShoppingCart(data, collapsibleCartContainer) {
     if (!Array.isArray(data) || !collapsibleCartContainer || typeof collapsibleCartContainer !== 'object') return;
 
     let shoppingCartTotal = 0;
-    const shoppingCartStorage = loadFromStorage(cartKey) || [];
+    const shoppingCartStorage = loadFromStorage(Constants.cartKey) || [];
 
     // Clear existing content
     collapsibleCartContainer.innerHTML = '';
@@ -50,7 +31,6 @@ export function renderShoppingCart(data, collapsibleCartContainer) {
             const itemLink = document.createElement('a');
             itemLink.href = `productdetail.html?id=${product.id}`;
             itemLink.className = 'collapsibleCartContainer-item-link';
-
             const itemDiv = document.createElement('div');
             itemDiv.className = 'collapsibleCartContainer-item';
             itemDiv.id = cartItem.id;
@@ -76,17 +56,17 @@ export function renderShoppingCart(data, collapsibleCartContainer) {
 
             // Attach event listeners to buttons
             buttonsDiv.querySelector('.collapsibleCartContainer-quantity-decrease').addEventListener('click', (event) => {
-                updateQuantity(cartItem.id, -1, data, collapsibleCartContainer);
+                updateQuantity(cartItem.id, -1, collapsibleCartContainer, Constants.checkoutContainer, data);
                 event.stopPropagation();
             });
 
             buttonsDiv.querySelector('.collapsibleCartContainer-quantity-increase').addEventListener('click', (event) => {
-                updateQuantity(cartItem.id, 1, data, collapsibleCartContainer);
+                updateQuantity(cartItem.id, 1, collapsibleCartContainer, Constants.checkoutContainer, data);
                 event.stopPropagation();
             });
 
             buttonsDiv.querySelector('.collapsibleCartContainer-item-remove').addEventListener('click', (event) => {
-                removeFromCart(cartItem.id, collapsibleCartContainer, data);
+                removeFromCart(cartItem.id, collapsibleCartContainer, Constants.checkoutContainer, data);
                 event.stopPropagation();
             });
 
@@ -105,6 +85,8 @@ export function renderShoppingCart(data, collapsibleCartContainer) {
 
     updateProductListCartButtons(shoppingCartStorage);
     detail_updateAddToCartButtonState(shoppingCartStorage);
+    updateCartItemCount(shoppingCartStorage.length);
+
 
     // Add cart footer
     const footer = document.createElement('div');
@@ -113,80 +95,4 @@ export function renderShoppingCart(data, collapsibleCartContainer) {
         <h3>Total in cart: <span>$${shoppingCartTotal.toFixed(2)}</span></h3>
         <a href="checkout.html" class="checkout-button">Checkout</a>`;
     collapsibleCartContainer.appendChild(footer);
-}
-
-
-function updateProductListCartButtons(cartData) {
-    const addToCartButtons = document.querySelectorAll('.products__item-button');
-
-    addToCartButtons.forEach(button => {
-        const productId = button.dataset.id;
-        const isInCart = cartData.some(item => item.id === productId);
-        if (button.classList.contains('buy-now-btn')) return;
-        button.textContent = isInCart ? 'In Cart' : 'Add to Cart';
-        button.disabled = isInCart;
-        if (button.classList.contains('buy-now-btn')) return;
-        button.classList.toggle('in-cart', isInCart);
-        button.classList.toggle('add-to-cart-btn', !isInCart);
-    });
-}
-
-// Function to update the quantity of a cart item
-function updateQuantity(id, change, data, collapsibleCartContainer) {
-    const cartArray = loadFromStorage(cartKey) || [];
-    const itemIndex = cartArray.findIndex(item => item.id === id);
-
-    if (itemIndex !== -1) {
-        cartArray[itemIndex].quantity += change;
-
-        if (cartArray[itemIndex].quantity <= 0) {
-            cartArray.splice(itemIndex, 1); // Remove the item if quantity is 0 or less
-            const cartData = loadFromStorage(cartKey) || [];
-            updateProductListCartButtons(cartData);
-            detail_updateAddToCartButtonState(cartData);
-        }
-
-        saveToStorage(cartKey, cartArray);
-        renderShoppingCart(data, collapsibleCartContainer); // Re-render the cart to update the page
-    }
-}
-
-const detail_updateAddToCartButtonState = (cartData) => {
-    const queryString = document.location.search;
-    const params = new URLSearchParams(queryString);
-    const id = params.get("id");
-    const addToCartButton = document.querySelector('.addToCart');
-    if (!addToCartButton) return;
-    const buttonText = addToCartButton.querySelector('span');
-    const productInCart = cartData.some(item => item.id === id);
-
-    addToCartButton.disabled = productInCart;
-    if (productInCart) {
-        addToCartButton.classList.add('in-cart');
-        buttonText.textContent = 'In Cart';
-    } else {
-        addToCartButton.classList.remove('in-cart');
-        buttonText.textContent = 'Add to Cart';
-    }
-};
-
-// Function to remove an item from the cart
-export function removeFromCart(id, collapsibleCartContainer, data) {
-    const cartArray = loadFromStorage(cartKey) || [];
-    const updatedCartArray = cartArray.filter(item => item.id !== id);
-
-    saveToStorage(cartKey, updatedCartArray);
-    renderShoppingCart(data, collapsibleCartContainer);
-}
-
-
-export function decrementQuantity(id, collapsibleCartContainer, data) {
-    const cartArray = loadFromStorage(cartKey) || [];
-    const index = cartArray.findIndex(item => item.id === id);
-
-    if (index !== -1 && cartArray[index].quantity > 1) {
-        cartArray[index].quantity -= 1;
-        saveToStorage(cartKey, cartArray);
-        renderShoppingCart(data, collapsibleCartContainer);
-    }
 }
