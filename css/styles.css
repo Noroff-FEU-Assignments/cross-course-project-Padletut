@@ -2054,6 +2054,10 @@ textarea {
       top: 75vh;
     }
 
+    .main-container {
+      align-self: flex-start;
+    }
+    
     .main-container__detail {
       margin: 0 3em;
     }
