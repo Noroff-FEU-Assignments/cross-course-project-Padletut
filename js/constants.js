@@ -15,12 +15,3 @@ export const queryString = document.location.search;
 export const params = new URLSearchParams(queryString);
 export const id = params.get("id");
 export const renderProductsLeftBar = document.querySelector(".left-bar__products");
-
-// Constants for validate.js
-
-export const nameInput = document.querySelector('#name');
-export const emailInput = document.querySelector('#email');
-export const messageInput = document.querySelector('#message');
-export const submitButton = document.querySelector('#submit');
-export const submitLabel = document.querySelector('#submit-label');
-export const inputs = [nameInput, emailInput, messageInput];
