@@ -1194,6 +1194,7 @@ legend {
   align-items: center;
   align-self: center;
   white-space: nowrap;
+  margin-bottom: 2em;
 }
 
 #submit-label object,
