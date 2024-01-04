@@ -58,11 +58,15 @@ function createProductCard(data) {
         const favoriteContainer = document.createElement('div');
         favoriteContainer.classList.add('products__item-favoritecontainer');
         favoriteContainer.innerHTML = `
-            <input type="checkbox" id="favIcon-checkbox${product.id}" name="fav-checkbox">
-            <label class="favorite" for="favIcon-checkbox${product.id}">
-                <img class="favorite-checked" src="svg/favIconChecked.svg" alt="Remove from favorite">
-                <img class="favorite-unchecked" src="svg/favIcon.svg" alt="Add to favorite">
-            </label>`;
+                                        <fieldset>
+                                            <legend>Favorite Product</legend>
+                                            <input type="checkbox" id="favIcon-checkbox${product.id}" name="fav-checkbox">
+                                            <label class="favorite" for="favIcon-checkbox${product.id}">
+                                                <img class="favorite-checked" src="svg/favIconChecked.svg" alt="Remove from favorite">
+                                                <img class="favorite-unchecked" src="svg/favIcon.svg" alt="Add to favorite">
+                                            </label>
+                                        </fieldset>`;
+
 
         const cardLink = document.createElement('a');
         cardLink.href = `productdetail.html?id=${product.id}`;
@@ -70,7 +74,7 @@ function createProductCard(data) {
 
         const cardImage = document.createElement('figure');
         cardImage.classList.add('products__item-imageArea');
-        cardImage.innerHTML = `<img src="${product.image}" alt="${product.title}">`;
+        cardImage.innerHTML = `<img src="${product.image}" alt="Product title ${product.title}">`;
 
         const cardTitle = document.createElement('h2');
         cardTitle.innerText = product.title;

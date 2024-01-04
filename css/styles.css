@@ -60,6 +60,12 @@ figure {
 
 /* Favorite styling */
 
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
 .favorite-unchecked {
   display: block;
   width: 17px;
@@ -159,6 +165,18 @@ input[name="fav-checkbox"] {
   color: #0056b3; 
   transform: translateY(-10%) scale(0.9); 
 }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
 
 .cart-item-count {
   display: flex;
@@ -262,7 +280,7 @@ input[name="fav-checkbox"] {
 .form-search {
   flex-direction: column;
   flex: 1;
-  display: none;
+  visibility: hidden;
   position: sticky;
   top: 15%;
   left: 10%;
@@ -473,7 +491,7 @@ legend {
 .left-bar__remove {
   display: flex;
   margin: 1em 2em 1em 0;
-  background: #afafaf;
+  background: #707070;
   border: none;
   cursor: pointer;
   padding: 10px 20px;
@@ -483,6 +501,7 @@ legend {
   font-size: small;
   color: white;
 }
+
 
 /* Size container */
 
@@ -995,32 +1014,33 @@ legend {
 }
 
 .add-to-cart-btn {
-  background-color: #2ecc71; 
+  background-color: #1c7a1c;
   color: white;
 }
 
 .add-to-cart-btn:hover {
-  background-color: #27ae60;
+  background-color: #186118;
 }
 
+
 .in-cart {
-  background-color: #95a5a6; 
-  color: #ecf0f1;
+  background-color: #7e8c8d;
+  color: white;
   cursor: not-allowed;
 }
 
 .in-cart:hover {
-  background-color: #95a5a6; 
+  background-color: #7e8c8d;
 }
 
 .buy-now-btn {
-  background-color: #3498db;
-    color: white;
-    margin-top: 5px;
+  background-color: #2a65a0;
+  color: white;
+  margin-top: 5px;
 }
 
 .buy-now-btn:hover {
-  background-color: #2980b9;
+  background-color: #204d75;
 }
 
 .quantity-indicator {
@@ -1621,7 +1641,7 @@ textarea {
 }
 
 .collapsibleCartContainer-item-remove {
-  background-color: #cf5353;
+  background-color: #b33a3a;
   color: white;
   border: none;
   padding: 5px 10px;
@@ -1632,7 +1652,7 @@ textarea {
   display: block;
   width: calc(100% - 70px); 
   margin: 10px auto; 
-  background-color: #4CAF50; 
+  background-color: #2e7d32; 
   color: white;
   padding: 10px;
   border-radius: 4px;
@@ -1776,7 +1796,14 @@ textarea {
   }
 
   .hamburger-invisible {
-    display: none;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
   }
 
   .menu-close {
@@ -2160,7 +2187,14 @@ textarea {
     }
 
     .hamburger-icon {
-      display: none;
+      position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
     }
 
     /* Navigation style end */
@@ -2368,7 +2402,7 @@ textarea {
     }
 
     #checkout-label {
-      display: none;
+      visibility: hidden;
     }
 
     /* Payment & Shipment styling */

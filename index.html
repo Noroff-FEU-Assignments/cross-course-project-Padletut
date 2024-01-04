@@ -65,9 +65,9 @@
                     <span class="header__link-cart-text">Shoppingcart</span>
 
                 </div>
-                <label for="menu-checkbox" class="hamburger-icon"><i class="fas fa-bars"></i><i
+                <label for="menu-checkbox" class="hamburger-icon"><i class="fas fa-bars"></i><span
                         class="hamburger-invisible">Toggle
-                        menu</i></label>
+                        menu</span></label>
             </div>
             <nav>
                 <span class="enabled mobile-nav">RainyDays - Pushing The Comfort Zone
@@ -149,7 +149,7 @@
                 <!-- Cart content will be synamically loaded here -->
             </div>
             <div id="background-image">
-                <img src="/images/bakgrunn.png" alt="Background image" id="background-image">
+                <img src="/images/bakgrunn.png" alt="RainyDays background">
             </div>
             <h1 class="h1-invisible">Product site</h1>
             <section class="container">
@@ -165,7 +165,8 @@
                     <!-- Carousel container -->
                     <div class="carousel">
                         <button class="carousel__arrow carousel__arrow--left">
-                            <i class="fas fa-chevron-left"></i>
+                            <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                            <span class="visually-hidden">Previous Slide</span>
                         </button>
                         <div class="carousel__track-container">
                             <ul class="carousel__track" id="carouselTrack">
@@ -173,9 +174,11 @@
                             </ul>
                         </div>
                         <button class="carousel__arrow carousel__arrow--right">
-                            <i class="fas fa-chevron-right"></i>
+                            <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                            <span class="visually-hidden">Next Slide</span>
                         </button>
                     </div>
+
 
                     <section class="products__content">
                         <div class="products__content__header">
