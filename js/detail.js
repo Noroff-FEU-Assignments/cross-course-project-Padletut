@@ -182,21 +182,23 @@ if (addToCartButton) {
   });
 }
 
-const buyNowButton = document.querySelector(".buynow");
+document.addEventListener('DOMContentLoaded', function () {
+  const buyNowButton = document.getElementById('buy-now-button');
 
+  if (buyNowButton) {
+    buyNowButton.addEventListener("click", function (event) {
+      event.preventDefault(); // Prevent the form from submitting
 
-if (buyNowButton) {
-  buyNowButton.addEventListener("click", function (event) {
-    event.preventDefault(); // Prevent form submission
+      const shoppingCart = loadFromStorage(Constants.cartKey) || [];
+      const productInCart = shoppingCart.find(item => item.id === Constants.id);
 
-    const shoppingCart = loadFromStorage(Constants.cartKey) || []; // Load the entire cart
-    const productInCart = shoppingCart.find(item => item.id === Constants.id);
+      if (!productInCart) {
+        addToShoppingCart(Constants.id, data, Constants.collapsibleCartContainer);
+      }
 
-    if (!productInCart) {
-      addToShoppingCart(Constants.id, data, Constants.collapsibleCartContainer);
-    }
+      // Redirect to checkout page
+      window.location.href = "checkout.html";
+    });
+  }
+});
 
-    // Redirect to checkout page
-    window.location.href = "checkout.html";
-  });
-}

@@ -1177,7 +1177,7 @@ legend {
   margin: 1em 0 1.5em;
 }
 
-#submit-label,
+#submit-label, #buy-now-label,
 #checkout-label {
   display: flex;
   gap: 10px;
@@ -1197,7 +1197,7 @@ legend {
   margin-bottom: 2em;
 }
 
-#submit-label object,
+#submit-label object, £buy-now-label object,
 #checkout-label object {
   width: 18px;
   height: 18px;
