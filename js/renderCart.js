@@ -78,7 +78,6 @@ export function renderShoppingCart(data, collapsibleCartContainer) {
                 }
             });
 
-
             collapsibleCartContainer.appendChild(buttonsDiv);
         }
     });

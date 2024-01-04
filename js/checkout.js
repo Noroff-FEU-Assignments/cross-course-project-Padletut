@@ -4,6 +4,7 @@ import { loadFromStorage } from "./storage/local.js";
 import { fetchProducts } from "./fetch.js";
 import { goToTop } from "./gototop.js";
 import { removeFromCart, updateQuantity } from "./handlecart.js";
+import { renderShoppingCart } from "./renderCart.js";
 
 let checkoutTotal = 0;
 
@@ -136,4 +137,14 @@ document.onclick = function (event) {
     rightBarContainer.style.display = "flex";
     goToTop();
   }
+}
+
+const placeOrderButton = document.getElementById('submit-label');
+
+if (placeOrderButton) {
+  placeOrderButton.addEventListener('click', function () {
+    // Clear cart from local storage
+    localStorage.removeItem(Constants.cartKey);
+    renderShoppingCart(Constants.collapsibleCartContainer, Constants.cartKey);
+  });
 }

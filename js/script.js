@@ -23,6 +23,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 });
 
+document.addEventListener('click', (event) => {
+    if (event.target.matches('.cart-close-button')) {
+        // Close the cart
+        Constants.collapsibleCartContainer.style.right = '-100%';
+        event.preventDefault();
+    }
+});
 
 if (Constants.productContainer) {
     fetchProducts(Constants.productContainer, Constants.loaderContainer, createProductCard);
