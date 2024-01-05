@@ -75,7 +75,7 @@ function renderProductsLeftBar(data, leftBarContainer) {
           </figure>
           <div class="products__item-textArea">
             <h2>${product.title}</h2>
-            <span>$${product.price}</span>
+            <span>$${product.discountedPrice}</span>
           </div>
         </a>
       `;
