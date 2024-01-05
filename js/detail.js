@@ -127,7 +127,7 @@ export function createHtml(details) {
 
   const detailPrice = document.createElement('div');
   detailPrice.classList.add('product-detail__price');
-  detailPrice.innerHTML = `<h2>Price $${details.price}</h2>`;
+  detailPrice.innerHTML = `<h2>Price $${details.discountedPrice}</h2>`;
 
   const detailCheckList = document.createElement('div');
   detailCheckList.classList.add('product-detail__checklist');
