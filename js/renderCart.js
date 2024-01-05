@@ -24,7 +24,7 @@ export function renderShoppingCart(data, collapsibleCartContainer) {
     shoppingCartStorage.forEach(cartItem => {
         const product = data.find(item => item.id === cartItem.id);
         if (product) {
-            const totalItemPrice = product.price * cartItem.quantity;
+            const totalItemPrice = product.discountedPrice * cartItem.quantity;
             shoppingCartTotal += totalItemPrice;
 
             // Create cart item elements

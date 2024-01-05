@@ -28,7 +28,7 @@ export function renderCheckout(data, checkoutContainer) {
   checkoutStorage.forEach(cartItem => {
     const product = data.find(item => item.id === cartItem.id);
     if (product) {
-      const totalItemPrice = product.price * cartItem.quantity;
+      const totalItemPrice = product.discountedPrice * cartItem.quantity;
       checkoutTotal += totalItemPrice;
 
       // Create checkout item container
