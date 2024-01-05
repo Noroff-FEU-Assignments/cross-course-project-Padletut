@@ -15,3 +15,5 @@ export const queryString = document.location.search;
 export const params = new URLSearchParams(queryString);
 export const id = params.get("id");
 export const renderProductsLeftBar = document.querySelector(".left-bar__products");
+export const genderFilter = document.body.getAttribute('data-gender-filter');
+export const onSale = document.body.getAttribute('data-on-sale') === 'true';

@@ -280,7 +280,6 @@ input[name="fav-checkbox"] {
 .form-search {
   flex-direction: column;
   flex: 1;
-  visibility: hidden;
   position: sticky;
   top: 15%;
   left: 10%;
@@ -364,7 +363,7 @@ nav li {
   line-height: 20px;
 }
 
-nav .enabled {
+nav .enabled span, nav .enabled svg {
   color: white;
   opacity: 1;
   text-align: center;
@@ -896,11 +895,53 @@ legend {
   margin-left: 6px;
 }
 
+.products__item-sale-badge {
+  display: flex;
+  position: absolute;
+  top: 18px;
+  background-color: #be3222;
+  color: white;
+  padding: 0 25px;
+  border-radius: 0 30px;
+  font-size: 0.9em;
+  z-index: 1;
+  transform: rotateZ(-45deg);
+  text-wrap: nowrap;
+  cursor: pointer;
+  margin: 0;
+  width: fit-content;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 20%);
+}
+
 .products__item:hover {
   transform: scale(1.05);
 }
 
+.products__item:hover .products__item-sale-badge {
+  background-color: #fd272e;
+}
 
+.products__item-price-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 2rem 0.5rem 0.1rem;
+}
+
+.products__item-price {
+  font-size: 0.85em;
+  color: #0f0f0f;
+  margin-right: 0.5em;
+}
+
+.products__item-price.on-sale {
+  text-decoration: line-through;
+}
+
+.products__item-discounted-price {
+  font-size: 1em;
+  font-weight: bold;
+  color: #107a3c;
+}
 
 .products__carousel-item {
   display: flex;
@@ -1075,6 +1116,11 @@ legend {
 /* -----------------------------------
    Product detail page
    ----------------------------------- */
+
+
+.main-container__detail {
+  margin-top: 6em;
+}
 
 .product-detail {
   display: flex;
@@ -2084,6 +2130,7 @@ textarea {
 
     .main-container {
       align-self: flex-start;
+
     }
     
     .main-container__detail {
@@ -2143,7 +2190,7 @@ textarea {
       padding: 0;
     }
 
-    nav a:hover {
+    nav a.enabled:hover {
       box-shadow: 0 1px 2px rgba(0, 0, 0, 3%),
         0 2px 6px 2px rgba(0, 0, 0, 15%);
       background: rgba(103, 80, 164, 0.8%);
@@ -2161,7 +2208,7 @@ textarea {
       background: var(--primary-light-color);
     }
 
-    nav li span {
+    nav li span, nav li svg {
       opacity: 0.5;
     }
 

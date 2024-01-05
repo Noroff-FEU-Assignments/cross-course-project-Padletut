@@ -16,14 +16,14 @@ fetch('/svg/cart.svg')
   });
 
 
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('headerLoaded', async () => {
   const cartIcon = document.querySelector('.cart');
   //const loaderContainer = document.getElementById('loader');
 
 
   // Fetch products and render the shopping cart
   try {
-    data = await fetchProducts(Constants.collapsibleCartContainer, Constants.loaderContainer, renderShoppingCart);
+    data = await fetchProducts(Constants.collapsibleCartContainer, Constants.loaderContainer, renderShoppingCart, Constants.genderFilter, Constants.onSale);
     renderShoppingCart(data, Constants.collapsibleCart);
   } catch (error) {
     console.error('Failed to fetch products:', error);
@@ -41,35 +41,46 @@ function renderProductsLeftBar(data, leftBarContainer) {
   Constants.leftBarLoaderContainer.style.display = "none";
   const randomProducts = [];
 
-  leftBarContainer.innerHTML = '<h2>Other Customer also bought</h2>';
+  leftBarContainer.innerHTML = '<h2>Other Customers Also Bought</h2>';
 
   for (let i = 0; i < 4; i++) {
-
     const randomProduct = Math.floor(Math.random() * data.length);
 
     if (!randomProducts.includes(randomProduct)) {
-
       randomProducts.push(randomProduct);
+      const product = data[randomProduct];
 
-      leftBarContainer.innerHTML += `<div class="products__item">
-                                  <div class="products__item-favoritecontainer">
-                                  <input type="checkbox" id="favIcon-checkbox${data[randomProduct].id}" name="fav-checkbox">
-                                  <label class="favorite" for="favIcon-checkbox${data[randomProduct].id}">
-                                    <img class="favorite-checked" src="svg/favIconChecked.svg" alt="Remove from favorite">
-                                    <img class="favorite-unchecked" src="svg/favIcon.svg" alt="Add to favorite">
-                                  </label>
-                                </div>
-                                <a href="productdetail.html?id=${data[randomProduct].id}">
-                                  <figure class="products__item-imageArea">
-                                    <img src="${data[randomProduct].image}" alt="${data[randomProduct].title}">
-                                  </figure>
-                                  <div class="products__item-textArea">
-                                    <h2>${data[randomProduct].title}</h2>
-                                    <span>$${data[randomProduct].price}</span>
-                                  </div>
-                                </a>
-                                </div>`
+      const productCard = document.createElement('div');
+      productCard.classList.add('products__item');
 
+      if (product.onSale) {
+        const saleBadge = document.createElement('span');
+        saleBadge.classList.add('products__item-sale-badge');
+        saleBadge.textContent = 'On Sale!';
+        // Add styles or classes to saleBadge if needed
+        productCard.appendChild(saleBadge);
+      }
+
+      productCard.innerHTML += `
+        <div class="products__item-favoritecontainer">
+          <input type="checkbox" id="favIcon-checkbox${product.id}" name="fav-checkbox">
+          <label class="favorite" for="favIcon-checkbox${product.id}">
+            <img class="favorite-checked" src="svg/favIconChecked.svg" alt="Remove from favorite">
+            <img class="favorite-unchecked" src="svg/favIcon.svg" alt="Add to favorite">
+          </label>
+        </div>
+        <a href="productdetail.html?id=${product.id}">
+          <figure class="products__item-imageArea">
+            <img src="${product.image}" alt="${product.title}">
+          </figure>
+          <div class="products__item-textArea">
+            <h2>${product.title}</h2>
+            <span>$${product.price}</span>
+          </div>
+        </a>
+      `;
+
+      leftBarContainer.appendChild(productCard);
     } else {
       i--;
     }
@@ -77,8 +88,8 @@ function renderProductsLeftBar(data, leftBarContainer) {
 }
 
 fetchSingleProduct(Constants.id, Constants.detailContainer, Constants.url, createHtml);
-fetchProducts(Constants.leftBarContainer, Constants.loaderContainer, renderProductsLeftBar);
-fetchProductsForCarousel(Constants.leftBarContainer, Constants.loaderContainer, renderProductsLeftBar);
+fetchProducts(Constants.leftBarContainer, Constants.loaderContainer, renderProductsLeftBar, Constants.genderFilter, Constants.onSale);
+fetchProductsForCarousel(Constants.leftBarContainer, Constants.loaderContainer, Constants.genderFilter);
 
 export function createHtml(details) {
   const detailProductContainer = document.querySelector('.product-detail__description');

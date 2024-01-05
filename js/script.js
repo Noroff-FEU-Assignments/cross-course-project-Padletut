@@ -6,8 +6,9 @@ import { fetchProductsForCarousel } from "./fetch.js";
 import { loadFromStorage } from "./storage/local.js";
 import { toggleCartVisibility, initializeCart, closeCartOnClickOutside } from './togglecart.js';
 
+
 // Initialize the cart on page load
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('headerLoaded', async () => {
     const cartIcon = document.querySelector('.cart');
     const collapsibleCart = document.getElementById('collapsible-cart');
     const loaderContainer = document.getElementById('loader');
@@ -32,7 +33,8 @@ document.addEventListener('click', (event) => {
 });
 
 if (Constants.productContainer) {
-    fetchProducts(Constants.productContainer, Constants.loaderContainer, createProductCard);
+
+    fetchProducts(Constants.productContainer, Constants.loaderContainer, createProductCard, Constants.genderFilter, Constants.onSale);
 }
 
 // Fetch products and render the shopping cart
@@ -40,7 +42,7 @@ fetchProducts(Constants.collapsibleCartContainer, Constants.loaderContainer, ren
 
 
 if (Constants.carouselContainer) {
-    fetchProductsForCarousel(Constants.carouselContainer, Constants.loaderContainer);
+    fetchProductsForCarousel(Constants.carouselContainer, Constants.loaderContainer, Constants.genderFilter);
 }
 
 function createProductCard(data) {
@@ -53,6 +55,17 @@ function createProductCard(data) {
 
         const card = document.createElement('div');
         card.classList.add('products__item');
+
+        // On Sale badge
+        if (product.onSale) {
+            const saleBadge = document.createElement('span');
+            saleBadge.classList.add('products__item-sale-badge');
+            saleBadge.textContent = 'On Sale!';
+            // saleBadge.style.display = product.onSale ? 'block' : 'none';
+            saleBadge.setAttribute('aria-label', 'On Sale');
+            saleBadge.addEventListener('click', function () { window.location.href = `productdetail.html?id=${product.id}` });
+            card.appendChild(saleBadge);
+        }
 
         // Favorite icon container
         const favoriteContainer = document.createElement('div');
@@ -79,8 +92,21 @@ function createProductCard(data) {
         const cardTitle = document.createElement('h2');
         cardTitle.innerText = product.title;
 
-        const cardPrice = document.createElement('span');
-        cardPrice.innerText = "$" + product.price;
+        const productPriceContainer = document.createElement('div');
+        productPriceContainer.classList.add('products__item-price-container');
+
+        const discountedCardPrice = document.createElement('span');
+        discountedCardPrice.classList.add('products__item-discounted-price');
+        discountedCardPrice.innerText = `Now Only $${product.discountedPrice}`;
+        discountedCardPrice.setAttribute('aria-label', `Discounted price now only $${product.discountedPrice}`);
+
+        const originalCardPrice = document.createElement('span');
+        originalCardPrice.classList.add('products__item-price');
+        if (product.onSale) {
+            originalCardPrice.classList.add('on-sale');
+        }
+        originalCardPrice.innerText = `$${product.price}`;
+        originalCardPrice.setAttribute('aria-label', product.onSale ? `Original price was $${product.price}` : `Price is $${product.price}`);
 
         // Container for buttons
         const buttonContainer = document.createElement('div');
@@ -118,9 +144,12 @@ function createProductCard(data) {
         card.append(cardLink);
         cardLink.append(cardImage);
         cardLink.append(cardTitle);
-        cardLink.append(cardPrice);
+        cardLink.append(productPriceContainer);
+        productPriceContainer.append(originalCardPrice);
+        if (product.onSale) {
+            productPriceContainer.append(discountedCardPrice);
+        }
         card.append(cardFooter);
-
         cardBody.appendChild(card);
     });
 }
