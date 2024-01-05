@@ -363,6 +363,10 @@ nav li {
   line-height: 20px;
 }
 
+nav li span, nav li svg {
+  opacity: 0.5;
+}
+
 nav .enabled span, nav .enabled svg {
   color: white;
   opacity: 1;
@@ -2206,10 +2210,6 @@ textarea {
       line-height: 24px;
       padding: 0 0 0 60px;
       background: var(--primary-light-color);
-    }
-
-    nav li span, nav li svg {
-      opacity: 0.5;
     }
 
     .mobile-nav,
