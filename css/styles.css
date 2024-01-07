@@ -1963,7 +1963,7 @@ textarea {
   .container-checkoutpage {
     display: flex;
     margin-bottom: 5em;
-    margin-top: 4em;
+    margin-top: 9em;
     place-items: center;
   }
 
@@ -2089,7 +2089,7 @@ textarea {
      ----------------------------------- */
 
   .container-contact {
-    margin: 0 10% 8em;
+    margin: 10em 10% 8em;
   }
 
   /* -----------------------------------
@@ -2272,7 +2272,7 @@ textarea {
       flex-direction: column;
       flex: 0.7;
       max-width: 13em;
-      min-width: 20%;
+      min-width: 10%;
       margin-top: 0;
       order: -1;
     }
@@ -2332,7 +2332,7 @@ textarea {
 
     .products__content {
       padding-top: 0;
-      margin-top: -20px;
+      margin: -20px 0 6em 4em;
       grid-template-columns: repeat(auto-fill, minmax(14em, 1fr));
     }
 
@@ -2487,6 +2487,7 @@ textarea {
       padding: var(--button-size);
       margin-bottom: 0;
     }
+
 
     /* Payment & Shipment styling end */
 
