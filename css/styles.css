@@ -2315,6 +2315,7 @@ textarea {
       text-align: center;
       letter-spacing: -0.01em;
       font-feature-settings: "calt" off;
+      position: static;
     }
 
     footer img,
