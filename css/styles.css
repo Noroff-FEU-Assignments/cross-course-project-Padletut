@@ -834,7 +834,7 @@ legend {
   flex-direction: column;
   overflow: hidden;
   align-self: center;
-  flex: 5;
+  flex: 2;
 }
 
 .main-container a {
@@ -2299,7 +2299,7 @@ textarea {
 
 
     .container {
-      margin: 16em 0 0 41px;
+      margin: 16em 40px 40px;
       flex-direction: row;
       display: flex;
       gap: 4em;
