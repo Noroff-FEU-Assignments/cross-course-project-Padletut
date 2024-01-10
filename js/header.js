@@ -47,3 +47,20 @@ function setActiveMenuItem() {
         }
     });
 }
+
+if (document.body.classList.contains('product-list-page')) {
+    localStorage.setItem('lastProductList', window.location.href);
+}
+
+// Go back button
+document.addEventListener('headerLoaded', () => {
+    const goBackButton = document.querySelector('.go-back-btn');
+    if (!document.body.classList.contains('product-detail-page')) {
+        goBackButton.style.display = 'none';
+    } else {
+        goBackButton.addEventListener('click', function (event) {
+            event.preventDefault();
+            window.history.back();
+        });
+    }
+});
