@@ -24,12 +24,12 @@ export function initializeCarousel(trackSelector, data) {
   }
 
   function renderSlides() {
-    track.innerHTML = ''; // Clear the track
+    track.innerHTML = '';
 
     // Create a slide for each product
-    data.forEach((product) => { // Remove the unused 'index' variable
+    data.forEach((product) => {
       const slideElement = createSlideElement(product);
-      track.appendChild(slideElement); // Append the slide to the carousel track
+      track.appendChild(slideElement);
     });
 
     updateSlidePositions();
