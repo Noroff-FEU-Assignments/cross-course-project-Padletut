@@ -2144,7 +2144,7 @@ textarea {
     /* Header style */
 
     .header-style {
-      min-height: 22vh;
+      min-height: 14em;
       padding-bottom: 0;
       flex-direction: column;
       align-self: center;
