@@ -61,7 +61,6 @@ function createProductCard(data) {
             const saleBadge = document.createElement('span');
             saleBadge.classList.add('products__item-sale-badge');
             saleBadge.textContent = 'On Sale!';
-            // saleBadge.style.display = product.onSale ? 'block' : 'none';
             saleBadge.setAttribute('aria-label', 'On Sale');
             saleBadge.addEventListener('click', function () { window.location.href = `productdetail.html?id=${product.id}` });
             card.appendChild(saleBadge);
@@ -99,6 +98,11 @@ function createProductCard(data) {
         discountedCardPrice.classList.add('products__item-discounted-price');
         discountedCardPrice.innerText = `Now Only $${product.discountedPrice}`;
         discountedCardPrice.setAttribute('aria-label', `Discounted price now only $${product.discountedPrice}`);
+
+        const productGender = document.createElement('div');
+        productGender.classList.add('products__item-gender');
+        productGender.innerText = `Gender: ${product.gender}`;
+        productGender.setAttribute('aria-label', `Product gender ${product.gender}`);
 
         const originalCardPrice = document.createElement('span');
         originalCardPrice.classList.add('products__item-price');
@@ -144,6 +148,7 @@ function createProductCard(data) {
         card.append(cardLink);
         cardLink.append(cardImage);
         cardLink.append(cardTitle);
+        cardLink.append(productGender);
         cardLink.append(productPriceContainer);
         productPriceContainer.append(originalCardPrice);
         if (product.onSale) {

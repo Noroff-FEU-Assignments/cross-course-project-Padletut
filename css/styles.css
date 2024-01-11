@@ -113,6 +113,7 @@ input[name="fav-checkbox"] {
   margin-bottom: 4em;
   position: relative;
   width: 80%; 
+  padding-bottom: 1em;
 }
 
 .carousel__track {
@@ -937,15 +938,23 @@ legend {
   margin: 0 2rem 0.5rem 0.1rem;
 }
 
+.products__item-gender {
+  font-size: 0.95em;
+  color: var(--text-color);
+  margin-left: 0.5em;
+  margin-bottom: 1.5em;
+}
+
 .products__item-price {
   font-size: 0.85em;
   color: #0f0f0f;
   margin-right: 0.5em;
 }
 
-.products__item-price.on-sale {
+.on-sale {
   text-decoration: line-through;
 }
+
 
 .products__item-discounted-price {
   font-size: 1em;
@@ -957,9 +966,8 @@ legend {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
   width: 240px;
-  margin: 15px;
+  margin: 0 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 1%);
   border-radius: 4px;
   overflow: hidden;
@@ -980,11 +988,18 @@ legend {
 .products__carousel-item h2 {
   font-size: 14px;
   padding-left: 5%;
+  margin: 0;
+}
+
+.products__carousel-item .products__item-gender {
+  font-size: 0.75em;
+  margin-bottom: 0.5em;
+  margin-left: 0.85em;
 }
 
 .products__carousel-item span {
   font-size: 12px;
-  padding-left: 5%;
+  padding-left: 0.5em;
 }
 
 .products__carousel-item a {
@@ -1960,6 +1975,7 @@ textarea {
 
   .product-detail__description .product-detail__price h2 {
     transform: translate(0);
+    margin-left: 0.5em;
   }
 
     /* -----------------------------------
@@ -2353,7 +2369,6 @@ textarea {
 
     .product-detail__description h2 {
       transform: translateY(0);
-      padding-bottom: 3.5em;
     }
 
     .product-detail {
@@ -2369,8 +2384,10 @@ textarea {
     }
 
     .product-detail img:hover {
-      transform: scale(1.2);
+      transform: scale(2);
       z-index: 999;
+      position: absolute;
+      mix-blend-mode: normal;
     }
 
     .product-detail__image img {
@@ -2390,6 +2407,15 @@ textarea {
       flex: 1;
       padding-top: 0;
     }
+
+    .product-detail__gender {
+      margin: 2em 0 1em;
+    }
+
+    .product-detail__gender span {
+      font-weight: 600;
+    }
+
 
     .product-detail__description h4 {
       display: flex;

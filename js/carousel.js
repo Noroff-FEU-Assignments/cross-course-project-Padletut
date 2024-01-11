@@ -1,3 +1,5 @@
+
+
 // carousel.js
 export function initializeCarousel(trackSelector, data) {
   let currentIndex = 2;
@@ -28,7 +30,7 @@ export function initializeCarousel(trackSelector, data) {
 
     // Create a slide for each product
     data.forEach((product) => {
-      const slideElement = createSlideElement(product);
+      const slideElement = createSlideElement(product); // createSlideElement(product);
       track.appendChild(slideElement);
     });
 
@@ -36,21 +38,41 @@ export function initializeCarousel(trackSelector, data) {
   }
 
   function createSlideElement(product) {
+
+
+
     const card = document.createElement('div');
     card.className = 'products__carousel-item carousel__slide';
-    card.innerHTML = `
-          
-          <a href="productdetail.html?id=${product.id}" class="carousel-products__item">
-            <figure class="products__carousel-item-imageArea">
-              <img src="${product.image}" alt="${product.title}">
-            </figure>
-            <div class="products__carousel-item-textArea">
-              <h2>${product.title}</h2>
-              <span>$${product.price}</span>
-            </div>
-          </a>
-        `;
-    return card;
+    if (product.onSale) {
+      card.innerHTML = `
+                      <a href="productdetail.html?id=${product.id}" class="carousel-products__item">
+                        <figure class="products__carousel-item-imageArea">
+                          <img src="${product.image}" alt="${product.title}">
+                        </figure>
+                        <div class="products__carousel-item-textArea">
+                          <h2>${product.title}</h2>
+                          <div class="products__item-gender">Gender: ${product.gender}</div>
+                          <span class="products__item-discounted-price">Now Only $${product.discountedPrice}</span>
+                          <span class="on-sale">$${product.price}</span>
+                        </div>
+                      </a>
+                    `;
+      return card;
+    } else {
+      card.innerHTML = `
+                      <a href="productdetail.html?id=${product.id}" class="carousel-products__item">
+                            <figure class="products__carousel-item-imageArea">
+                              <img src="${product.image}" alt="${product.title}">
+                            </figure>
+                            <div class="products__carousel-item-textArea">
+                              <h2>${product.title}</h2>
+                              <div class="products__item-gender">Gender: ${product.gender}</div>
+                              <span>$${product.price}</span>
+                            </div>
+                          </a>
+                        `;
+      return card;
+    }
   }
 
   function moveSlide(direction) {
