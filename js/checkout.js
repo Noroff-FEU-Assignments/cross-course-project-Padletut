@@ -1,111 +1,150 @@
+import * as Constants from "./constants.js";
 import { cartKey } from "./constants.js";
-import { loadFromStorage, saveToStorage } from "./storage/local.js";
+import { loadFromStorage } from "./storage/local.js";
 import { fetchProducts } from "./fetch.js";
-
+import { goToTop } from "./gototop.js";
+import { removeFromCart, updateQuantity } from "./handlecart.js";
+import { renderShoppingCart } from "./renderCart.js";
 
 let checkoutTotal = 0;
-let globalData;
 
-const checkoutContainer = document.querySelector(".left-bar-checkoutpage");
+fetchProducts(Constants.checkoutContainer, Constants.loaderContainer, renderCheckout);
 
+export function renderCheckout(data, checkoutContainer) {
+  if (!Array.isArray(data) || !checkoutContainer || typeof checkoutContainer !== 'object') return;
 
-fetchProducts(checkoutContainer, undefined, renderCheckout)
+  const checkoutStorage = loadFromStorage(cartKey) || [];
 
-  .then(data => {
-    const checkoutStorage = loadFromStorage(cartKey);
-    globalData = data;
-    renderCheckout(data, checkoutStorage);
-  })
-  .catch(error => {
-    console.error(error);
-  });
+  // Clear the container first
+  checkoutContainer.innerHTML = '';
 
-
-function removeFromCheckout(event, key, data, checkoutStorage) {
-
-  const checkoutItemElement = event.target.closest(".left-bar__remove");
-
-  if (!checkoutItemElement) return;
-
-  const checkoutItemId = checkoutItemElement.id;
-
-  const checkoutItemToRemove = checkoutStorage.indexOf(checkoutItemId);
-  if (checkoutItemToRemove !== -1) {
-    checkoutStorage.splice(checkoutItemToRemove, 1);
-    saveToStorage(key, checkoutStorage);
-
-    checkoutContainer.innerHTML = "";
-    checkoutTotal = 0;
-    renderCheckout(data, checkoutStorage);
-  }
-}
-
-
-function renderCheckout(data, checkoutStorage) {
-
-
-  if (!checkoutStorage) return;
+  // Create the title
+  const titleElement = document.createElement('h2');
+  titleElement.textContent = 'Checkout';
+  checkoutContainer.appendChild(titleElement);
 
   checkoutTotal = 0;
 
-
-  for (const checkoutItemId of checkoutStorage) {
-
-    const product = data.find(item => item.id === checkoutItemId);
-
+  checkoutStorage.forEach(cartItem => {
+    const product = data.find(item => item.id === cartItem.id);
     if (product) {
-      checkoutTotal += product.price;
-      checkoutContainer.innerHTML += `<div class="left-bar__checkout">
-            <figure class="left-bar__checkout-imageArea">
-              <img src="${product.image}" alt="${product.title}">
-            </figure>
-            <div class="left-bar__checkout-textArea">
-              <h3>${product.title}</h3>
-              <span class="left-bar__price">$${product.price}</span>
-              <div class="left-bar__quantity">
-                <label for="${product.id}">Quantity</label>
-                <select name="quantity" class="quantity" id="${product.id}">
-                  <option value="1pcs">1 pcs</option>
-                  <option value="2pcs">2 pcs</option>
-                  <option value="3pcs">3 pcs</option>
-                  <option value="4pcs">4 pcs</option>
-                  <option value="5pcs">5 pcs</option>
-                  <option value="6pcs">6 pcs</option>
-                </select>
-              </div>
-              <div class="left-bar__remove" id="${checkoutItemId}">
-                <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M12.082 2.8562V3.61898H15.8959V5.14455H15.1332V15.0607C15.1332 15.8998 14.4466 16.5863 13.6076 16.5863H5.97976C5.14069 16.5863 4.45419 15.8998 4.45419 15.0607V5.14455H3.69141V3.61898H7.50532V2.8562H12.082ZM5.97976 15.0607H13.6076V5.14455H5.97976V15.0607ZM7.50532 6.67012H9.03089V13.5352H7.50532V6.67012ZM12.082 6.67012H10.5565V13.5352H12.082V6.67012Z"
-                    fill="#001F27" />
-                </svg>
-                <span>Remove from cart</span>
-              </div>
-            </div>
-          </div>`;
+      const totalItemPrice = product.discountedPrice * cartItem.quantity;
+      checkoutTotal += totalItemPrice;
+
+      // Create checkout item container
+      const checkoutItemDiv = document.createElement('div');
+      checkoutItemDiv.className = 'left-bar__checkout';
+      checkoutItemDiv.dataset.id = cartItem.id;
+
+      // Populate the checkout item with product data
+      checkoutItemDiv.innerHTML = `
+        <figure class="left-bar__checkout-imageArea">
+          <img src="${product.image}" alt="${product.title}">
+        </figure>
+        <div class="left-bar__checkout-textArea">
+          <h3>${product.title}</h3>
+          <span class="left-bar__price">$${totalItemPrice.toFixed(2)}</span>
+          <div class="left-bar__quantity">
+            Quantity: 
+          </div>
+        </div>`;
+
+      checkoutItemDiv.addEventListener('click', (event) => {
+        // Check if the source of the click is the quantity selector or any of its children
+        if (event.target.closest('.quantity-selector') || event.target.closest('.left-bar__remove')) {
+          event.preventDefault();
+          return;
+        }
+        window.location.href = `productdetail.html?id=${product.id}`;
+      });
+
+
+      // Create quantity selector
+      const quantitySelector = document.createElement('select');
+      quantitySelector.dataset.id = cartItem.id;
+      quantitySelector.className = 'quantity-selector';
+      for (let i = 1; i <= 10; i++) {
+        const option = document.createElement('option');
+        option.value = i;
+        option.textContent = i;
+        if (i === cartItem.quantity) option.selected = true;
+        quantitySelector.appendChild(option);
+      }
+
+      // Append the quantity selector to the checkout item
+      checkoutItemDiv.querySelector('.left-bar__quantity').appendChild(quantitySelector);
+
+      // Create remove button
+      const removeButton = document.createElement('button');
+      removeButton.className = 'left-bar__remove';
+      removeButton.dataset.id = cartItem.id;
+      removeButton.textContent = 'Remove';
+      removeButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+        removeFromCart(cartItem.id, Constants.collapsibleCartContainer, checkoutContainer, data);
+      });
+
+      // Append the remove button to the checkout item
+      checkoutItemDiv.querySelector('.left-bar__checkout-textArea').appendChild(removeButton);
+
+      // Append the checkout item to the container
+      checkoutContainer.appendChild(checkoutItemDiv);
+
+      // Attach event listener for quantity change
+      quantitySelector.addEventListener('change', (event) => {
+        event.stopPropagation();
+        const newQuantity = parseInt(event.target.value);
+        updateQuantity(cartItem.id, newQuantity, Constants.collapsibleCartContainer, checkoutContainer, data, true);
+      });
     }
-  }
-  checkoutContainer.innerHTML += `<div class="checkout-summary">
-                                                Items
-                                                <span>$ ${checkoutTotal.toFixed(2)}</span>
-                                                Shipping
-                                                <span>$ 10.00</span>
-                                                Tax
-                                                <span>$ ${(checkoutTotal * (25 / 100)).toFixed(2)}</span>
-                                                <span class="checkout-summary__total">
-                                                Total
-                                                </span>
-                                                <span>$ ${((checkoutTotal * 1.25) + 10).toFixed(2)}</span>
-                                    </div>`;
+  });
 
-  addRemoveEventListeners(checkoutStorage);
-};
+  // Create and append the checkout summary
+  const summaryDiv = document.createElement('div');
+  summaryDiv.className = 'checkout-summary';
+  summaryDiv.innerHTML = `
+    Items <span>$ ${checkoutTotal.toFixed(2)}</span>
+    Shipping <span>$ 10.00</span>
+    Tax <span>$ ${(checkoutTotal * 0.25).toFixed(2)}</span>
+    Total <span>$ ${((checkoutTotal * 1.25) + 10).toFixed(2)}</span>
+  `;
+  checkoutContainer.appendChild(summaryDiv);
 
-function addRemoveEventListeners(checkoutStorage) {
-  const removeButtons = document.querySelectorAll(".left-bar__remove");
-  removeButtons.forEach(button => {
-    button.addEventListener("click", (event) => {
-      removeFromCheckout(event, cartKey, globalData, checkoutStorage);
+  // Checkout Now button
+  const checkoutLabel = document.createElement('label');
+  checkoutLabel.id = 'checkout-label';
+  checkoutLabel.innerHTML = `
+    <object data="/svg/creditcard.svg"></object>Checkout Now
+  `;
+  checkoutLabel.onclick = goToTop;
+  checkoutContainer.appendChild(checkoutLabel);
+}
+if (Constants.checkoutContainer) {
+  Constants.checkoutContainer.querySelectorAll('.quantity-selector').forEach(selector => {
+    selector.addEventListener('change', (event) => {
+      const id = event.target.getAttribute('data-id');
+      const newQuantity = parseInt(event.target.value);
+      updateQuantity(id, newQuantity);
     });
+  });
+}
+
+const rightBarContainer = document.querySelector('.right-bar-checkoutpage');
+const leftBarContainer = document.querySelector('.left-bar-checkoutpage');
+document.onclick = function (event) {
+  if (event.target.matches('#checkout-label')) {
+    leftBarContainer.style.display = "none";
+    rightBarContainer.style.display = "flex";
+    goToTop();
+  }
+}
+
+const placeOrderButton = document.getElementById('submit-label');
+
+if (placeOrderButton) {
+  placeOrderButton.addEventListener('click', function () {
+    // Clear cart from local storage
+    localStorage.removeItem(Constants.cartKey);
+    renderShoppingCart(Constants.collapsibleCartContainer, Constants.cartKey);
   });
 }

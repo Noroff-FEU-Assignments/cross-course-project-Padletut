@@ -11,129 +11,40 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
+    <!-- Hotjar Tracking Code for https://inquisitive-lily-bba2a7.netlify.app -->
+    <script>
+      (function (h, o, t, j, a, r) {
+        h.hj = h.hj || function () { (h.hj.q = h.hj.q || []).push(arguments) };
+        h._hjSettings = { hjid: 3790420, hjsv: 6 };
+        a = o.getElementsByTagName('head')[0];
+        r = o.createElement('script'); r.async = 1;
+        r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+        a.appendChild(r);
+      })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
+    </script>
 
     <!-- "defer" makes the script file to be read at the end of HTML, "type" allows for import and export data -->
-    <script defer type="module" src="/js/detail.js"></script>
-    <script defer type="module" src="/js/cart.js"></script>
+    <script defer type="module" src="/js/header.js"></script>
+    <script defer type="module" src="js/detail.js"></script>
+
     <title>Product detail | RainyDays</title>
   </head>
 
-  <body>
-    <header class="header-style">
-      <div>
-        <a href="products.html">
-          <img src="images/RainyDays_Logo.png" alt="Rainydays logo">
-        </a>
-      </div>
-      <form action="POST" class="form-search form-searchProductDetail">
-        <label for="search-products">Search for Products</label>
-        <div class="search">
-          <input type="search" id="search-products" placeholder="Search...">
-          <input type="submit" value="Search">
-        </div>
-      </form>
-      <input type="checkbox" id="menu-checkbox">
-      <div class="header__link-container">
-        <div class="header__link account">
-          <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" clip-rule="evenodd"
-              d="M15.044 5.25061C12.3447 5.25061 10.1584 7.43691 10.1584 10.1362C10.1584 12.8355 12.3447 15.0218 15.044 15.0218C17.7433 15.0218 19.9296 12.8355 19.9296 10.1362C19.9296 7.43691 17.7433 5.25061 15.044 5.25061ZM17.4868 10.1362C17.4868 8.79266 16.3875 7.69341 15.044 7.69341C13.7005 7.69341 12.6012 8.79266 12.6012 10.1362C12.6012 11.4797 13.7005 12.579 15.044 12.579C16.3875 12.579 17.4868 11.4797 17.4868 10.1362ZM22.3724 21.1287C22.1281 20.2615 18.3418 18.6859 15.044 18.6859C11.7462 18.6859 7.9599 20.2615 7.71562 21.1409V22.35H22.3724V21.1287ZM5.27283 21.1286C5.27283 17.8797 11.7829 16.2431 15.044 16.2431C18.3051 16.2431 24.8151 17.8797 24.8151 21.1286V24.7928H5.27283V21.1286Z"
-              fill="#191C1D" />
-          </svg>
-          Account
-        </div>
-        <div class="header__link cart">
-          <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M26.8981 20.4579H9.85107L10.707 18.7145L24.9286 18.6888C25.4095 18.6888 25.8218 18.3453 25.9076 17.8701L27.8771 6.84601C27.9287 6.55689 27.8514 6.25917 27.6624 6.03302C27.5691 5.92172 27.4526 5.83207 27.3211 5.77028C27.1896 5.70849 27.0463 5.67605 26.901 5.67519L8.80907 5.61508L8.65449 4.88797C8.55716 4.42422 8.13921 4.08643 7.66401 4.08643H3.24123C2.97322 4.08643 2.71619 4.19289 2.52669 4.3824C2.33718 4.57191 2.23071 4.82893 2.23071 5.09694C2.23071 5.36494 2.33718 5.62197 2.52669 5.81148C2.71619 6.00099 2.97322 6.10745 3.24123 6.10745H6.84529L7.52088 9.31934L9.18407 17.372L7.04282 20.8672C6.93162 21.0173 6.86464 21.1955 6.84946 21.3817C6.83429 21.5679 6.87152 21.7546 6.95694 21.9207C7.1287 22.2614 7.47508 22.4761 7.85867 22.4761H9.65641C9.27316 22.9851 9.06614 23.6051 9.06671 24.2423C9.06671 25.8626 10.3835 27.1794 12.0038 27.1794C13.624 27.1794 14.9409 25.8626 14.9409 24.2423C14.9409 23.6039 14.729 22.9827 14.3511 22.4761H18.9629C18.5796 22.9851 18.3726 23.6051 18.3732 24.2423C18.3732 25.8626 19.69 27.1794 21.3102 27.1794C22.9305 27.1794 24.2473 25.8626 24.2473 24.2423C24.2473 23.6039 24.0355 22.9827 23.6576 22.4761H26.901C27.4563 22.4761 27.9115 22.0238 27.9115 21.4655C27.9098 21.1978 27.8023 20.9416 27.6125 20.7528C27.4226 20.5641 27.1658 20.458 26.8981 20.4579ZM9.22988 7.60748L25.713 7.66187L24.0984 16.7021L11.1507 16.725L9.22988 7.60748ZM12.0038 25.1469C11.5057 25.1469 11.0992 24.7404 11.0992 24.2423C11.0992 23.7442 11.5057 23.3377 12.0038 23.3377C12.5019 23.3377 12.9084 23.7442 12.9084 24.2423C12.9084 24.4822 12.8131 24.7123 12.6434 24.8819C12.4738 25.0516 12.2437 25.1469 12.0038 25.1469ZM21.3102 25.1469C20.8121 25.1469 20.4056 24.7404 20.4056 24.2423C20.4056 23.7442 20.8121 23.3377 21.3102 23.3377C21.8083 23.3377 22.2148 23.7442 22.2148 24.2423C22.2148 24.4822 22.1195 24.7123 21.9499 24.8819C21.7802 25.0516 21.5501 25.1469 21.3102 25.1469Z"
-              fill="#191C1D" />
-          </svg>
-
-          <span>Shoppingcart</span>
-        </div>
-
-        <label for="menu-checkbox" class="hamburger-icon"><i class="fas fa-bars"></i><i
-            class="hamburger-invisible">Toggle
-            menu</i></label>
-      </div>
-      <nav>
-        <span class="enabled mobile-nav">RainyDays - Pushing The Comfort Zone
-        </span>
-        <div class="nav__container">
-          <menu>
-            <li>
-              <a href="index.html">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                  class="nav__icon">
-                  <path
-                    d="M22.1836 11.836L13.1274 2.78443L12.5204 2.1774C12.382 2.04 12.195 1.96289 12 1.96289C11.8051 1.96289 11.618 2.04 11.4797 2.1774L1.81645 11.836C1.67473 11.9772 1.56272 12.1453 1.48705 12.3305C1.41137 12.5156 1.37355 12.7141 1.37583 12.9141C1.3852 13.7391 2.07192 14.3977 2.89692 14.3977H3.89302V22.0313H20.1071V14.3977H21.1243C21.525 14.3977 21.9024 14.2407 22.186 13.9571C22.3256 13.8179 22.4363 13.6524 22.5115 13.4701C22.5867 13.2879 22.6251 13.0925 22.6243 12.8954C22.6243 12.4969 22.4672 12.1196 22.1836 11.836ZM13.3125 20.3438H10.6875V15.5626H13.3125V20.3438ZM18.4196 12.7102V20.3438H14.8125V15.0001C14.8125 14.4821 14.393 14.0626 13.875 14.0626H10.125C9.60708 14.0626 9.18755 14.4821 9.18755 15.0001V20.3438H5.58052V12.7102H3.33052L12.0024 4.04537L12.5438 4.58678L20.6719 12.7102H18.4196Z"
-                    fill="white" />
-                </svg>
-                <span class="enabled">Home</span>
-              </a>
-            </li>
-            <li>
-              <a href="products.html">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                  class="nav__icon">
-                  <path
-                    d="M19.5 7.3125H16.3125V6.9375C16.3125 4.55625 14.3813 2.625 12 2.625C9.61875 2.625 7.6875 4.55625 7.6875 6.9375V7.3125H4.5C4.08516 7.3125 3.75 7.64766 3.75 8.0625V20.625C3.75 21.0398 4.08516 21.375 4.5 21.375H19.5C19.9148 21.375 20.25 21.0398 20.25 20.625V8.0625C20.25 7.64766 19.9148 7.3125 19.5 7.3125ZM9.375 6.9375C9.375 5.48672 10.5492 4.3125 12 4.3125C13.4508 4.3125 14.625 5.48672 14.625 6.9375V7.3125H9.375V6.9375ZM18.5625 19.6875H5.4375V9H7.6875V11.0625C7.6875 11.1656 7.77187 11.25 7.875 11.25H9.1875C9.29063 11.25 9.375 11.1656 9.375 11.0625V9H14.625V11.0625C14.625 11.1656 14.7094 11.25 14.8125 11.25H16.125C16.2281 11.25 16.3125 11.1656 16.3125 11.0625V9H18.5625V19.6875Z"
-                    fill="white" />
-                </svg>
-
-                <span class="enabled">Shop</span>
-              </a>
-            </li>
-            <li class="mobile-nav">
-              <a href="">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                  class="nav__icon">
-                  <path
-                    d="M20.1211 17.8969C19.679 16.8496 19.0374 15.8984 18.232 15.0961C17.4291 14.2915 16.478 13.65 15.4312 13.207C15.4219 13.2023 15.4125 13.2 15.4031 13.1953C16.8633 12.1406 17.8125 10.4227 17.8125 8.48438C17.8125 5.27344 15.2109 2.67188 12 2.67188C8.78906 2.67188 6.1875 5.27344 6.1875 8.48438C6.1875 10.4227 7.13672 12.1406 8.59687 13.1977C8.5875 13.2023 8.57812 13.2047 8.56875 13.2094C7.51875 13.6523 6.57656 14.2875 5.76797 15.0984C4.96338 15.9013 4.32188 16.8524 3.8789 17.8992C3.44372 18.924 3.20902 20.0228 3.1875 21.1359C3.18687 21.161 3.19126 21.1858 3.2004 21.2091C3.20954 21.2324 3.22326 21.2537 3.24073 21.2716C3.2582 21.2895 3.27909 21.3037 3.30214 21.3134C3.3252 21.3231 3.34998 21.3281 3.375 21.3281H4.78125C4.88437 21.3281 4.9664 21.2461 4.96875 21.1453C5.01562 19.3359 5.74219 17.6414 7.02656 16.357C8.35547 15.0281 10.1203 14.2969 12 14.2969C13.8797 14.2969 15.6445 15.0281 16.9734 16.357C18.2578 17.6414 18.9844 19.3359 19.0312 21.1453C19.0336 21.2484 19.1156 21.3281 19.2187 21.3281H20.625C20.65 21.3281 20.6748 21.3231 20.6979 21.3134C20.7209 21.3037 20.7418 21.2895 20.7593 21.2716C20.7767 21.2537 20.7905 21.2324 20.7996 21.2091C20.8087 21.1858 20.8131 21.161 20.8125 21.1359C20.7891 20.0156 20.557 18.9258 20.1211 17.8969ZM12 12.5156C10.9242 12.5156 9.91172 12.0961 9.15 11.3344C8.38828 10.5727 7.96875 9.56016 7.96875 8.48438C7.96875 7.40859 8.38828 6.39609 9.15 5.63437C9.91172 4.87266 10.9242 4.45312 12 4.45312C13.0758 4.45312 14.0883 4.87266 14.85 5.63437C15.6117 6.39609 16.0312 7.40859 16.0312 8.48438C16.0312 9.56016 15.6117 10.5727 14.85 11.3344C14.0883 12.0961 13.0758 12.5156 12 12.5156Z"
-                    fill="#DBE4E8" />
-                </svg>
-                <span class="enabled">Account</span>
-              </a>
-            </li>
-            <li class="mobile-nav-seperator">
-              <hr>
-            </li>
-            <li class="mobile-nav">
-              <a href="contact.html">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                  class="nav__icon">
-                  <path
-                    d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z"
-                    stroke="#DBE4E8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                  <path
-                    d="M12 2C9.87827 2 7.84344 2.84285 6.34315 4.34315C4.84285 5.84344 4 7.87827 4 10C4 11.892 4.402 13.13 5.5 14.5L12 22L18.5 14.5C19.598 13.13 20 11.892 20 10C20 7.87827 19.1571 5.84344 17.6569 4.34315C16.1566 2.84285 14.1217 2 12 2V2Z"
-                    stroke="#DBE4E8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-                <span class="enabled">Contact</span>
-              </a>
-            </li>
-            <li class="mobile-nav">
-              <a href="about.html">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                  class="nav__icon">
-                  <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM18.36 16.83C16.93 15.09 13.46 14.5 12 14.5C10.54 14.5 7.07 15.09 5.64 16.83C4.62 15.49 4 13.82 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 13.82 19.38 15.49 18.36 16.83ZM8.5 9.5C8.5 7.56 10.06 6 12 6C13.94 6 15.5 7.56 15.5 9.5C15.5 11.44 13.94 13 12 13C10.06 13 8.5 11.44 8.5 9.5Z"
-                    fill="#DBE4E8" />
-                </svg>
-                <span class="enabled">About</span>
-              </a>
-            </li>
-          </menu>
-        </div>
-      </nav>
+  <body class="product-detail-page">
+    <header class="header-style header-styleProductspage" id="header-placeholder">
+      <!-- Dynamic header content will be loaded here -->
     </header>
     <main>
+      <div id="collapsible-cart" class="collapsible-cart">
+        <!-- Cart Content Will Be Dynamically Loaded Here -->
+      </div>
       <h1 class="h1-invisible">Product detail site</h1>
+
       <section class="container container-productdetail">
 
         <!-- Main (center products) -->
 
-        <div class="item main-container">
+        <div class="item main-container main-container__detail">
           <section class="product-detail">
             <div class="loader"></div>
 
@@ -141,10 +52,9 @@
 
               <form action="checkout.html">
                 <div>
-                  <div>
+                  <div class="select-color__image__container">
                     <label for="select-color" class="select-color__image">
-                      Select Color
-                      <img src="/images/products/RainyDays_Jacket6.png" alt="Select color">
+
                     </label>
                   </div>
                   <input type="radio" id="select-color" checked>
@@ -165,40 +75,44 @@
                   </select>
                 </div>
                 <div class="product-detail__formbuttons">
-                  <label id="submit-label">
-                    <input type="submit" value="Buy Now">
+                  <label id="buy-now-label" for="buy-now-button">
+                    <input type="submit" value="Buy Now" class="buynow" id="buy-now-button">
                     <object data="/svg/buynow.svg"></object>Buy Now</label>
-                  <a class="addToCart" href="#">
-                    <object data="/svg/cart.svg"></object>
-                    Add to cart</a>
+                  <a class="addToCart" href="#" id="add-to-cart-button">
+                    <object class="icon-container"></object>
+                    <span>Add to cart</span></a>
                 </div>
               </form>
             </div>
             <hr class="mobile-seperator">
           </section>
 
-          <!-- Carousel -->
-          <section class="carousel">
-            <div class="carousel__header">
-              <h2>Finish the look</h2>
-              <a href="#">See all</a>
+          <!-- Carousel container -->
+          <div class="carousel">
+            <button class="carousel__arrow carousel__arrow--left">
+              <i class="fas fa-chevron-left" aria-hidden="true"></i>
+              <span class="visually-hidden">Previous Slide</span>
+            </button>
+            <div class="carousel__track-container">
+              <ul class="carousel__track" id="carouselTrack">
+                <!-- Carousel items will be inserted here by JavaScript -->
+              </ul>
             </div>
-            <a href="products.html">
-              <img src="images/carousel_mimic_transp.png" alt="Carousel mimic">
-              <hr class="mobile-seperator">
-            </a>
-          </section>
+            <button class="carousel__arrow carousel__arrow--right">
+              <i class="fas fa-chevron-right" aria-hidden="true"></i>
+              <span class="visually-hidden">Next Slide</span>
+            </button>
+          </div>
         </div>
 
         <!-- Left bar -->
-        <section class="item left-bar">
-          <h2>Other Customer also bought</h2>
-          <div class="loader"></div>
-        </section>
+        <aside class="item left-bar left-bar-productpage">
+          <div class="left-bar__loader"></div>
+        </aside>
 
         <!--  Right bar  -->
 
-        <div class="item right-bar right-bar-productpage">
+        <aside class="item right-bar right-bar-productpage right-bar-detail">
           <div>
             <h2>Customer reviews</h2>
             <div class="right-bar__reviews">
@@ -262,7 +176,7 @@
           <div>
             <a href="">See more reviews</a>
           </div>
-        </div>
+        </aside>
       </section>
     </main>
     <footer>
@@ -288,7 +202,7 @@
           </a>
         </div>
         <div class="mobile-footer__links">
-          <a href="products.html">
+          <a href="products_man.html">
             <div class="svg">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -296,7 +210,19 @@
                   fill="#061E25" />
               </svg>
             </div>
-            <div>Shop</div>
+            <div>Men's Gear</div>
+          </a>
+        </div>
+        <div class="mobile-footer__links">
+          <a href="products_woman.html">
+            <div class="svg">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M19.5 7.3125H16.3125V6.9375C16.3125 4.55625 14.3813 2.625 12 2.625C9.61875 2.625 7.6875 4.55625 7.6875 6.9375V7.3125H4.5C4.08516 7.3125 3.75 7.64766 3.75 8.0625V20.625C3.75 21.0398 4.08516 21.375 4.5 21.375H19.5C19.9148 21.375 20.25 21.0398 20.25 20.625V8.0625C20.25 7.64766 19.9148 7.3125 19.5 7.3125ZM9.375 6.9375C9.375 5.48672 10.5492 4.3125 12 4.3125C13.4508 4.3125 14.625 5.48672 14.625 6.9375V7.3125H9.375V6.9375ZM18.5625 19.6875H5.4375V9H7.6875V11.0625C7.6875 11.1656 7.77187 11.25 7.875 11.25H9.1875C9.29063 11.25 9.375 11.1656 9.375 11.0625V9H14.625V11.0625C14.625 11.1656 14.7094 11.25 14.8125 11.25H16.125C16.2281 11.25 16.3125 11.1656 16.3125 11.0625V9H18.5625V19.6875Z"
+                  fill="#061E25" />
+              </svg>
+            </div>
+            <div>Women's Gear</div>
           </a>
         </div>
         <div class="mobile-footer__links">

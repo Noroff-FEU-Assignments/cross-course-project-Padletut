@@ -1,63 +1,160 @@
-import { cartKey } from "./constants.js";
+import * as Constants from './constants.js';
 import { fetchProducts } from "./fetch.js";
-import { renderShoppingCart, removeFromCart } from "./cart.js";
+import { renderShoppingCart } from "./renderCart.js";
+import { addToShoppingCart } from "./handlecart.js";
+import { fetchProductsForCarousel } from "./fetch.js";
+import { loadFromStorage } from "./storage/local.js";
+import { toggleCartVisibility, initializeCart, closeCartOnClickOutside } from './togglecart.js';
 
-const productContainer = document.querySelector(".products__content");
-const loaderContainer = document.querySelector(".loader");
-const shoppingCartContainer = document.querySelector(".right-bar");
+
+// Initialize the cart on page load
+document.addEventListener('headerLoaded', async () => {
+    const cartIcon = document.querySelector('.cart');
+    const collapsibleCart = document.getElementById('collapsible-cart');
+    const loaderContainer = document.getElementById('loader');
+
+    // Initialize the cart with products
+    await initializeCart(collapsibleCart, loaderContainer);
+
+    // Toggle cart visibility when the cart icon is clicked
+    cartIcon.addEventListener('click', () => toggleCartVisibility(collapsibleCart));
+
+    // Close cart when clicking outside
+    closeCartOnClickOutside(collapsibleCart);
+
+});
+
+document.addEventListener('click', (event) => {
+    if (event.target.matches('.cart-close-button')) {
+        // Close the cart
+        Constants.collapsibleCartContainer.style.right = '-100%';
+        event.preventDefault();
+    }
+});
+
+if (Constants.productContainer) {
+
+    fetchProducts(Constants.productContainer, Constants.loaderContainer, createProductCard, Constants.genderFilter, Constants.onSale);
+}
+
+// Fetch products and render the shopping cart
+fetchProducts(Constants.collapsibleCartContainer, Constants.loaderContainer, renderShoppingCart);
 
 
-fetchProducts(productContainer, loaderContainer, createProductCard)
-
-    .then(data => {
-        renderShoppingCart(data, shoppingCartContainer);
-
-        shoppingCartContainer.addEventListener("click", (event) => {
-            removeFromCart(event, cartKey, data, shoppingCartContainer);
-        });
-    })
-    .catch(error => {
-        console.error(error);
-    });
-
+if (Constants.carouselContainer) {
+    fetchProductsForCarousel(Constants.carouselContainer, Constants.loaderContainer, Constants.genderFilter);
+}
 
 function createProductCard(data) {
-    loaderContainer.style.display = "none";
-    const cardBody = productContainer;
-    for (let i = 0; i < data.length; i++) {
+    Constants.loaderContainer.style.display = "none";
+    const cardBody = Constants.productContainer;
+    const cartData = loadFromStorage(Constants.cartKey) || [];
+
+    data.forEach(product => {
+        const isProductAdded = cartData.some(cartItem => cartItem.id === product.id);
+
         const card = document.createElement('div');
         card.classList.add('products__item');
-        card.innerHTML = `<div class="products__item-favoritecontainer">
-                            <input type="checkbox" id="favIcon-checkbox${data[i].id}" name="fav-checkbox">
-                            <label class="favorite" for="favIcon-checkbox${data[i].id}">
-                                <img class="favorite-checked" src="svg/favIconChecked.svg" alt="Remove from favorite">
-                                <img class="favorite-unchecked" src="svg/favIcon.svg" alt="Add to favorite">
-                            </label>`
 
-        const cardTitle = document.createElement('h2');
-        cardTitle.innerText = data[i].title;
+        // On Sale badge
+        if (product.onSale) {
+            const saleBadge = document.createElement('span');
+            saleBadge.classList.add('products__item-sale-badge');
+            saleBadge.textContent = 'On Sale!';
+            saleBadge.setAttribute('aria-label', 'On Sale');
+            saleBadge.addEventListener('click', function () { window.location.href = `productdetail.html?id=${product.id}` });
+            card.appendChild(saleBadge);
+        }
 
-        const cardTextArea = document.createElement('div');
-        cardTextArea.classList.add('products__item-textArea');
+        // Favorite icon container
+        const favoriteContainer = document.createElement('div');
+        favoriteContainer.classList.add('products__item-favoritecontainer');
+        favoriteContainer.innerHTML = `
+                                        <fieldset>
+                                            <legend>Favorite Product</legend>
+                                            <input type="checkbox" id="favIcon-checkbox${product.id}" name="fav-checkbox">
+                                            <label class="favorite" for="favIcon-checkbox${product.id}">
+                                                <img class="favorite-checked" src="svg/favIconChecked.svg" alt="Remove from favorite">
+                                                <img class="favorite-unchecked" src="svg/favIcon.svg" alt="Add to favorite">
+                                            </label>
+                                        </fieldset>`;
+
+
+        const cardLink = document.createElement('a');
+        cardLink.href = `productdetail.html?id=${product.id}`;
+        cardLink.classList.add('products__item-link');
 
         const cardImage = document.createElement('figure');
         cardImage.classList.add('products__item-imageArea');
-        cardImage.innerHTML = `<img src="${data[i].image}" alt="${data[i].title}">`;
+        cardImage.innerHTML = `<img src="${product.image}" alt="Product title ${product.title}">`;
 
-        const cardLink = document.createElement('a');
-        cardLink.href = `productdetail.html?id=${data[i].id}`;
-        cardLink.classList.add('products__item');
+        const cardTitle = document.createElement('h2');
+        cardTitle.innerText = product.title;
 
-        const cardPrice = document.createElement('span');
-        cardPrice.innerText = "$" + data[i].price;
+        const productPriceContainer = document.createElement('div');
+        productPriceContainer.classList.add('products__item-price-container');
 
-        cardBody.append(card);
+        const discountedCardPrice = document.createElement('span');
+        discountedCardPrice.classList.add('products__item-discounted-price');
+        discountedCardPrice.innerText = `Now Only $${product.discountedPrice}`;
+        discountedCardPrice.setAttribute('aria-label', `Discounted price now only $${product.discountedPrice}`);
+
+        const productGender = document.createElement('div');
+        productGender.classList.add('products__item-gender');
+        productGender.innerText = `Gender: ${product.gender}`;
+        productGender.setAttribute('aria-label', `Product gender ${product.gender}`);
+
+        const originalCardPrice = document.createElement('span');
+        originalCardPrice.classList.add('products__item-price');
+        if (product.onSale) {
+            originalCardPrice.classList.add('on-sale');
+        }
+        originalCardPrice.innerText = `$${product.price}`;
+        originalCardPrice.setAttribute('aria-label', product.onSale ? `Original price was $${product.price}` : `Price is $${product.price}`);
+
+        // Container for buttons
+        const buttonContainer = document.createElement('div');
+        buttonContainer.classList.add('products__item-actions');
+
+        // Add to Cart button
+        const addToCartButton = document.createElement('button');
+        addToCartButton.textContent = isProductAdded ? 'In Cart' : 'Add to Cart';
+        addToCartButton.classList.add('products__item-button', isProductAdded ? 'in-cart' : 'add-to-cart-btn');
+        addToCartButton.disabled = isProductAdded;
+        addToCartButton.setAttribute('data-id', product.id);
+        addToCartButton.addEventListener('click', () => {
+            addToShoppingCart(product.id, data, Constants.collapsibleCartContainer);
+        });
+
+        // Buy Now button
+        const buyNowButton = document.createElement('button');
+        buyNowButton.textContent = 'Buy Now';
+        buyNowButton.classList.add('products__item-button', 'buy-now-btn');
+        buyNowButton.addEventListener('click', function () {
+            // If the product is not in the cart, add it
+            if (!isProductAdded) {
+                addToShoppingCart(product.id, data, Constants.collapsibleCartContainer);
+            }
+            window.location.href = 'checkout.html';
+        });
+
+        const cardFooter = document.createElement('div');
+        cardFooter.classList.add('products__item-footer');
+
+        cardFooter.appendChild(addToCartButton);
+        cardFooter.appendChild(buyNowButton);
+
+        card.append(favoriteContainer);
         card.append(cardLink);
         cardLink.append(cardImage);
-        cardLink.append(cardTextArea);
-        cardTextArea.append(cardTitle);
-        cardTextArea.append(cardPrice);
-
-    }
-
+        cardLink.append(cardTitle);
+        cardLink.append(productGender);
+        cardLink.append(productPriceContainer);
+        productPriceContainer.append(originalCardPrice);
+        if (product.onSale) {
+            productPriceContainer.append(discountedCardPrice);
+        }
+        card.append(cardFooter);
+        cardBody.appendChild(card);
+    });
 }
