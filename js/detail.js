@@ -18,8 +18,6 @@ fetch('/svg/cart.svg')
 
 document.addEventListener('headerLoaded', async () => {
   const cartIcon = document.querySelector('.cart');
-  //const loaderContainer = document.getElementById('loader');
-
 
   // Fetch products and render the shopping cart
   try {
@@ -57,7 +55,6 @@ function renderProductsLeftBar(data, leftBarContainer) {
         const saleBadge = document.createElement('span');
         saleBadge.classList.add('products__item-sale-badge');
         saleBadge.textContent = 'On Sale!';
-        // Add styles or classes to saleBadge if needed
         productCard.appendChild(saleBadge);
       }
 

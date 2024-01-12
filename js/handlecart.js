@@ -51,8 +51,8 @@ export function updateQuantity(id, change, collapsibleCartContainer, checkoutCon
     const itemIndex = cartArray.findIndex(item => item.id === id);
 
     if (itemIndex !== -1) {
-        // If the change is absolute (from a selector), set the quantity to that value
-        // Otherwise, treat it as a relative change (from plus/minus buttons)
+        // If the change is absolute, set the quantity to that value
+        // Otherwise, treat it as a relative change
         cartArray[itemIndex].quantity = isAbsolute ? change : cartArray[itemIndex].quantity + change;
 
         if (cartArray[itemIndex].quantity <= 0) {
@@ -111,7 +111,7 @@ export function updateCartItemCount(count) {
     }
 }
 
-
+// Function to update the add to cart button state on the product detail page
 export const detail_updateAddToCartButtonState = (cartData) => {
     const queryString = document.location.search;
     const params = new URLSearchParams(queryString);

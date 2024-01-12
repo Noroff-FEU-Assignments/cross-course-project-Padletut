@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Set active menu item
         setActiveMenuItem();
 
-        // Emit a custom event to signal that the header is loaded
         document.dispatchEvent(new CustomEvent('headerLoaded'));
     } catch (error) {
         console.error('Error loading header:', error);

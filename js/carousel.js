@@ -30,7 +30,7 @@ export function initializeCarousel(trackSelector, data) {
 
     // Create a slide for each product
     data.forEach((product) => {
-      const slideElement = createSlideElement(product); // createSlideElement(product);
+      const slideElement = createSlideElement(product);
       track.appendChild(slideElement);
     });
 
@@ -84,6 +84,5 @@ export function initializeCarousel(trackSelector, data) {
   prevArrow.addEventListener('click', () => moveSlide(-1));
   nextArrow.addEventListener('click', () => moveSlide(1));
 
-  // Initial render
   renderSlides();
 }

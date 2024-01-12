@@ -1,4 +1,3 @@
-// togglecart.js
 import { fetchProducts } from './fetch.js';
 import { renderShoppingCart } from './renderCart.js';
 
@@ -18,10 +17,10 @@ export const toggleCartVisibility = (cartElement) => {
 export const closeCartOnClickOutside = (cartElement) => {
     document.addEventListener('click', function (event) {
         const isClickInsideCart = cartElement.contains(event.target);
-        const isClickOnCartIcon = event.target.closest('.cart'); // Modify this selector to match your cart icon
+        const isClickOnCartIcon = event.target.closest('.cart');
 
         if (!isClickInsideCart && !isClickOnCartIcon) {
-            cartElement.style.right = '-100%'; // Adjust this as per your cart's closing logic
+            cartElement.style.right = '-100%';
         }
     });
 };

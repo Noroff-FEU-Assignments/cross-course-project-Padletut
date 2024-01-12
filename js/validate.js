@@ -9,9 +9,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     if (submitButton.disabled) {
-        submitLabel.classList.add('disabled'); // Add the class if the button is disabled
+        submitLabel.classList.add('disabled');
     } else {
-        submitLabel.classList.remove('disabled'); // Remove it if the button is enabled
+        submitLabel.classList.remove('disabled');
     }
 
     function validateInput(input) {
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Prevent the default form submission and validate all fields when attempting to submit
     submitButton.addEventListener('click', function (event) {
-        event.preventDefault(); // Prevent form from submitting
+        event.preventDefault();
         inputs.forEach(validateInput);
         const allFieldsValid = inputs.every(function (input) {
             return input.classList.contains('valid');

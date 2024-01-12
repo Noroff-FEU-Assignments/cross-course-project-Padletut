@@ -50,7 +50,6 @@ export function renderCheckout(data, checkoutContainer) {
         </div>`;
 
       checkoutItemDiv.addEventListener('click', (event) => {
-        // Check if the source of the click is the quantity selector or any of its children
         if (event.target.closest('.quantity-selector') || event.target.closest('.left-bar__remove')) {
           event.preventDefault();
           return;
@@ -84,10 +83,8 @@ export function renderCheckout(data, checkoutContainer) {
         removeFromCart(cartItem.id, Constants.collapsibleCartContainer, checkoutContainer, data);
       });
 
-      // Append the remove button to the checkout item
-      checkoutItemDiv.querySelector('.left-bar__checkout-textArea').appendChild(removeButton);
 
-      // Append the checkout item to the container
+      checkoutItemDiv.querySelector('.left-bar__checkout-textArea').appendChild(removeButton);
       checkoutContainer.appendChild(checkoutItemDiv);
 
       // Attach event listener for quantity change
