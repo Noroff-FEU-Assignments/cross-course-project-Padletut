@@ -1,6 +1,3 @@
-
-
-// carousel.js
 export function initializeCarousel(trackSelector, data) {
   let currentIndex = 2;
   const track = document.querySelector(trackSelector);
