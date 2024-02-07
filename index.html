@@ -43,6 +43,174 @@
             </div>
             <h1 class="h1-invisible">Product site</h1>
             <section class="container">
+                <aside class="item left-bar">
+                    <h2>Filter products</h2>
+                    <input type="checkbox" id="size-container__toggler" checked>
+                    <form action="POST" class="size-container">
+                        <h2>
+                            <label id="size-container__show" for="size-container__toggler">
+                                Size
+                                <i class="toggler-icon">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7 10L12 15L17 10H7Z" fill="black" />
+                                    </svg>
+                                </i>
+                            </label>
+                        </h2>
+
+                        <div>
+                            <input class="size-filter" aria-label="XS" type="checkbox" name="XS" id="XS">
+                            <label for="XS">XS</label>
+                        </div>
+                        <div>
+                            <input class="size-filter" aria-label="S" type="checkbox" name="S" id="S">
+                            <label for="S">S</label>
+                        </div>
+                        <div>
+                            <input class="size-filter" aria-label="M" type="checkbox" name="M" id="M">
+                            <label for="M">M</label>
+                        </div>
+                        <div>
+                            <input class="size-filter" aria-label="L" type="checkbox" name="L" id="L">
+                            <label for="L">L</label>
+                        </div>
+                        <div>
+                            <input class="size-filter" aria-label="XL" type="checkbox" name="XL" id="XL">
+                            <label for="XL">XL</label>
+                        </div>
+                        <div>
+                            <input class="size-filter" aria-label="XXL" type="checkbox" name="XXL" id="XXL">
+                            <label for="XXL">XXL</label>
+                        </div>
+                        <hr>
+                    </form>
+                    <input type="checkbox" id="color-selector__toggler" checked>
+                    <form action="POST" class="color-selector">
+                        <h2>
+                            <label id="color-selector__show" for="color-selector__toggler">
+                                Color
+                                <i class="toggler-icon">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7 10L12 15L17 10H7Z" fill="black" />
+                                    </svg>
+                                </i>
+                            </label>
+                        </h2>
+                        <fieldset>
+                            <legend>Select color to filter</legend>
+                            <input class="color-filter" aria-label="all" type="radio" name="color" value="all" id="all"
+                                checked title="All colors">
+                            <label for="all">
+                                <i>All</i>
+                                <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12.5" cy="12.5" r="12.5" fill="none" stroke="#838383" />
+                                </svg>
+                            </label>
+                            <input class="color-filter" aria-label="red" type="radio" name="color" value="Red" id="red"
+                                title="Red color">
+                            <label for="red">
+                                <i>Red</i>
+                                <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12.5" cy="12.5" r="12.5" fill="#BA1A1A" />
+                                </svg>
+                            </label>
+                            <input class="color-filter" aria-label="orange" type="radio" name="color" value="orange"
+                                id="orange" title="Orange color">
+                            <label for="orange">
+                                <i>Orange</i>
+                                <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12.5" cy="12.5" r="12.5" fill="#EDB900" />
+                                </svg>
+                            </label>
+                            <input class="color-filter" aria-label="yellow" type="radio" name="color" value="yellow"
+                                id="yellow" title="Yellow color">
+                            <label for="yellow">
+                                <i>Yellow</i>
+                                <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12.5" cy="12.5" r="12.5" fill="#FBFF2E" />
+                                </svg>
+                            </label>
+                            <input class="color-filter" aria-label="green" type="radio" name="color" value="green"
+                                id="green" title="Green color">
+                            <label for="green">
+                                <i>Green</i>
+                                <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12.5" cy="12.5" r="12.5" fill="#408A34" />
+                                </svg>
+                            </label>
+                            <input class="color-filter" aria-label="violet" type="radio" name="color" value="violet"
+                                id="violet" title="Violet color">
+                            <label for="violet">
+                                <i>Violet</i>
+                                <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12.5" cy="12.5" r="12.5" fill="#3921C8" />
+                                </svg>
+                            </label>
+                            <input class="color-filter" aria-label="purple" type="radio" name="color" value="purple"
+                                id="purple" title="Purple color">
+                            <label for="purple">
+                                <i>Purple</i>
+                                <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12.5" cy="12.5" r="12.5" fill="#820C95" />
+                                </svg>
+                            </label>
+                            <input class="color-filter" aria-label="brown" type="radio" name="color" value="brown"
+                                id="brown" title="Brown color">
+                            <label for="brown">
+                                <i>Brown</i>
+                                <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12.5" cy="12.5" r="12.5" fill="#A47C15" />
+                                </svg>
+                            </label>
+                            <input class="color-filter" aria-label="grey" type="radio" name="color" value="grey"
+                                id="grey" title="Grey color">
+                            <label for="grey">
+                                <i>Grey</i>
+                                <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12.5" cy="12.5" r="12.5" fill="#888888" />
+                                </svg>
+                            </label>
+                            <input class="color-filter" aria-label="black" type="radio" name="color" value="black"
+                                id="black" title="Black color">
+                            <label for="black">
+                                <i>Black</i>
+                                <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12.5" cy="12.5" r="12.5" fill="#1B1A1A" />
+                                </svg>
+                            </label>
+                            <input class="color-filter" aria-label="white" type="radio" name="color" value="white"
+                                id="white" title="White color">
+                            <label for="white">
+                                <i>White</i>
+                                <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12.5" cy="12.5" r="12.25" fill="white" stroke="#B3B3B3" />
+                                </svg>
+                            </label>
+                            <input class="color-filter" aria-label="pink" type="radio" name="color" value="pink"
+                                id="pink" title="Pink color">
+                            <label for="pink">
+                                <i>Pink</i>
+                                <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12.5" cy="12.5" r="12.5" fill="#F1AEAE" />
+                                </svg>
+                            </label>
+                        </fieldset>
+                    </form>
+                </aside>
                 <!-- Main (center products) -->
 
                 <section class="item main-container">
@@ -68,21 +236,10 @@
                             <span class="visually-hidden">Next Slide</span>
                         </button>
                     </div>
-
-
                     <section class="products__content">
-                        <div class="products__content__header">
-                            <h2 id="product-header">On Sale</h2>
-                            <a href="">See all</a>
-                        </div>
                         <div class="loader"></div>
                     </section>
                 </section>
-
-                <!--  Right bar (shoppingcart) -->
-
-                <aside class="item right-bar">
-                </aside>
             </section>
         </main>
         <footer>

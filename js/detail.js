@@ -35,11 +35,12 @@ document.addEventListener('headerLoaded', async () => {
 });
 
 
-function renderProductsLeftBar(data, leftBarContainer) {
+
+function renderProductsLeftBar(data) {
   Constants.leftBarLoaderContainer.style.display = "none";
   const randomProducts = [];
 
-  leftBarContainer.innerHTML = '<h2>Other Customers Also Bought</h2>';
+  Constants.leftBarContainer.innerHTML = '<h2>Other Customers Also Bought</h2>';
 
   for (let i = 0; i < 4; i++) {
     const randomProduct = Math.floor(Math.random() * data.length);
@@ -51,12 +52,25 @@ function renderProductsLeftBar(data, leftBarContainer) {
       const productCard = document.createElement('div');
       productCard.classList.add('products__item');
 
-      if (product.onSale) {
+      if (product.on_sale) {
         const saleBadge = document.createElement('span');
         saleBadge.classList.add('products__item-sale-badge');
         saleBadge.textContent = 'On Sale!';
         productCard.appendChild(saleBadge);
       }
+
+      product.prices.sale_price = Number((product.prices.sale_price) / 100).toFixed(2);
+      let productGender;
+      if (product.categories[0].id === 17) {
+        productGender = `Gender: Men`;
+      }
+      else if (product.categories[0].id === 26) {
+        productGender = `Gender: Women`;
+      }
+
+      const productName = document.createElement('h2');
+      productName.innerHTML = product.name;
+      console.log(productName.textContent);
 
       productCard.innerHTML += `
         <div class="products__item-favoritecontainer">
@@ -68,17 +82,17 @@ function renderProductsLeftBar(data, leftBarContainer) {
         </div>
         <a href="productdetail.html?id=${product.id}">
           <figure class="products__item-imageArea">
-            <img src="${product.image}" alt="${product.title}">
+            <img src="${product.images[0].src}" alt="${productName.textContent}">
           </figure>
           <div class="products__item-textArea">
-            <h2>${product.title}</h2>
-            <span>Gender: ${product.gender}</span>
-            <span>$${product.discountedPrice}</span>
+            <h2>${productName.textContent}</h2>
+            <span>${productGender}</span>         
+            <span>${product.prices.currency_prefix} ${product.prices.sale_price}</span>
           </div>
         </a>
       `;
 
-      leftBarContainer.appendChild(productCard);
+      Constants.leftBarContainer.appendChild(productCard);
     } else {
       i--;
     }
@@ -86,11 +100,15 @@ function renderProductsLeftBar(data, leftBarContainer) {
 }
 
 fetchSingleProduct(Constants.id, Constants.detailContainer, Constants.url, createHtml);
-fetchProducts(Constants.leftBarContainer, Constants.loaderContainer, renderProductsLeftBar, Constants.genderFilter, Constants.onSale);
-fetchProductsForCarousel(Constants.leftBarContainer, Constants.loaderContainer, Constants.genderFilter);
+fetchProducts(Constants.leftBarContainer, Constants.loaderContainer, renderProductsLeftBar);
+fetchProductsForCarousel(Constants.leftBarContainer, Constants.loaderContainer);
 
 export function createHtml(details) {
   const detailProductContainer = document.querySelector('.product-detail__description');
+
+  const detailProductName = document.createElement('h1');
+  detailProductName.innerHTML = details.name;
+
 
   const detailImageContainer = document.createElement('figure');
   detailImageContainer.classList.add('product-detail__image');
@@ -121,15 +139,22 @@ export function createHtml(details) {
                                     </div>`;
 
   const detailDescription = document.createElement('span');
-  detailDescription.innerText = details.description;
-
+  // Remove paragraph tags from the description
+  const descriptionWithoutParagraphTags = details.description.replace(/<p>|<\/p>/g, '');
+  detailDescription.innerText = descriptionWithoutParagraphTags;
   const detailGender = document.createElement('div');
   detailGender.classList.add('product-detail__gender');
-  detailGender.innerHTML = `<span>Gender: ${details.gender}</span>`;
+  if (details.categories[0].id === 17) {
+    detailGender.innerHTML = `Men`;
+  }
+  else if (details.categories[0].id === 26) {
+    detailGender.innerHTML = `Women`;
+  }
 
   const detailPrice = document.createElement('div');
   detailPrice.classList.add('product-detail__price');
-  detailPrice.innerHTML = `<h2>Price $${details.discountedPrice}</h2>`;
+  details.prices.sale_price = Number((details.prices.sale_price) / 100).toFixed(2);
+  detailPrice.innerHTML = `<h2>Price ${details.prices.currency_prefix} ${details.prices.sale_price}</h2>`;
 
   const detailCheckList = document.createElement('div');
   detailCheckList.classList.add('product-detail__checklist');
@@ -162,14 +187,14 @@ export function createHtml(details) {
                               </div>`;
 
   const detailImage = document.createElement('img');
-  detailImage.src = details.image;
-  detailImage.alt = details.title;
+  detailImage.src = details.images[0].src;
+  detailImage.alt = detailProductName.textContent;
 
   const detailTitle = document.createElement('h2');
-  detailTitle.innerText = details.title;
+  detailTitle.innerText = detailProductName.textContent;
 
   const detailSelectColorContainer = document.querySelector('.select-color__image');
-  detailSelectColorContainer.innerHTML = `<img src="${details.image}" alt="Select color">`;
+  detailSelectColorContainer.innerHTML = `<img src="${details.images[0].src}" alt="Select color">`;
 
   Constants.detailContainer.prepend(detailProductContainer);
   detailProductContainer.prepend(detailPrice);

@@ -21,16 +21,31 @@ export function addToShoppingCart(id, data, collapsibleCartContainer) {
     renderShoppingCart(data, collapsibleCartContainer);
 }
 
-export function updateProductListCartButtons(cartData) {
+// Function to update the add to cart button state on the product list page
+/* export function updateProductListCartButtons(cartData) {
     const addToCartButtons = document.querySelectorAll('.products__item-button');
-
     addToCartButtons.forEach(button => {
         const productId = button.dataset.id;
         const isInCart = cartData.some(item => item.id === productId);
+
         if (button.classList.contains('buy-now-btn')) return;
         button.textContent = isInCart ? 'In Cart' : 'Add to Cart';
         button.disabled = isInCart;
+        button.classList.toggle('in-cart', isInCart);
+        button.classList.toggle('add-to-cart-btn', !isInCart);
+    });
+} */
+
+export function updateProductListCartButtons(cartData) {
+    const addToCartButtons = document.querySelectorAll('.products__item-button');
+    addToCartButtons.forEach(button => {
+        const productId = Number(button.dataset.id);
+        const isInCart = cartData.some(item => item.id === productId);
+
         if (button.classList.contains('buy-now-btn')) return;
+        button.textContent = isInCart ? 'In Cart' : 'Add to Cart';
+        button.disabled = isInCart;
+        console.log('button disabled: ', button.disabled);
         button.classList.toggle('in-cart', isInCart);
         button.classList.toggle('add-to-cart-btn', !isInCart);
     });

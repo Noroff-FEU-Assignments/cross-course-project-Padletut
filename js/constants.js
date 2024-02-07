@@ -1,8 +1,10 @@
 export const idKey = "ID";
 export const searchKey = "SEARCH";
 export const cartKey = "CART";
-export const url = "https://api.noroff.dev/api/v1/rainy-days";
+export const url = "https://rainy.mittportfolio.com/wp-json/wc/store/products";
+export const productContentsHeader = document.querySelector(".products__content__header");
 export const productContainer = document.querySelector(".products__content");
+export const mainContainerHeader = document.querySelector(".main-container__header");
 export const loaderContainer = document.querySelector(".loader");
 export const leftBarLoaderContainer = document.querySelector(".left-bar__loader");
 export const carouselContainer = document.querySelector(".carousel");
@@ -17,3 +19,5 @@ export const id = params.get("id");
 export const renderProductsLeftBar = document.querySelector(".left-bar__products");
 export const genderFilter = document.body.getAttribute('data-gender-filter');
 export const onSale = document.body.getAttribute('data-on-sale') === 'true';
+export const colorFilter = document.querySelectorAll(".color-filter")
+export const sizeFilter = document.querySelectorAll(".size-filter")

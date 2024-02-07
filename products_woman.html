@@ -58,36 +58,28 @@
             </h2>
 
             <div>
-              <input aria-label="XS" type="checkbox" name="XS" id="XS">
+              <input class="size-filter" aria-label="XS" type="checkbox" name="XS" id="XS">
               <label for="XS">XS</label>
             </div>
             <div>
-              <input aria-label="S" type="checkbox" name="S" id="S">
+              <input class="size-filter" aria-label="S" type="checkbox" name="S" id="S">
               <label for="S">S</label>
             </div>
             <div>
-              <input aria-label="M" type="checkbox" name="M" id="M">
+              <input class="size-filter" aria-label="M" type="checkbox" name="M" id="M">
               <label for="M">M</label>
             </div>
             <div>
-              <input aria-label="L" type="checkbox" name="L" id="L">
+              <input class="size-filter" aria-label="L" type="checkbox" name="L" id="L">
               <label for="L">L</label>
             </div>
             <div>
-              <input aria-label="XL" type="checkbox" name="XL" id="XL">
+              <input class="size-filter" aria-label="XL" type="checkbox" name="XL" id="XL">
               <label for="XL">XL</label>
             </div>
             <div>
-              <input aria-label="XXL" type="checkbox" name="XXL" id="XXL">
+              <input class="size-filter" aria-label="XXL" type="checkbox" name="XXL" id="XXL">
               <label for="XXL">XXL</label>
-            </div>
-            <div>
-              <input aria-label="XXXL" type="checkbox" name="XXXL" id="XXXL">
-              <label for="XXXL">XXXL</label>
-            </div>
-            <div>
-              <input aria-label="XXXXL" type="checkbox" name="XXXXL" id="XXXXL">
-              <label for="XXXXL">XXXXL</label>
             </div>
             <hr>
           </form>
@@ -105,77 +97,96 @@
             </h2>
             <fieldset>
               <legend>Select color to filter</legend>
-              <input aria-label="red" type="radio" name="color" value="red" id="red" checked title="Red color">
+              <input class="color-filter" aria-label="all" type="radio" name="color" value="all" id="all" checked
+                title="All colors">
+              <label for="all">
+                <i>All</i>
+                <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12.5" cy="12.5" r="12.5" fill="none" stroke="#838383" />
+                </svg>
+              </label>
+              <input class="color-filter" aria-label="red" type="radio" name="color" value="Red" id="red"
+                title="Red color">
               <label for="red">
                 <i>Red</i>
                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <circle cx="12.5" cy="12.5" r="12.5" fill="#BA1A1A" />
                 </svg>
               </label>
-              <input aria-label="orange" type="radio" name="color" value="orange" id="orange" title="Orange color">
+              <input class="color-filter" aria-label="orange" type="radio" name="color" value="orange" id="orange"
+                title="Orange color">
               <label for="orange">
                 <i>Orange</i>
                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <circle cx="12.5" cy="12.5" r="12.5" fill="#EDB900" />
                 </svg>
               </label>
-              <input aria-label="yellow" type="radio" name="color" value="yellow" id="yellow" title="Yellow color">
+              <input class="color-filter" aria-label="yellow" type="radio" name="color" value="yellow" id="yellow"
+                title="Yellow color">
               <label for="yellow">
                 <i>Yellow</i>
                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <circle cx="12.5" cy="12.5" r="12.5" fill="#FBFF2E" />
                 </svg>
               </label>
-              <input aria-label="green" type="radio" name="color" value="green" id="green" title="Green color">
+              <input class="color-filter" aria-label="green" type="radio" name="color" value="green" id="green"
+                title="Green color">
               <label for="green">
                 <i>Green</i>
                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <circle cx="12.5" cy="12.5" r="12.5" fill="#408A34" />
                 </svg>
               </label>
-              <input aria-label="violet" type="radio" name="color" value="violet" id="violet" title="Violet color">
+              <input class="color-filter" aria-label="violet" type="radio" name="color" value="violet" id="violet"
+                title="Violet color">
               <label for="violet">
                 <i>Violet</i>
                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <circle cx="12.5" cy="12.5" r="12.5" fill="#3921C8" />
                 </svg>
               </label>
-              <input aria-label="purple" type="radio" name="color" value="purple" id="purple" title="Purple color">
+              <input class="color-filter" aria-label="purple" type="radio" name="color" value="purple" id="purple"
+                title="Purple color">
               <label for="purple">
                 <i>Purple</i>
                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <circle cx="12.5" cy="12.5" r="12.5" fill="#820C95" />
                 </svg>
               </label>
-              <input aria-label="brown" type="radio" name="color" value="brown" id="brown" title="Brown color">
+              <input class="color-filter" aria-label="brown" type="radio" name="color" value="brown" id="brown"
+                title="Brown color">
               <label for="brown">
                 <i>Brown</i>
                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <circle cx="12.5" cy="12.5" r="12.5" fill="#A47C15" />
                 </svg>
               </label>
-              <input aria-label="grey" type="radio" name="color" value="grey" id="grey" title="Grey color">
+              <input class="color-filter" aria-label="grey" type="radio" name="color" value="grey" id="grey"
+                title="Grey color">
               <label for="grey">
                 <i>Grey</i>
                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <circle cx="12.5" cy="12.5" r="12.5" fill="#888888" />
                 </svg>
               </label>
-              <input aria-label="black" type="radio" name="color" value="black" id="black" title="Black color">
+              <input class="color-filter" aria-label="black" type="radio" name="color" value="black" id="black"
+                title="Black color">
               <label for="black">
                 <i>Black</i>
                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <circle cx="12.5" cy="12.5" r="12.5" fill="#1B1A1A" />
                 </svg>
               </label>
-              <input aria-label="white" type="radio" name="color" value="white" id="white" title="White color">
+              <input class="color-filter" aria-label="white" type="radio" name="color" value="white" id="white"
+                title="White color">
               <label for="white">
                 <i>White</i>
                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <circle cx="12.5" cy="12.5" r="12.25" fill="white" stroke="#B3B3B3" />
                 </svg>
               </label>
-              <input aria-label="pink" type="radio" name="color" value="pink" id="pink" title="Pink color">
+              <input class="color-filter" aria-label="pink" type="radio" name="color" value="pink" id="pink"
+                title="Pink color">
               <label for="pink">
                 <i>Pink</i>
                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -197,11 +208,6 @@
             <div class="loader"></div>
           </section>
         </section>
-
-        <!--  Right bar (shoppingcart) -->
-
-        <aside class="item right-bar">
-        </aside>
       </section>
     </main>
     <footer>
