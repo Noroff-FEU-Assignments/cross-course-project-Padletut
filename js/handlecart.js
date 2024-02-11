@@ -2,9 +2,10 @@ import * as Constants from './constants.js';
 import { loadFromStorage, saveToStorage } from './storage/local.js';
 import { renderShoppingCart } from "./renderCart.js";
 import { renderCheckout } from "./checkout.js";
+import { fetchProducts } from "./fetch.js";
 
 // Function to add an item to the shopping cart
-export function addToShoppingCart(id, data, collapsibleCartContainer) {
+export function addToShoppingCart(id) {
     const cartArray = loadFromStorage(Constants.cartKey) || [];
     const existingItemIndex = cartArray.findIndex(item => item.id === id);
 
@@ -18,46 +19,8 @@ export function addToShoppingCart(id, data, collapsibleCartContainer) {
     saveToStorage(Constants.cartKey, cartArray);
 
     // Re-render the shopping cart to reflect the changes
-    renderShoppingCart(data, collapsibleCartContainer);
-}
-
-// Function to update the add to cart button state on the product list page
-/* export function updateProductListCartButtons(cartData) {
-    const addToCartButtons = document.querySelectorAll('.products__item-button');
-    addToCartButtons.forEach(button => {
-        const productId = button.dataset.id;
-        const isInCart = cartData.some(item => item.id === productId);
-
-        if (button.classList.contains('buy-now-btn')) return;
-        button.textContent = isInCart ? 'In Cart' : 'Add to Cart';
-        button.disabled = isInCart;
-        button.classList.toggle('in-cart', isInCart);
-        button.classList.toggle('add-to-cart-btn', !isInCart);
-    });
-} */
-
-export function updateProductListCartButtons(cartData) {
-    const addToCartButtons = document.querySelectorAll('.products__item-button');
-    addToCartButtons.forEach(button => {
-        const productId = Number(button.dataset.id);
-        const isInCart = cartData.some(item => item.id === productId);
-
-        if (button.classList.contains('buy-now-btn')) return;
-        button.textContent = isInCart ? 'In Cart' : 'Add to Cart';
-        button.disabled = isInCart;
-        console.log('button disabled: ', button.disabled);
-        button.classList.toggle('in-cart', isInCart);
-        button.classList.toggle('add-to-cart-btn', !isInCart);
-    });
-}
-
-function updateQuantitySelector(cartData, quantity) {
-    const quantitySelectors = document.querySelectorAll('.quantity-selector');
-    quantitySelectors.forEach(selector => {
-        if (selector.dataset.id === cartData.id) {
-            selector.value = quantity;
-        }
-    });
+    fetchProducts(Constants.collapsibleCartContainer, Constants.loaderContainer, renderShoppingCart);
+    // renderShoppingCart(data);
 }
 
 // Function to update the quantity of a cart item
@@ -74,11 +37,10 @@ export function updateQuantity(id, change, collapsibleCartContainer, checkoutCon
             cartArray.splice(itemIndex, 1);
             // Update the UI elements related to the cart
             const cartData = loadFromStorage(Constants.cartKey) || [];
-            updateProductListCartButtons(cartData);
+            //  updateProductListCartButtons(cartData);
 
             // Call the functions to update the quantity selector
             updateQuantitySelector(cartData, cartArray[itemIndex]?.quantity);
-            detail_updateAddToCartButtonState(cartData);
         } else {
             if (cartArray[itemIndex].quantity > 10) {
                 cartArray[itemIndex].quantity = 10;
@@ -98,8 +60,14 @@ export function updateQuantity(id, change, collapsibleCartContainer, checkoutCon
 export function removeFromCart(id, collapsibleCartContainer, checkoutContainer, data) {
     const cartArray = loadFromStorage(Constants.cartKey) || [];
     const updatedCartArray = cartArray.filter(item => item.id !== id);
-
     saveToStorage(Constants.cartKey, updatedCartArray);
+
+    // Update the "Add to Cart" buttons
+    updateProductListCartButtons(updatedCartArray);
+    if (document.location.search) {
+        detail_updateAddToCartButtonState(updatedCartArray);
+    }
+
     renderShoppingCart(data, collapsibleCartContainer);
     if (checkoutContainer) renderCheckout(data, checkoutContainer);
 }
@@ -126,22 +94,43 @@ export function updateCartItemCount(count) {
     }
 }
 
+// Function to update the add to cart button state on the product list page
+export function updateProductListCartButtons(cartData) {
+
+    const addToCartButtons = document.querySelectorAll('.products__item-button');
+    addToCartButtons.forEach(button => {
+        const productId = Number(button.dataset.id);
+        const isInCart = cartData.some(item => item.id === productId);
+
+        if (button.classList.contains('buy-now-btn')) return;
+        button.textContent = isInCart ? 'In Cart' : 'Add to Cart';
+        button.disabled = isInCart;
+        button.classList.toggle('in-cart', isInCart);
+        button.classList.toggle('add-to-cart-btn', !isInCart);
+    });
+}
+
+function updateQuantitySelector(cartData, quantity) {
+    const quantitySelectors = document.querySelectorAll('.quantity-selector');
+    quantitySelectors.forEach(selector => {
+        if (selector.dataset.id === cartData.id) {
+            selector.value = quantity;
+        }
+    });
+}
+
 // Function to update the add to cart button state on the product detail page
 export const detail_updateAddToCartButtonState = (cartData) => {
+
     const queryString = document.location.search;
     const params = new URLSearchParams(queryString);
     const id = params.get("id");
+    // convert id string to boolean
     const addToCartButton = document.querySelector('.addToCart');
     if (!addToCartButton) return;
     const buttonText = addToCartButton.querySelector('span');
-    const productInCart = cartData.some(item => item.id === id);
-
+    const productInCart = cartData.some(item => item.id === Number(id));
     addToCartButton.disabled = productInCart;
-    if (productInCart) {
-        addToCartButton.classList.add('in-cart');
-        buttonText.textContent = 'In Cart';
-    } else {
-        addToCartButton.classList.remove('in-cart');
-        buttonText.textContent = 'Add to Cart';
-    }
-};
+    addToCartButton.classList.toggle('in-cart', productInCart);
+    buttonText.textContent = productInCart ? 'In Cart' : 'Add to Cart';
+}

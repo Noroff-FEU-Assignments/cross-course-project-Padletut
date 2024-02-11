@@ -36,8 +36,16 @@ export function initializeCarousel(trackSelector, data) {
 
   function createSlideElement(product) {
 
-    let salePrice = parseFloat(product.prices.sale_price / 100).toFixed(2);
-    let regularPrice = parseFloat(product.prices.regular_price / 100).toFixed(2);
+    const salePrice = parseFloat(product.prices.sale_price / 100).toFixed(2);
+    const regularPrice = parseFloat(product.prices.regular_price / 100).toFixed(2);
+    const productImage = product.images[0].thumbnail;
+
+    let gender;
+    for (const attribute of product.attributes) {
+      if (attribute.name === "Gender") {
+        gender = attribute.terms[0].name;
+      }
+    }
 
     const card = document.createElement('div');
     card.className = 'products__carousel-item carousel__slide';
@@ -45,11 +53,11 @@ export function initializeCarousel(trackSelector, data) {
       card.innerHTML = `
                       <a href="productdetail.html?id=${product.id}" class="carousel-products__item">
                         <figure class="products__carousel-item-imageArea">
-                          <img src="${product.images[0].src}" alt="${product.name}">
+                          <img src="${productImage}" alt="${product.name}">
                         </figure>
                         <div class="products__carousel-item-textArea">
                           <h2>${product.name}</h2>
-                          <div class="products__item-gender">Gender: ${product.gender}</div>
+                          <div class="products__item-gender">Gender: ${gender}</div>
                           <span class="products__item-discounted-price">Now Only ${product.prices.currency_prefix} ${salePrice}</span>
                           <span class="on-sale">${product.prices.currency_prefix} ${regularPrice}</span>
                         </div>
@@ -60,11 +68,11 @@ export function initializeCarousel(trackSelector, data) {
       card.innerHTML = `
                       <a href="productdetail.html?id=${product.id}" class="carousel-products__item">
                             <figure class="products__carousel-item-imageArea">
-                              <img src="${product.images[0].src}" alt="${product.name}">
+                              <img src="${productImage}" alt="${product.name}">
                             </figure>
                             <div class="products__carousel-item-textArea">
                               <h2>${product.name}</h2>
-                              <div class="products__item-gender">Gender: ${product.gender}</div>
+                              <div class="products__item-gender">Gender: ${gender}</div>
                               <span>${product.prices.currency_prefix} ${regularPrice}</span>
                             </div>
                           </a>

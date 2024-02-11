@@ -1,13 +1,13 @@
 import { saveToStorage } from "./storage/local.js";
 import { idKey, url } from "./constants.js";
 import { initializeCarousel } from "./carousel.js";
-let data = [];
+import { filterProducts } from "./filter.js";
 
 export async function fetchProducts(productContainer, loaderContainer, renderFunction, genderFilter = null, onSale = null, search = null, color = null, size = null) {
     try {
-
+        console.log(new Error().stack);
         const response = await fetch(url);
-        data = await response.json();
+        const data = await response.json();
 
         // Check if loaderContainer exists before trying to access its properties
         if (loaderContainer && loaderContainer.length > 0) {
@@ -16,7 +16,7 @@ export async function fetchProducts(productContainer, loaderContainer, renderFun
 
         // Filter products
         let filteredData;
-        ({ filteredData, onSale } = filterProducts(onSale, genderFilter, search, color, size, renderFunction));
+        ({ filteredData, onSale } = filterProducts(data, onSale, genderFilter, search, color, size, renderFunction));
 
         const productList = filteredData.map(product => product.id);
         saveToStorage(idKey, productList);
@@ -31,54 +31,6 @@ export async function fetchProducts(productContainer, loaderContainer, renderFun
         productContainer.innerHTML = `<div class="${productContainer}"><h2>Ooops...something went wrong while loading the page</h2></div>`;
         console.warn(error);
     }
-}
-
-
-// Function to filter products
-function filterProducts(onSale, genderFilter, search, color, size, renderFunction) {
-    let filteredData = data;
-
-    // Filter search results
-    if (search) {
-        if (onSale) {
-            onSale = false;
-        }
-        filteredData = data;
-        if (genderFilter) {
-            filteredData = filteredData.filter(product => product.gender === genderFilter);
-        }
-        if (color && color !== "all") {
-            filteredData = filteredData.filter(product => product.baseColor === color);
-        }
-        if (size) {
-            filteredData = filteredData.filter(product => product.sizes.includes(size));
-        }
-
-        filteredData = filteredData.filter(product => product.name.toLowerCase().includes(search) || product.description.toLowerCase().includes(search) || product.tags.includes(search)); // || product.gender.toLowerCase() === (search));
-        renderFunction(filteredData, search);
-    }
-
-    // Filter products
-    if (!search) {
-        // Filter on sale
-        if (onSale) {
-            filteredData = filteredData.filter(product => product.on_sale);
-        }
-        // Filter color
-        if (color && color !== "all") {
-            filteredData = filteredData.filter(product => product.baseColor === color);
-        }
-        // Filter size
-        if (size) {
-            filteredData = filteredData.filter(product => product.sizes.includes(size));
-        }
-        // Filter gender
-        if (genderFilter) {
-            filteredData = filteredData.filter(product => product.gender === genderFilter);
-        }
-        renderFunction(filteredData);
-    }
-    return { filteredData, onSale };
 }
 
 export async function fetchProductsForCarousel(carouselContainer, loaderContainer, genderFilter = null) {
@@ -102,7 +54,7 @@ export async function fetchProductsForCarousel(carouselContainer, loaderContaine
 
         let filteredData = data;
         if (genderFilter) {
-            filteredData = data.filter(product => product.gender === genderFilter);
+            filteredData = data.filter(product => product.attribute.terms[0].name === genderFilter);
         }
 
         const productList = filteredData.map(product => product.id);
@@ -121,6 +73,7 @@ export async function fetchProductsForCarousel(carouselContainer, loaderContaine
 }
 
 export async function fetchSingleProduct(id, detailContainer, url, createHtml) {
+
     try {
         let data = [];
 

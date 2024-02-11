@@ -49,11 +49,11 @@ export function renderCheckout(data) {
       // Populate the checkout item with product data
       checkoutItemDiv.innerHTML = `
         <figure class="left-bar__checkout-imageArea">
-          <img src="${product.images[0].src}" alt="${product.name}">
+          <img src="${product.images[0].thumbnail}" alt="${product.name}">
         </figure>
         <div class="left-bar__checkout-textArea">
           <h3>${product.name}</h3>
-          <span class="left-bar__price">$${totalItemPrice.toFixed(2)}</span>
+          <span class="left-bar__price">${product.prices.currency_prefix} ${totalItemPrice.toFixed(2)}</span>
           <div class="left-bar__quantity">
             Quantity: 
           </div>

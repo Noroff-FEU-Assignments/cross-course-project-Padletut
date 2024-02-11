@@ -465,7 +465,7 @@ legend {
 
 .container span {
   font-weight: 400;
-  line-height: 40px;
+  line-height: 23px;
   letter-spacing: 0.25px;
 }
 
@@ -1214,8 +1214,17 @@ legend {
 }
 
 .select-color__image__container {
-  background-color: #e3e2e2;
+  display: flex;
   max-width: max-content;
+}
+
+.color-selection {
+  background-color: #e3e2e2
+}
+
+.color-selection.selected {
+  background-color: #b3b1b1; /* Darker background color */
+  border: 2px solid #000; /* Frame around the selected item */
 }
 
 .select-color__image::before {
@@ -2141,7 +2150,7 @@ textarea {
     }
   
     .product-detail img {
-      padding: 8em;
+      padding: 1em;
     }
   
     .select-color__image img {
@@ -2383,7 +2392,7 @@ textarea {
       flex: 1;
     }
 
-    .product-detail img:hover {
+    .product-detail .product-detail__image img:hover {
       transform: scale(2);
       z-index: 999;
       position: absolute;

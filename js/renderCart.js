@@ -1,9 +1,10 @@
 import * as Constants from './constants.js';
-import { updateQuantity, removeFromCart, updateProductListCartButtons, updateCartItemCount, detail_updateAddToCartButtonState } from "./handlecart.js";
+import { updateQuantity, removeFromCart, updateProductListCartButtons, updateCartItemCount } from "./handlecart.js";
 import { loadFromStorage } from "./storage/local.js";
 
 // Function to render the shopping cart
 export function renderShoppingCart(data) {
+
     const collapsibleCartContainer = Constants.collapsibleCartContainer;
     if (!Array.isArray(data) || !collapsibleCartContainer || typeof collapsibleCartContainer !== 'object') return;
 
@@ -26,13 +27,15 @@ export function renderShoppingCart(data) {
     // Add cart items
     shoppingCartStorage.forEach(cartItem => {
         const product = data.find(item => item.id === cartItem.id);
-        let salePrice = parseFloat(product.prices.sale_price / 100).toFixed(2);
-        //  let regularPrice = parseFloat(product.prices.regular_price / 100).toFixed(2);
-
         if (product) {
+            const productImage = product.images[0].thumbnail;
+            const productName = product.name;
+            const productCurrency = product.prices.currency_prefix.charAt(0).toUpperCase() + product.prices.currency_prefix.slice(1);
+            const salePrice = parseFloat(product.prices.sale_price / 100).toFixed(2);
             const totalItemPrice = salePrice * cartItem.quantity;
+
             shoppingCartTotal += totalItemPrice;
-            shoppingCartCurrency = product.prices.currency_prefix;
+            shoppingCartCurrency = productCurrency;
 
             // Create cart item elements
             const itemLink = document.createElement('a');
@@ -43,10 +46,10 @@ export function renderShoppingCart(data) {
             itemDiv.id = cartItem.id;
             itemDiv.setAttribute('data-id', cartItem.id);
             itemDiv.innerHTML = `
-                <img src="${product.images[0].src}" alt="${product.name}" class="collapsibleCartContainer-image">
+                <img src="${productImage}" alt="${productName}" class="collapsibleCartContainer-image">
                 <div class="collapsibleCartContainer-item-info">
-                    <h2 class="collapsibleCartContainer-title">${product.name}</h2>
-                    <span class="collapsibleCartContainer-price">${product.prices.currency_prefix} ${totalItemPrice.toFixed(2)}</span>
+                    <h2 class="collapsibleCartContainer-title">${productName}</h2>
+                    <span class="collapsibleCartContainer-price">${productCurrency} ${totalItemPrice.toFixed(2)}</span>
                 </div>`;
 
             itemLink.appendChild(itemDiv);
@@ -91,7 +94,6 @@ export function renderShoppingCart(data) {
 
     // Update cart buttons
     updateProductListCartButtons(shoppingCartStorage);
-    detail_updateAddToCartButtonState(shoppingCartStorage);
     updateCartItemCount(shoppingCartStorage.length);
 
 
