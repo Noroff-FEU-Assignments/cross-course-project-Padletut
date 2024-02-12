@@ -103,5 +103,19 @@ export function renderShoppingCart(data) {
     footer.innerHTML = `
         <h3>Total in cart: <span>${shoppingCartCurrency} ${shoppingCartTotal.toFixed(2)}</span></h3>
         <a href="checkout.html" class="checkout-button">Checkout</a>`;
+    if (shoppingCartStorage.length === 0) {
+        footer.innerHTML = `
+                <h3>Your cart is empty</h3>`;
+    }
+
+    if (Constants.checkoutContainer) {
+        // Checkout button disabled if in checkout page
+        const checkoutButton = footer.querySelector('.checkout-button');
+        if (checkoutButton) {
+            checkoutButton.href = 'checkout.html';
+            checkoutButton.classList.add('checkout-button-disabled');
+            checkoutButton.removeAttribute('href');
+        }
+    }
     collapsibleCartContainer.appendChild(footer);
 }

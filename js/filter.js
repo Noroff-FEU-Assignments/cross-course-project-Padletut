@@ -11,7 +11,6 @@ export function filterProducts(data, searchTerm = null, colorFilter = null, size
     }
 
     if (genderFilter) {
-
         filteredData = filteredData.filter(product =>
             product.attributes.some(attr =>
                 attr.name === "Gender" && attr.terms.some(term => term.name === genderFilter)
@@ -132,7 +131,6 @@ export function filterProductsOnInput(data, renderFunction, searchInput, colorFi
                     renderFunction(filteredData);
                 } else {
                     const filteredData = filterProducts(data, searchTerm, selectedColor, checkedSizes.length ? checkedSizes : null, onSale, genderFilter);
-                    console.log(filteredData);
                     renderFunction(filteredData);
                 }
             });
@@ -144,7 +142,7 @@ export function filterProductsOnInput(data, renderFunction, searchInput, colorFi
         const selectedColorFilter = colorFilterArray.find(filter => filter.checked);
         const selectedColor = selectedColorFilter ? selectedColorFilter.value : null;
         const onSale = Constants.onSale && checkedSizes.length === 0 && (selectedColor === 'All' || selectedColor === null);
-        const filteredData = filterProducts(data, searchInput.value, selectedColor, null, onSale);
+        const filteredData = filterProducts(data, searchInput.value, selectedColor, null, onSale, genderFilter);
         renderFunction(filteredData);
     }
 }
