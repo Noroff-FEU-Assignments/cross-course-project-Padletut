@@ -1,4 +1,4 @@
-export function initializeCarousel(trackSelector, data) {
+export function renderCarousel(trackSelector, data) {
   let currentIndex = 2;
   const track = document.querySelector(trackSelector);
   const prevArrow = document.querySelector('.carousel__arrow--left');

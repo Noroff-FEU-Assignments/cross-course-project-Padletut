@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="images/favicon.ico" sizes="16x16 32x32" type="image/x-icon">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"
       crossorigin="anonymous"></script>
     <!-- Hotjar Tracking Code for https://inquisitive-lily-bba2a7.netlify.app -->
@@ -36,6 +37,7 @@
     </header>
     <main>
       <div id="collapsible-cart" class="collapsible-cart">
+        <div class="loader-cart"></div>
         <!-- Cart Content Will Be Dynamically Loaded Here -->
       </div>
       <h1 class="h1-invisible">Product site</h1>
@@ -97,7 +99,7 @@
             </h2>
             <fieldset>
               <legend>Select color to filter</legend>
-              <input class="color-filter" aria-label="all" type="radio" name="color" value="all" id="all" checked
+              <input class="color-filter" aria-label="all" type="radio" name="color" value="All" id="all" checked
                 title="All colors">
               <label for="all">
                 <i>All</i>
@@ -113,7 +115,7 @@
                   <circle cx="12.5" cy="12.5" r="12.5" fill="#BA1A1A" />
                 </svg>
               </label>
-              <input class="color-filter" aria-label="orange" type="radio" name="color" value="orange" id="orange"
+              <input class="color-filter" aria-label="orange" type="radio" name="color" value="Orange" id="orange"
                 title="Orange color">
               <label for="orange">
                 <i>Orange</i>
@@ -121,7 +123,7 @@
                   <circle cx="12.5" cy="12.5" r="12.5" fill="#EDB900" />
                 </svg>
               </label>
-              <input class="color-filter" aria-label="yellow" type="radio" name="color" value="yellow" id="yellow"
+              <input class="color-filter" aria-label="yellow" type="radio" name="color" value="Yellow" id="yellow"
                 title="Yellow color">
               <label for="yellow">
                 <i>Yellow</i>
@@ -129,7 +131,7 @@
                   <circle cx="12.5" cy="12.5" r="12.5" fill="#FBFF2E" />
                 </svg>
               </label>
-              <input class="color-filter" aria-label="green" type="radio" name="color" value="green" id="green"
+              <input class="color-filter" aria-label="green" type="radio" name="color" value="Green" id="green"
                 title="Green color">
               <label for="green">
                 <i>Green</i>
@@ -137,7 +139,7 @@
                   <circle cx="12.5" cy="12.5" r="12.5" fill="#408A34" />
                 </svg>
               </label>
-              <input class="color-filter" aria-label="violet" type="radio" name="color" value="violet" id="violet"
+              <input class="color-filter" aria-label="violet" type="radio" name="color" value="Violet" id="violet"
                 title="Violet color">
               <label for="violet">
                 <i>Violet</i>
@@ -145,7 +147,7 @@
                   <circle cx="12.5" cy="12.5" r="12.5" fill="#3921C8" />
                 </svg>
               </label>
-              <input class="color-filter" aria-label="purple" type="radio" name="color" value="purple" id="purple"
+              <input class="color-filter" aria-label="purple" type="radio" name="color" value="Purple" id="purple"
                 title="Purple color">
               <label for="purple">
                 <i>Purple</i>
@@ -153,7 +155,7 @@
                   <circle cx="12.5" cy="12.5" r="12.5" fill="#820C95" />
                 </svg>
               </label>
-              <input class="color-filter" aria-label="brown" type="radio" name="color" value="brown" id="brown"
+              <input class="color-filter" aria-label="brown" type="radio" name="color" value="Brown" id="brown"
                 title="Brown color">
               <label for="brown">
                 <i>Brown</i>
@@ -161,7 +163,7 @@
                   <circle cx="12.5" cy="12.5" r="12.5" fill="#A47C15" />
                 </svg>
               </label>
-              <input class="color-filter" aria-label="grey" type="radio" name="color" value="grey" id="grey"
+              <input class="color-filter" aria-label="grey" type="radio" name="color" value="Grey" id="grey"
                 title="Grey color">
               <label for="grey">
                 <i>Grey</i>
@@ -169,7 +171,7 @@
                   <circle cx="12.5" cy="12.5" r="12.5" fill="#888888" />
                 </svg>
               </label>
-              <input class="color-filter" aria-label="black" type="radio" name="color" value="black" id="black"
+              <input class="color-filter" aria-label="black" type="radio" name="color" value="Black" id="black"
                 title="Black color">
               <label for="black">
                 <i>Black</i>
@@ -177,7 +179,7 @@
                   <circle cx="12.5" cy="12.5" r="12.5" fill="#1B1A1A" />
                 </svg>
               </label>
-              <input class="color-filter" aria-label="white" type="radio" name="color" value="white" id="white"
+              <input class="color-filter" aria-label="white" type="radio" name="color" value="White" id="white"
                 title="White color">
               <label for="white">
                 <i>White</i>
@@ -185,7 +187,7 @@
                   <circle cx="12.5" cy="12.5" r="12.25" fill="white" stroke="#B3B3B3" />
                 </svg>
               </label>
-              <input class="color-filter" aria-label="pink" type="radio" name="color" value="pink" id="pink"
+              <input class="color-filter" aria-label="pink" type="radio" name="color" value="Pink" id="pink"
                 title="Pink color">
               <label for="pink">
                 <i>Pink</i>

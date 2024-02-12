@@ -1,17 +1,53 @@
 import * as Constants from './constants.js';
 import { addToShoppingCart, detail_updateAddToCartButtonState } from "./handlecart.js";
-import { fetchProducts } from "./fetch.js";
+import { fetchProducts, fetchProductsForCarousel, fetchSingleProduct } from "./fetch.js";
 import { loadFromStorage } from "./storage/local.js";
-import { initializeCart } from './togglecart.js';
-import { InitializeProducts } from './filter.js';
+import { initializeCart, toggleCartVisibility, closeCartOnClickOutside } from './togglecart.js';
 
-// Initialize product detail page
+// Initialize the product detail page
 if (Constants.detailContainer) {
-  InitializeProducts();
+  document.addEventListener('DOMContentLoaded', async () => {
+    const data = await fetchSingleProduct(Constants.id, Constants.detailContainer, Constants.url, Constants.detailLoaderContainer);
+    createHtml(data);
+  });
 }
 
+// Initialize sidebar products on page load
+if (Constants.leftBarContainer) {
+  document.addEventListener('DOMContentLoaded', async () => {
+    const data = await fetchProducts(Constants.leftBarContainer, Constants.leftBarLoaderContainer);
+    renderProductsLeftBar(data);
+  });
+}
+
+// Initialize the carousel on page load
+if (Constants.carouselContainer) {
+  document.addEventListener('DOMContentLoaded', async () => {
+    await fetchProductsForCarousel(Constants.carouselContainer, Constants.loaderContainer);
+  });
+}
+
+if (Constants.detailContainer) {
+  // Initialize the cart on page load
+  document.addEventListener('headerLoaded', async () => {
+    const cartIcon = document.querySelector('.cart');
+    const collapsibleCart = document.getElementById('collapsible-cart');
+
+    // Initialize the cart with products
+    await initializeCart(collapsibleCart, Constants.loaderContainer);
+
+    // Toggle cart visibility when the cart icon is clicked
+    cartIcon.addEventListener('click', () => toggleCartVisibility(collapsibleCart));
+
+    // Close cart when clicking outside
+    closeCartOnClickOutside(collapsibleCart);
+
+  });
+}
+
+
+// Function to render the left bar with random products
 export function renderProductsLeftBar(data) {
-  Constants.leftBarLoaderContainer.style.display = "none";
   const randomProducts = [];
 
   Constants.leftBarContainer.innerHTML = '<h2>Other Customers Also Bought</h2>';
@@ -175,15 +211,15 @@ export function createHtml(details) {
       for (let j = 0; j < details.attributes[i].terms.length; j++) {
         // Create a new color selection element for each color option
         const colorSelectionElement = document.createElement('div');
-        console.log(detailImage.alt);
         colorSelectionElement.innerHTML = `
-        <img src="${details.images[j + 1].thumbnail}" alt="${detailImage.alt}">
+        <img src="${detailImage.src}" alt="${detailImage.alt}">
         <p>${details.attributes[i].terms[j].name}</p>`;
         const radioColorSelector = document.createElement('input');
         radioColorSelector.setAttribute('type', 'radio');
-        radioColorSelector.setAttribute('name', 'color-selection'); // Set the name attribute
-        radioColorSelector.setAttribute('id', 'select-color-' + j); // Set unique id for each radio button
-        radioColorSelector.style.display = 'none'; // Hide the radio button
+        radioColorSelector.setAttribute('name', 'color-selection');
+        radioColorSelector.setAttribute('id', 'select-color-' + j);
+        radioColorSelector.style.display = 'none';
+
         // Only check the first radio button
         if (j === 0) {
           radioColorSelector.checked = true;
@@ -195,7 +231,7 @@ export function createHtml(details) {
         const radioLabel = document.createElement('label');
         radioLabel.setAttribute('for', 'select-color-' + j);
         radioLabel.textContent = details.attributes[i].terms[j].name;
-        radioLabel.style.display = 'none'; // Hide the label
+        radioLabel.style.display = 'none';
 
         // Add the radio button, its label, and the color selection element to the container
         colorSelectionElement.appendChild(radioColorSelector);
@@ -212,7 +248,6 @@ export function createHtml(details) {
 
           // Add the 'selected' class to the clicked color selection element
           colorSelectionElement.classList.add('selected');
-
           radioColorSelector.click();
         });
       }

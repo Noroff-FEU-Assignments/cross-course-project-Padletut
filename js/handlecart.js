@@ -5,7 +5,7 @@ import { renderCheckout } from "./checkout.js";
 import { fetchProducts } from "./fetch.js";
 
 // Function to add an item to the shopping cart
-export function addToShoppingCart(id) {
+export function addToShoppingCart(id, data) {
     const cartArray = loadFromStorage(Constants.cartKey) || [];
     const existingItemIndex = cartArray.findIndex(item => item.id === id);
 
@@ -19,8 +19,8 @@ export function addToShoppingCart(id) {
     saveToStorage(Constants.cartKey, cartArray);
 
     // Re-render the shopping cart to reflect the changes
-    fetchProducts(Constants.collapsibleCartContainer, Constants.loaderContainer, renderShoppingCart);
-    // renderShoppingCart(data);
+    fetchProducts(Constants.collapsibleCartContainer, Constants.loaderContainer);
+    renderShoppingCart(data);
 }
 
 // Function to update the quantity of a cart item

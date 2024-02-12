@@ -2,58 +2,79 @@ import * as Constants from './constants.js';
 import { addToShoppingCart } from "./handlecart.js";
 import { toggleCartVisibility, initializeCart, closeCartOnClickOutside } from "./togglecart.js";
 import { loadFromStorage } from './storage/local.js';
-import { InitializeProducts } from './filter.js';
+import { fetchProducts, fetchProductsForCarousel } from './fetch.js';
+import { filterProductsOnInput } from './filter.js';
 
+
+// Initialize the carousel on page load
+if (Constants.carouselContainer) {
+    document.addEventListener('headerLoaded', async () => {
+        await fetchProductsForCarousel(Constants.carouselContainer, Constants.loaderContainer);
+    });
+}
+// Initialize products on page load
+document.addEventListener('headerLoaded', async () => {
+    const data = await fetchProducts(Constants.productContainer, Constants.loaderContainer);
+    const searchInput = document.getElementById('search-products');
+    filterProductsOnInput(data, renderProductCard, searchInput, Constants.colorFilter, Constants.sizeFilter, Constants.onSale, Constants.genderFilter);
+});
 
 if (Constants.productContainer) {
-    InitializeProducts();
+    // Initialize the cart on page load
+    document.addEventListener('headerLoaded', async () => {
+        const cartIcon = document.querySelector('.cart');
+        const collapsibleCart = document.getElementById('collapsible-cart');
+
+        // Initialize the cart with products
+        await initializeCart(collapsibleCart, Constants.loaderContainer);
+
+        // Toggle cart visibility when the cart icon is clicked
+        cartIcon.addEventListener('click', () => toggleCartVisibility(collapsibleCart));
+
+        // Close cart when clicking outside
+        closeCartOnClickOutside(collapsibleCart);
+
+    });
 }
 
 
-// Initialize the cart on page load
-document.addEventListener('headerLoaded', async () => {
-    const cartIcon = document.querySelector('.cart');
-    const collapsibleCart = document.getElementById('collapsible-cart');
-    const loaderContainer = document.getElementById('loader');
+export function renderProductCard(data) {
 
-    // Initialize the cart with products
-    await initializeCart(collapsibleCart, loaderContainer);
-
-    // Toggle cart visibility when the cart icon is clicked
-    cartIcon.addEventListener('click', () => toggleCartVisibility(collapsibleCart));
-
-    // Close cart when clicking outside
-    closeCartOnClickOutside(collapsibleCart);
-
-});
-
-
-export function createProductCard(data, search = null, color = null, size = null, shoppingCartData) {
-    console.log("Size: ", size);
     Constants.loaderContainer.style.display = "none";
     const cardBody = Constants.productContainer;
+    cardBody.innerHTML = '';
     if (Constants.onSale) {
         cardBody.innerHTML = `<div class="products__content__header">
-                             <h2 id="product-header">On Sale</h2>
-                             <a href="">See all</a>
-                          </div>
+                                <h2 id="product-header">On Sale</h2>
+                                <a href="">See all</a>
+                              </div>
                           `;
     }
-
-    if (search || size || color && Constants.onSale) {
-        cardBody.innerHTML = `<div class="products__content__header"></div>`;
-        if (data.length === 0) {
-            cardBody.innerHTML = `<div class="products__content__header"><h2>No results found</h2></div>`;
-        }
+    else {
+        cardBody.innerHTML = `<div class="products__content__header">
+                                <h2 id="product-header">Deals</h2>
+                                <a href="">See all</a>
+                            </div>
+                            `;
     }
 
-    if (search || size || color && !Constants.onSale) {
-        cardBody.innerHTML = `<div class="products__content__header"><h2 id="product-header">Product results</h2></div>`;
-        if (data.length === 0) {
-            cardBody.innerHTML = `<div class="products__content__header"><h2>Could not find the product you searched for.</h2></div>`;
+    const searchInput = document.getElementById('search-products');
+    const selectedColorFilter = Array.from(Constants.colorFilter).find(element => element.checked)?.value;
+    const selectedSizeFilter = Array.from(Constants.sizeFilter).find(element => element.checked)?.value;
+    if (searchInput.value || selectedColorFilter !== 'All' || selectedSizeFilter) {
+        cardBody.innerHTML = `<div class="products__content__header">
+                                <h2 id="product-header">Search Results</h2>
+                             </div>
+                            `;
+        if (Constants.carouselHeader && Constants.carouselContainer) {
+            Constants.carouselHeader.style.display = "none";
+            Constants.carouselContainer.style.display = "none";
         }
-    } else if (!search && !Constants.onSale) {
-        cardBody.innerHTML = `<div class="products__content__header"><h2 id="product-header">Deals</h2> <a href="">See all</a></div>`;
+    } else {
+        if (Constants.carouselHeader && Constants.carouselContainer) {
+            Constants.carouselHeader.style.display = "block";
+            Constants.carouselContainer.style.display = "flex";
+        }
     }
 
     const cartData = loadFromStorage(Constants.cartKey) || [];
@@ -145,7 +166,7 @@ export function createProductCard(data, search = null, color = null, size = null
             cartData.push(...updatedCartArray);
             const isProductAdded = cartData.some(cartItem => cartItem.id === productId);
             if (!isProductAdded) {
-                addToShoppingCart(productId, data, Constants.collapsibleCartContainer);
+                addToShoppingCart(productId, data);
             }
             // addToShoppingCart(product.id, data, Constants.collapsibleCartContainer);
 
@@ -159,7 +180,7 @@ export function createProductCard(data, search = null, color = null, size = null
         buyNowButton.addEventListener('click', function () {
             // If the product is not in the cart, add it
             if (!isProductAdded) {
-                addToShoppingCart(productId, shoppingCartData, Constants.collapsibleCartContainer);
+                addToShoppingCart(productId, data, Constants.collapsibleCartContainer);
             }
             window.location.href = 'checkout.html';
         });

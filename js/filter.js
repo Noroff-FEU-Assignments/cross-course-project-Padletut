@@ -1,162 +1,150 @@
 import * as Constants from './constants.js';
-import { createProductCard } from './script.js';
-import { fetchProducts, fetchProductsForCarousel, fetchSingleProduct } from './fetch.js';
-import { renderProductsLeftBar, createHtml } from './detail.js';
+// Purpose: Contains functions to filter products based on search term, color and size.
 
 
-// Global variables
-let colorValue = null;
-let sizeValue = null;
-let searchValue = null;
-
-// Function to filter products
-export function filterProducts(data, onSale, genderFilter, search, color, size, renderFunction) {
+// Function to filter products based on search term, color and size
+export function filterProducts(data, searchTerm = null, colorFilter = null, sizeFilter = null, onSale = null, genderFilter = null) {
     let filteredData = data;
-    // Filter search results
-    if (search) {
 
-        if (onSale) {
-            onSale = false;
-        }
-        filteredData = data;
-        if (genderFilter) {
-            filteredData = filteredData.filter(product => product.attributes[0].terms[0].name === genderFilter);
-        }
-        if (color && color !== "all") {
-            filteredData = filteredData.filter(product => product.baseColor === color);
-        }
-        if (size) {
-            filteredData = filteredData.filter(product => product.attributes[0].terms.includes(size));
-        }
-
-        filteredData = filteredData.filter(product => product.name.toLowerCase().includes(search) || product.description.toLowerCase().includes(search) || product.tags.includes(search));
-        renderFunction(filteredData, search);
+    if (onSale) {
+        filteredData = filteredData.filter(product => product.on_sale);
     }
 
-    // Filter products
-    if (!search) {
-        // Filter on sale
-        if (onSale) {
-            filteredData = filteredData.filter(product => product.on_sale);
-        }
-        // Filter color
-        if (color && color !== "all") {
-            filteredData = filteredData.filter(product => product.baseColor === color);
-        }
+    if (genderFilter) {
 
-        // Filter size
-        if (size) {
-            filteredData = filteredData.filter(product =>
-                product.attributes.some(attribute =>
-                    attribute.name === "Size" && attribute.terms.some(terms => terms.name == size)
-                )
+        filteredData = filteredData.filter(product =>
+            product.attributes.some(attr =>
+                attr.name === "Gender" && attr.terms.some(term => term.name === genderFilter)
+            )
+        );
+    }
+
+
+    if (searchTerm) {
+        filteredData = filteredData.filter(product => {
+            const lowerCaseSearchTerm = searchTerm.toLowerCase();
+            const isMatch = product.attributes.some(attribute =>
+                attribute.terms.some(term => term.slug.toLowerCase().includes(lowerCaseSearchTerm)) ||
+                product.name.toLowerCase().includes(lowerCaseSearchTerm) ||
+                product.description.toLowerCase().includes(lowerCaseSearchTerm) ||
+                product.tags.includes(lowerCaseSearchTerm)
             );
-        }
-
-        // Filter gender
-        if (genderFilter) {
-            filteredData = filteredData.filter(product => product.attributes[0].terms[0].name === genderFilter);
-        }
-        renderFunction(filteredData, null, color, size);
+            return isMatch;
+        });
     }
-    return { filteredData, onSale };
+
+
+    if (colorFilter !== 'All') {
+        filteredData = filteredData.filter(product => product.attributes.find(attr => attr.name === 'Color' && attr.terms.map(term => term.name).includes(colorFilter)));
+    }
+
+    if (sizeFilter && sizeFilter.length > 0) {
+        filteredData = filteredData.filter(product =>
+            product.attributes.some(attr =>
+                attr.name === 'Size' && attr.terms.some(term => sizeFilter.includes(term.name))
+            )
+        );
+    }
+
+    if (colorFilter === 'All' && sizeFilter && sizeFilter.length > 0) {
+        filteredData = filteredData.filter(product =>
+            product.attributes.some(attr =>
+                attr.name === 'Size' && attr.terms.some(term => sizeFilter.includes(term.name))
+            )
+        );
+    }
+
+    return filteredData;
 }
 
+// listen for changes in "Constants.searchInput" search input, "Constants.colorfilter" color and "Constants.sizefilter" size filters and update the product list accordingly
+export function filterProductsOnInput(data, renderFunction, searchInput, colorFilter, sizeFilter, onSale, genderFilter) {
 
-
-// Function to handle product filter
-export function handleProductFilter() {
-    document.addEventListener('headerLoaded', () => {
-        const searchInput = document.querySelector("#search-products");
-        const searchButton = document.querySelector("#search-products-button");
-        searchInput.addEventListener("input", () => handleSearch(searchInput.value.trim().toLowerCase()));
-        searchButton.addEventListener("click", (event) => { event.preventDefault(); handleSearch(searchInput.value.trim().toLowerCase()); });
-
-        // Size filter event listener
-        if (Constants.sizeFilter) {
-            Constants.sizeFilter.forEach(size => {
-                size.addEventListener("click", () => handleSizeFilter(size));
-            });
-        }
-
-        function handleSizeFilter(size) {
-            if (size.checked) {
-                setTimeout(() => {
-                    sizeValue = size.id;
-                    fetchProducts(Constants.productContainer, Constants.loaderContainer, createProductCard, Constants.genderFilter, null, searchValue, colorValue, sizeValue);
-                    if (Constants.carouselContainer) Constants.carouselContainer.style.display = "none";
-                    if (Constants.mainContainerHeader) Constants.mainContainerHeader.style.display = "none";
-                }, 500);
-            } else {
-                setTimeout(() => {
-                    sizeValue = null;
-                    fetchProducts(Constants.productContainer, Constants.loaderContainer, createProductCard, Constants.genderFilter, Constants.onSale, null, colorValue, null);
-                    if (Constants.carouselContainer) Constants.carouselContainer.style.display = "flex";
-                    if (Constants.mainContainerHeader) Constants.mainContainerHeader.style.display = "flex";
-                }, 500);
-            }
-        }
-
-        // Color filter event listener
-        if (Constants.colorFilter) {
-            Constants.colorFilter.forEach(color => {
-                color.addEventListener("click", () => handleColorFilter(color));
-            });
-        }
-
-        // Color filter function
-        function handleColorFilter(color) {
-
-            if (color.checked && color.value !== "all") {
-                setTimeout(() => {
-                    colorValue = color.value;
-                    colorValue = colorValue.charAt(0).toUpperCase() + colorValue.slice(1);
-                    fetchProducts(Constants.productContainer, Constants.loaderContainer, createProductCard, Constants.genderFilter, Constants.onSale, null, colorValue, sizeValue);
-                }, 500);
-            } else if (color.value === "all") {
-                setTimeout(() => {
-                    fetchProducts(Constants.productContainer, Constants.loaderContainer, createProductCard, Constants.genderFilter, Constants.onSale, null, null, sizeValue);
-                    colorValue = null;
-                }, 500);
-            }
-        }
-
-        // Search products function
-        function handleSearch(searchValue) {
-            if (searchValue) {
-                setTimeout(() => {
-                    fetchProducts(Constants.productContainer, Constants.loaderContainer, createProductCard, Constants.genderFilter, Constants.onSale, searchValue, colorValue, sizeValue);
-                    if (Constants.carouselContainer) Constants.carouselContainer.style.display = "none";
-                    if (Constants.mainContainerHeader) Constants.mainContainerHeader.style.display = "none";
-                }, 500);
-            } else {
-                setTimeout(() => {
-                    fetchProducts(Constants.productContainer, Constants.loaderContainer, createProductCard, Constants.genderFilter, Constants.onSale, null, colorValue, sizeValue);
-                    if (Constants.carouselContainer) Constants.carouselContainer.style.display = "flex";
-                    if (Constants.mainContainerHeader) Constants.mainContainerHeader.style.display = "flex";
-                }, 500);
-            }
-        }
-    });
-}
-
-// Initialize the products on page load and filter products based on color and size filters if they exist in the DOM
-export function InitializeProducts() {
     if (Constants.productContainer) {
-        fetchProducts(Constants.productContainer, Constants.loaderContainer, createProductCard, Constants.genderFilter, Constants.onSale, null, colorValue, sizeValue);
-        handleProductFilter();
-    }
 
-    if (Constants.leftBarContainer && Constants.detailContainer) {
-        fetchProducts(Constants.leftBarContainer, Constants.loaderContainer, renderProductsLeftBar);
-    }
+        // Search input
+        searchInput.form.addEventListener('input', (event) => {
+            event.preventDefault();
+            const searchTerm = searchInput.value;
+            //convert colorFilter and sizeFilter to arrays
+            const colorFilterArray = Array.from(colorFilter);
+            const sizeFilterArray = Array.from(sizeFilter);
+            // get currently selected color and size filters
+            const selectedColor = colorFilterArray.find(filter => filter.checked)?.value || null;
+            const selectedSize = sizeFilterArray.find(filter => filter.checked)?.name || null;
+            if (!searchInput.value) {
+                const filteredData = filterProducts(data, searchTerm, selectedColor, selectedSize, Constants.onSale, genderFilter);
+                renderFunction(filteredData);
+            } else {
+                const filteredData = filterProducts(data, searchTerm, selectedColor, selectedSize, false, genderFilter);
+                renderFunction(filteredData);
+            }
+        });
 
-    if (Constants.detailContainer) {
-        fetchSingleProduct(Constants.id, Constants.detailContainer, Constants.url, createHtml);
-    }
+        // Search button
+        const searchProductsButton = document.getElementById('search-products-button');
+        searchProductsButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            const searchTerm = searchInput.value;
+            const colorFilterArray = Array.from(colorFilter);
+            const sizeFilterArray = Array.from(sizeFilter);
+            const selectedColor = colorFilterArray.find(filter => filter.checked)?.value || null;
+            const selectedSize = sizeFilterArray.find(filter => filter.checked)?.name || null;
 
+            if (!searchTerm) {
+                const filteredData = filterProducts(data, searchTerm, selectedColor, selectedSize, Constants.onSale, genderFilter);
+                renderFunction(filteredData);
+            } else {
+                const filteredData = filterProducts(data, searchTerm, selectedColor, selectedSize, false, genderFilter);
+                renderFunction(filteredData);
+            }
+        });
 
-    if (Constants.carouselContainer) {
-        fetchProductsForCarousel(Constants.carouselContainer, Constants.loaderContainer, Constants.genderFilter);
+        // Color filters
+        colorFilter.forEach(filter => {
+            filter.addEventListener('change', () => {
+                const checkedSizes = Array.from(sizeFilter).filter(filter => filter.checked).map(filter => filter.name);
+                const colorFilterArray = Array.from(colorFilter);
+                const searchTerm = searchInput.value;
+                const selectedColor = colorFilterArray.find(filter => filter.checked)?.value || null;
+                const onSale = Constants.onSale && checkedSizes.length === 0 && selectedColor === 'All';
+                if (searchTerm) {
+                    const filteredData = filterProducts(data, searchTerm, selectedColor, checkedSizes.length ? checkedSizes : null, false, genderFilter);
+                    renderFunction(filteredData);
+                } else {
+                    const filteredData = filterProducts(data, searchTerm, selectedColor, checkedSizes.length ? checkedSizes : null, onSale, genderFilter);
+                    renderFunction(filteredData);
+                }
+            });
+        });
+
+        // Size filters
+        sizeFilter.forEach(filter => {
+            filter.addEventListener('change', () => {
+                const checkedSizes = Array.from(sizeFilter).filter(filter => filter.checked).map(filter => filter.name);
+                const colorFilterArray = Array.from(colorFilter);
+                const searchTerm = searchInput.value;
+                const selectedColorFilter = colorFilterArray.find(filter => filter.checked);
+                const selectedColor = selectedColorFilter ? selectedColorFilter.value : null;
+                const onSale = Constants.onSale && checkedSizes.length === 0 && (selectedColor === 'All' || selectedColor === null);
+                if (searchTerm) {
+                    const filteredData = filterProducts(data, searchTerm, selectedColor, checkedSizes.length ? checkedSizes : null, false, genderFilter);
+                    renderFunction(filteredData);
+                } else {
+                    const filteredData = filterProducts(data, searchTerm, selectedColor, checkedSizes.length ? checkedSizes : null, onSale, genderFilter);
+                    console.log(filteredData);
+                    renderFunction(filteredData);
+                }
+            });
+        });
+
+        // Initial rendering of products
+        const checkedSizes = Array.from(sizeFilter).filter(filter => filter.checked).map(filter => filter.name);
+        const colorFilterArray = Array.from(colorFilter);
+        const selectedColorFilter = colorFilterArray.find(filter => filter.checked);
+        const selectedColor = selectedColorFilter ? selectedColorFilter.value : null;
+        const onSale = Constants.onSale && checkedSizes.length === 0 && (selectedColor === 'All' || selectedColor === null);
+        const filteredData = filterProducts(data, searchInput.value, selectedColor, null, onSale);
+        renderFunction(filteredData);
     }
 }

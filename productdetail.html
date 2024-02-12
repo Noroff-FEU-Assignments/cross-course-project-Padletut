@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="images/favicon.ico" sizes="16x16 32x32" type="image/x-icon">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
     <!-- Hotjar Tracking Code for https://inquisitive-lily-bba2a7.netlify.app -->
     <script>
@@ -36,6 +37,7 @@
     </header>
     <main>
       <div id="collapsible-cart" class="collapsible-cart">
+        <div class="loader-cart"></div>
         <!-- Cart Content Will Be Dynamically Loaded Here -->
       </div>
       <h1 class="h1-invisible">Product detail site</h1>
@@ -46,10 +48,9 @@
 
         <div class="item main-container main-container__detail">
           <section class="product-detail">
-            <div class="loader"></div>
-
+            <div class="loader-detail"></div>
+            <!-- Detail Product Content Will Be Dynamically Loaded Here -->
             <div class="product-detail__description">
-
               <form action="checkout.html">
                 <div>
                   <div class="select-color__image__container">

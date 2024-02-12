@@ -5,15 +5,37 @@ import { fetchProducts } from "./fetch.js";
 import { goToTop } from "./gototop.js";
 import { removeFromCart, updateQuantity } from "./handlecart.js";
 import { renderShoppingCart } from "./renderCart.js";
+import { toggleCartVisibility, initializeCart, closeCartOnClickOutside } from "./togglecart.js";
 
 let checkoutTotal = 0;
 let currency;
 const rightBarContainer = document.querySelector('.right-bar-checkoutpage');
 const leftBarContainer = document.querySelector('.left-bar-checkoutpage');
 
-if (Constants.checkoutContainer) {
-  fetchProducts(Constants.checkoutContainer, Constants.loaderContainer, renderCheckout);
+if (Constants.checkoutPage) {
+  // Initialize the cart on page load
+  document.addEventListener('headerLoaded', async () => {
+    const cartIcon = document.querySelector('.cart');
+    const collapsibleCart = document.getElementById('collapsible-cart');
+    const loaderContainer = document.getElementById('loader');
+
+    // Initialize the cart with products
+    await initializeCart(collapsibleCart, loaderContainer);
+
+    // Toggle cart visibility when the cart icon is clicked
+    cartIcon.addEventListener('click', () => toggleCartVisibility(collapsibleCart));
+
+    // Close cart when clicking outside
+    closeCartOnClickOutside(collapsibleCart);
+  });
+
+  // Initialize the checkout page
+  document.addEventListener('headerLoaded', async () => {
+    const data = await fetchProducts(Constants.productContainer, Constants.loaderContainer);
+    renderCheckout(data);
+  });
 }
+
 
 export function renderCheckout(data) {
   const checkoutContainer = Constants.checkoutContainer;
@@ -34,7 +56,6 @@ export function renderCheckout(data) {
   checkoutStorage.forEach(cartItem => {
     const product = data.find(item => item.id === cartItem.id);
     let salePrice = parseFloat(product.prices.sale_price / 100).toFixed(2);
-    // let regularPrice = parseFloat(product.prices.regular_price / 100).toFixed(2);
     currency = product.prices.currency_prefix;
 
     if (product) {
