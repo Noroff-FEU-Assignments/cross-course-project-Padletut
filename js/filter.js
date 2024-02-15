@@ -2,7 +2,7 @@ import * as Constants from './constants.js';
 // Purpose: Contains functions to filter products based on search term, color and size.
 
 
-// Function to filter products based on search term, color and size
+// Function to filter products based on search term, color, size, on sale and gender
 export function filterProducts(data, searchTerm = null, colorFilter = null, sizeFilter = null, onSale = null, genderFilter = null) {
     let filteredData = data;
 

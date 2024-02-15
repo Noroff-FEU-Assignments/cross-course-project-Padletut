@@ -8,7 +8,7 @@ import { initializeCart, toggleCartVisibility, closeCartOnClickOutside } from '.
 if (Constants.detailContainer) {
   document.addEventListener('DOMContentLoaded', async () => {
     const data = await fetchSingleProduct(Constants.id, Constants.detailContainer, Constants.url, Constants.detailLoaderContainer);
-    createHtml(data);
+    renderProduct(data);
   });
 }
 
@@ -107,7 +107,7 @@ export function renderProductsLeftBar(data) {
   }
 }
 
-export function createHtml(details) {
+export function renderProduct(details) {
 
   const detailProductContainer = document.querySelector('.product-detail__description');
   const detailProductName = document.createElement('h1');

@@ -472,7 +472,11 @@ legend {
 .item img {
   object-fit: contain;
   width: 100%;
-  mix-blend-mode: multiply;
+  height: 100%;
+}
+
+.color-selection img {
+  width: 50%;
 }
 
 .left-bar {
@@ -1037,7 +1041,6 @@ legend {
 
 .products__item-imageArea img {
   max-height: 10em;
-  mix-blend-mode: multiply;
 }
 
 .products__item-textArea {
@@ -1219,7 +1222,11 @@ legend {
 }
 
 .color-selection {
-  background-color: #e3e2e2
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #be3222;
+  letter-spacing: 2px;
 }
 
 .color-selection.selected {
@@ -2393,10 +2400,11 @@ textarea {
     }
 
     .product-detail .product-detail__image img:hover {
-      transform: scale(2);
+      transform: scale(1.2);
       z-index: 999;
       position: absolute;
       mix-blend-mode: normal;
+      top: 10%;
     }
 
     .product-detail__image img {
