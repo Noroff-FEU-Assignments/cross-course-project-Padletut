@@ -1,4 +1,4 @@
-export function initializeCarousel(trackSelector, data) {
+export function renderCarousel(trackSelector, data) {
   let currentIndex = 2;
   const track = document.querySelector(trackSelector);
   const prevArrow = document.querySelector('.carousel__arrow--left');
@@ -36,21 +36,30 @@ export function initializeCarousel(trackSelector, data) {
 
   function createSlideElement(product) {
 
+    const salePrice = parseFloat(product.prices.sale_price / 100).toFixed(2);
+    const regularPrice = parseFloat(product.prices.regular_price / 100).toFixed(2);
+    const productImage = product.images[0].thumbnail;
 
+    let gender;
+    for (const attribute of product.attributes) {
+      if (attribute.name === "Gender") {
+        gender = attribute.terms[0].name;
+      }
+    }
 
     const card = document.createElement('div');
     card.className = 'products__carousel-item carousel__slide';
-    if (product.onSale) {
+    if (product.on_sale) {
       card.innerHTML = `
                       <a href="productdetail.html?id=${product.id}" class="carousel-products__item">
                         <figure class="products__carousel-item-imageArea">
-                          <img src="${product.image}" alt="${product.title}">
+                          <img src="${productImage}" alt="${product.name}">
                         </figure>
                         <div class="products__carousel-item-textArea">
-                          <h2>${product.title}</h2>
-                          <div class="products__item-gender">Gender: ${product.gender}</div>
-                          <span class="products__item-discounted-price">Now Only $${product.discountedPrice}</span>
-                          <span class="on-sale">$${product.price}</span>
+                          <h2>${product.name}</h2>
+                          <div class="products__item-gender">Gender: ${gender}</div>
+                          <span class="products__item-discounted-price">Now Only ${product.prices.currency_prefix} ${salePrice}</span>
+                          <span class="on-sale">${product.prices.currency_prefix} ${regularPrice}</span>
                         </div>
                       </a>
                     `;
@@ -59,12 +68,12 @@ export function initializeCarousel(trackSelector, data) {
       card.innerHTML = `
                       <a href="productdetail.html?id=${product.id}" class="carousel-products__item">
                             <figure class="products__carousel-item-imageArea">
-                              <img src="${product.image}" alt="${product.title}">
+                              <img src="${productImage}" alt="${product.name}">
                             </figure>
                             <div class="products__carousel-item-textArea">
-                              <h2>${product.title}</h2>
-                              <div class="products__item-gender">Gender: ${product.gender}</div>
-                              <span>$${product.price}</span>
+                              <h2>${product.name}</h2>
+                              <div class="products__item-gender">Gender: ${gender}</div>
+                              <span>${product.prices.currency_prefix} ${regularPrice}</span>
                             </div>
                           </a>
                         `;

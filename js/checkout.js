@@ -5,12 +5,40 @@ import { fetchProducts } from "./fetch.js";
 import { goToTop } from "./gototop.js";
 import { removeFromCart, updateQuantity } from "./handlecart.js";
 import { renderShoppingCart } from "./renderCart.js";
+import { toggleCartVisibility, initializeCart, closeCartOnClickOutside } from "./togglecart.js";
 
 let checkoutTotal = 0;
+let currency;
+const rightBarContainer = document.querySelector('.right-bar-checkoutpage');
+const leftBarContainer = document.querySelector('.left-bar-checkoutpage');
 
-fetchProducts(Constants.checkoutContainer, Constants.loaderContainer, renderCheckout);
+if (Constants.checkoutPage) {
+  // Initialize the cart on page load
+  document.addEventListener('headerLoaded', async () => {
+    const cartIcon = document.querySelector('.cart');
+    const collapsibleCart = document.getElementById('collapsible-cart');
+    const loaderContainer = document.getElementById('loader');
 
-export function renderCheckout(data, checkoutContainer) {
+    // Initialize the cart with products
+    await initializeCart(collapsibleCart, loaderContainer);
+
+    // Toggle cart visibility when the cart icon is clicked
+    cartIcon.addEventListener('click', () => toggleCartVisibility(collapsibleCart));
+
+    // Close cart when clicking outside
+    closeCartOnClickOutside(collapsibleCart);
+  });
+
+  // Initialize the checkout page
+  document.addEventListener('headerLoaded', async () => {
+    const data = await fetchProducts(Constants.productContainer, Constants.loaderContainer);
+    renderCheckout(data);
+  });
+}
+
+
+export function renderCheckout(data) {
+  const checkoutContainer = Constants.checkoutContainer;
   if (!Array.isArray(data) || !checkoutContainer || typeof checkoutContainer !== 'object') return;
 
   const checkoutStorage = loadFromStorage(cartKey) || [];
@@ -27,8 +55,11 @@ export function renderCheckout(data, checkoutContainer) {
 
   checkoutStorage.forEach(cartItem => {
     const product = data.find(item => item.id === cartItem.id);
+    let salePrice = parseFloat(product.prices.sale_price / 100).toFixed(2);
+    currency = product.prices.currency_prefix;
+
     if (product) {
-      const totalItemPrice = product.discountedPrice * cartItem.quantity;
+      const totalItemPrice = salePrice * cartItem.quantity;
       checkoutTotal += totalItemPrice;
 
       // Create checkout item container
@@ -39,11 +70,11 @@ export function renderCheckout(data, checkoutContainer) {
       // Populate the checkout item with product data
       checkoutItemDiv.innerHTML = `
         <figure class="left-bar__checkout-imageArea">
-          <img src="${product.image}" alt="${product.title}">
+          <img src="${product.images[0].thumbnail}" alt="${product.name}">
         </figure>
         <div class="left-bar__checkout-textArea">
-          <h3>${product.title}</h3>
-          <span class="left-bar__price">$${totalItemPrice.toFixed(2)}</span>
+          <h3>${product.name}</h3>
+          <span class="left-bar__price">${product.prices.currency_prefix} ${totalItemPrice.toFixed(2)}</span>
           <div class="left-bar__quantity">
             Quantity: 
           </div>
@@ -83,7 +114,6 @@ export function renderCheckout(data, checkoutContainer) {
         removeFromCart(cartItem.id, Constants.collapsibleCartContainer, checkoutContainer, data);
       });
 
-
       checkoutItemDiv.querySelector('.left-bar__checkout-textArea').appendChild(removeButton);
       checkoutContainer.appendChild(checkoutItemDiv);
 
@@ -100,10 +130,10 @@ export function renderCheckout(data, checkoutContainer) {
   const summaryDiv = document.createElement('div');
   summaryDiv.className = 'checkout-summary';
   summaryDiv.innerHTML = `
-    Items <span>$ ${checkoutTotal.toFixed(2)}</span>
-    Shipping <span>$ 10.00</span>
-    Tax <span>$ ${(checkoutTotal * 0.25).toFixed(2)}</span>
-    Total <span>$ ${((checkoutTotal * 1.25) + 10).toFixed(2)}</span>
+    Items <span>${currency} ${checkoutTotal.toFixed(2)}</span>
+    Shipping <span>${currency} 10.00</span>
+    Tax <span>${currency} ${(checkoutTotal * 0.25).toFixed(2)}</span>
+    Total <span>${currency} ${((checkoutTotal * 1.25) + 10).toFixed(2)}</span>
   `;
   checkoutContainer.appendChild(summaryDiv);
 
@@ -116,6 +146,7 @@ export function renderCheckout(data, checkoutContainer) {
   checkoutLabel.onclick = goToTop;
   checkoutContainer.appendChild(checkoutLabel);
 }
+
 if (Constants.checkoutContainer) {
   Constants.checkoutContainer.querySelectorAll('.quantity-selector').forEach(selector => {
     selector.addEventListener('change', (event) => {
@@ -126,9 +157,9 @@ if (Constants.checkoutContainer) {
   });
 }
 
-const rightBarContainer = document.querySelector('.right-bar-checkoutpage');
-const leftBarContainer = document.querySelector('.left-bar-checkoutpage');
+
 document.onclick = function (event) {
+
   if (event.target.matches('#checkout-label')) {
     leftBarContainer.style.display = "none";
     rightBarContainer.style.display = "flex";

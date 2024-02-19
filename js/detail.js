@@ -1,45 +1,56 @@
 import * as Constants from './constants.js';
-import { addToShoppingCart } from "./handlecart.js";
-import { fetchProducts, fetchSingleProduct, fetchProductsForCarousel } from "./fetch.js";
+import { addToShoppingCart, detail_updateAddToCartButtonState } from "./handlecart.js";
+import { fetchProducts, fetchProductsForCarousel, fetchSingleProduct } from "./fetch.js";
 import { loadFromStorage } from "./storage/local.js";
-import { toggleCartVisibility, closeCartOnClickOutside } from './togglecart.js';
-import { renderShoppingCart } from "./renderCart.js";
+import { initializeCart, toggleCartVisibility, closeCartOnClickOutside } from './togglecart.js';
 
-let data = [];
-
-// Inject SVG into the DOM
-
-fetch('/svg/cart.svg')
-  .then(response => response.text())
-  .then(svg => {
-    document.querySelector('.icon-container').innerHTML = svg;
+// Initialize the product detail page
+if (Constants.detailContainer) {
+  document.addEventListener('DOMContentLoaded', async () => {
+    const data = await fetchSingleProduct(Constants.id, Constants.detailContainer, Constants.url, Constants.detailLoaderContainer);
+    renderProduct(data);
   });
+}
+
+// Initialize sidebar products on page load
+if (Constants.leftBarContainer) {
+  document.addEventListener('DOMContentLoaded', async () => {
+    const data = await fetchProducts(Constants.leftBarContainer, Constants.leftBarLoaderContainer);
+    renderProductsLeftBar(data);
+  });
+}
+
+// Initialize the carousel on page load
+if (Constants.carouselContainer) {
+  document.addEventListener('DOMContentLoaded', async () => {
+    await fetchProductsForCarousel(Constants.carouselContainer, Constants.loaderContainer);
+  });
+}
+
+if (Constants.detailContainer) {
+  // Initialize the cart on page load
+  document.addEventListener('headerLoaded', async () => {
+    const cartIcon = document.querySelector('.cart');
+    const collapsibleCart = document.getElementById('collapsible-cart');
+
+    // Initialize the cart with products
+    await initializeCart(collapsibleCart, Constants.loaderContainer);
+
+    // Toggle cart visibility when the cart icon is clicked
+    cartIcon.addEventListener('click', () => toggleCartVisibility(collapsibleCart));
+
+    // Close cart when clicking outside
+    closeCartOnClickOutside(collapsibleCart);
+
+  });
+}
 
 
-document.addEventListener('headerLoaded', async () => {
-  const cartIcon = document.querySelector('.cart');
-
-  // Fetch products and render the shopping cart
-  try {
-    data = await fetchProducts(Constants.collapsibleCartContainer, Constants.loaderContainer, renderShoppingCart, Constants.genderFilter, Constants.onSale);
-    renderShoppingCart(data, Constants.collapsibleCart);
-  } catch (error) {
-    console.error('Failed to fetch products:', error);
-  }
-
-  // Event listener for the cart icon to toggle visibility
-  cartIcon.addEventListener('click', () => toggleCartVisibility(Constants.collapsibleCart));
-
-  // Close cart when clicking outside
-  closeCartOnClickOutside(Constants.collapsibleCart);
-});
-
-
-function renderProductsLeftBar(data, leftBarContainer) {
-  Constants.leftBarLoaderContainer.style.display = "none";
+// Function to render the left bar with random products
+export function renderProductsLeftBar(data) {
   const randomProducts = [];
 
-  leftBarContainer.innerHTML = '<h2>Other Customers Also Bought</h2>';
+  Constants.leftBarContainer.innerHTML = '<h2>Other Customers Also Bought</h2>';
 
   for (let i = 0; i < 4; i++) {
     const randomProduct = Math.floor(Math.random() * data.length);
@@ -51,13 +62,24 @@ function renderProductsLeftBar(data, leftBarContainer) {
       const productCard = document.createElement('div');
       productCard.classList.add('products__item');
 
-      if (product.onSale) {
+      if (product.on_sale) {
         const saleBadge = document.createElement('span');
         saleBadge.classList.add('products__item-sale-badge');
         saleBadge.textContent = 'On Sale!';
         productCard.appendChild(saleBadge);
       }
 
+      product.prices.sale_price = Number((product.prices.sale_price) / 100).toFixed(2);
+      let productGender;
+      const productImage = product.images[0].thumbnail;
+      for (const attribute of product.attributes) {
+        if (attribute.name === "Gender") {
+          productGender = attribute.terms[0].name;
+        }
+      }
+
+      const productName = document.createElement('h2');
+      productName.innerHTML = product.name;
       productCard.innerHTML += `
         <div class="products__item-favoritecontainer">
           <input type="checkbox" id="favIcon-checkbox${product.id}" name="fav-checkbox">
@@ -68,29 +90,35 @@ function renderProductsLeftBar(data, leftBarContainer) {
         </div>
         <a href="productdetail.html?id=${product.id}">
           <figure class="products__item-imageArea">
-            <img src="${product.image}" alt="${product.title}">
+            <img src="${productImage}" alt="${productName.textContent}">
           </figure>
           <div class="products__item-textArea">
-            <h2>${product.title}</h2>
-            <span>Gender: ${product.gender}</span>
-            <span>$${product.discountedPrice}</span>
+            <h2>${productName.textContent}</h2>
+            <span>Gender: ${productGender}</span>         
+            <span>${product.prices.currency_prefix} ${product.prices.sale_price}</span>
           </div>
         </a>
       `;
 
-      leftBarContainer.appendChild(productCard);
+      Constants.leftBarContainer.appendChild(productCard);
     } else {
       i--;
     }
   }
 }
 
-fetchSingleProduct(Constants.id, Constants.detailContainer, Constants.url, createHtml);
-fetchProducts(Constants.leftBarContainer, Constants.loaderContainer, renderProductsLeftBar, Constants.genderFilter, Constants.onSale);
-fetchProductsForCarousel(Constants.leftBarContainer, Constants.loaderContainer, Constants.genderFilter);
+export function renderProduct(details) {
 
-export function createHtml(details) {
   const detailProductContainer = document.querySelector('.product-detail__description');
+  const detailProductName = document.createElement('h1');
+  detailProductName.innerHTML = details.name;
+
+  let productGender;
+  for (const attribute of details.attributes) {
+    if (attribute.name === "Gender") {
+      productGender = attribute.terms[0].name;
+    }
+  }
 
   const detailImageContainer = document.createElement('figure');
   detailImageContainer.classList.add('product-detail__image');
@@ -121,15 +149,17 @@ export function createHtml(details) {
                                     </div>`;
 
   const detailDescription = document.createElement('span');
-  detailDescription.innerText = details.description;
-
+  // Remove paragraph tags from the description
+  const descriptionWithoutParagraphTags = details.description.replace(/<p>|<\/p>/g, '');
+  detailDescription.innerHTML = descriptionWithoutParagraphTags;
   const detailGender = document.createElement('div');
   detailGender.classList.add('product-detail__gender');
-  detailGender.innerHTML = `<span>Gender: ${details.gender}</span>`;
+  detailGender.innerHTML = `Gender: ${productGender}`;
 
   const detailPrice = document.createElement('div');
   detailPrice.classList.add('product-detail__price');
-  detailPrice.innerHTML = `<h2>Price $${details.discountedPrice}</h2>`;
+  details.prices.sale_price = Number((details.prices.sale_price) / 100).toFixed(2);
+  detailPrice.innerHTML = `<h2>Price ${details.prices.currency_prefix} ${details.prices.sale_price}</h2>`;
 
   const detailCheckList = document.createElement('div');
   detailCheckList.classList.add('product-detail__checklist');
@@ -161,15 +191,68 @@ export function createHtml(details) {
                                 Holding up to -25°C
                               </div>`;
 
+
+  // Get the product images from array srcset and extract the links
+  const productImages = details.images[0].srcset;
+  const regex = /(https?:\/\/[^\s]+)/g;
+  const imageLinks = productImages.match(regex);
   const detailImage = document.createElement('img');
-  detailImage.src = details.image;
-  detailImage.alt = details.title;
+
+  detailImage.src = imageLinks[1];
+  detailImage.alt = detailProductName.textContent;
 
   const detailTitle = document.createElement('h2');
-  detailTitle.innerText = details.title;
+  detailTitle.innerText = detailProductName.textContent;
 
-  const detailSelectColorContainer = document.querySelector('.select-color__image');
-  detailSelectColorContainer.innerHTML = `<img src="${details.image}" alt="Select color">`;
+  const detailSelectColorContainer = document.querySelector('.select-color__image__container');
+
+  for (let i = 0; i < details.attributes.length; i++) {
+    if (details.attributes[i].name === "Color") {
+      for (let j = 0; j < details.attributes[i].terms.length; j++) {
+        // Create a new color selection element for each color option
+        const colorSelectionElement = document.createElement('div');
+        colorSelectionElement.innerHTML = `
+        <img src="${detailImage.src}" alt="${detailImage.alt}">
+        <p>${details.attributes[i].terms[j].name}</p>`;
+        const radioColorSelector = document.createElement('input');
+        radioColorSelector.setAttribute('type', 'radio');
+        radioColorSelector.setAttribute('name', 'color-selection');
+        radioColorSelector.setAttribute('id', 'select-color-' + j);
+        radioColorSelector.style.display = 'none';
+
+        // Only check the first radio button
+        if (j === 0) {
+          radioColorSelector.checked = true;
+          colorSelectionElement.classList.add('selected');
+        }
+        colorSelectionElement.classList.add('color-selection'); // Add a class for styling
+
+        // Create a label for the radio button
+        const radioLabel = document.createElement('label');
+        radioLabel.setAttribute('for', 'select-color-' + j);
+        radioLabel.textContent = details.attributes[i].terms[j].name;
+        radioLabel.style.display = 'none';
+
+        // Add the radio button, its label, and the color selection element to the container
+        colorSelectionElement.appendChild(radioColorSelector);
+        colorSelectionElement.appendChild(radioLabel);
+        detailSelectColorContainer.appendChild(colorSelectionElement);
+
+        // Trigger a click on the radio button when the container is clicked
+        colorSelectionElement.addEventListener('click', () => {
+          // Remove the 'selected' class from all color selection elements
+          const colorSelectionElements = document.querySelectorAll('.color-selection');
+          colorSelectionElements.forEach(element => {
+            element.classList.remove('selected');
+          });
+
+          // Add the 'selected' class to the clicked color selection element
+          colorSelectionElement.classList.add('selected');
+          radioColorSelector.click();
+        });
+      }
+    }
+  }
 
   Constants.detailContainer.prepend(detailProductContainer);
   detailProductContainer.prepend(detailPrice);
@@ -181,37 +264,70 @@ export function createHtml(details) {
   detailImageContainer.prepend(detailImage);
 }
 
-const addToCartButton = document.querySelector(".addToCart");
 
+if (Constants.detailContainer) {
 
-if (addToCartButton) {
-  addToCartButton.addEventListener("click", () => {
-    const shoppingCart = loadFromStorage(Constants.cartKey) || [];
-    const productInCart = shoppingCart.find(item => item.id === Constants.id);
+  document.addEventListener('DOMContentLoaded', function () {
+    const formButtonsContainer = document.querySelector(".product-detail__formbuttons");
 
-    if (!productInCart) {
-      addToShoppingCart(Constants.id, data, Constants.collapsibleCartContainer);
+    // Create the Buy Now button
+    const buyNowLabel = document.createElement('label');
+    buyNowLabel.id = 'buy-now-label';
+    buyNowLabel.htmlFor = 'buy-now-button';
+    const buyNowButton = document.createElement('input');
+    buyNowButton.type = 'submit';
+    buyNowButton.value = 'Buy Now';
+    buyNowButton.className = 'buynow';
+    buyNowButton.id = 'buy-now-button';
+    const buyNowObject = document.createElement('object');
+    buyNowObject.data = '/svg/buynow.svg';
+    buyNowLabel.append(buyNowButton, buyNowObject, 'Buy Now');
+
+    // Create the Add to Cart button
+    const addToCartButton = document.createElement('a');
+    addToCartButton.className = 'addToCart';
+    addToCartButton.href = '#';
+    addToCartButton.id = 'add-to-cart-button';
+    const addToCartObject = document.createElement('object');
+    addToCartObject.className = 'icon-container';
+    const addToCartSpan = document.createElement('span');
+    addToCartSpan.textContent = 'Add to cart';
+    addToCartButton.append(addToCartObject, addToCartSpan);
+
+    // Add the buttons to the container
+    formButtonsContainer.append(buyNowLabel, addToCartButton);
+
+    addToCartButton.addEventListener("click", (event) => {
+      event.preventDefault();
+      if (!addToCartButton.disabled) {
+        const shoppingCart = loadFromStorage(Constants.cartKey) || [];
+        const productInCart = shoppingCart.find(item => item.id === Number(Constants.id));
+
+        if (!productInCart) {
+          addToShoppingCart(Number(Constants.id), fetchProducts.data, Constants.collapsibleCartContainer);
+          // empty shopping cart array and load from storage
+          shoppingCart.length = 0;
+          shoppingCart.push(...loadFromStorage(Constants.cartKey));
+        }
+        // updateButton();
+        detail_updateAddToCartButtonState(shoppingCart);
+        initializeCart(Constants.collapsibleCartContainer, Constants.loaderContainer);
+      }
+    });
+
+    // Initial button update
+
+    detail_updateAddToCartButtonState(loadFromStorage(Constants.cartKey) || []);
+
+    // Inject SVG into the DOM
+
+    if (Constants.detailContainer) {
+      fetch('/svg/cart.svg')
+        .then(response => response.text())
+        .then(svg => {
+          document.querySelector('.icon-container').innerHTML = svg;
+        });
     }
+
   });
 }
-
-document.addEventListener('DOMContentLoaded', function () {
-  const buyNowButton = document.getElementById('buy-now-button');
-
-  if (buyNowButton) {
-    buyNowButton.addEventListener("click", function (event) {
-      event.preventDefault();
-
-      const shoppingCart = loadFromStorage(Constants.cartKey) || [];
-      const productInCart = shoppingCart.find(item => item.id === Constants.id);
-
-      if (!productInCart) {
-        addToShoppingCart(Constants.id, data, Constants.collapsibleCartContainer);
-      }
-
-      // Redirect to checkout page
-      window.location.href = "checkout.html";
-    });
-  }
-});
-

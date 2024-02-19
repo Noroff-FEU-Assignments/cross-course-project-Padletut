@@ -1,12 +1,16 @@
 import * as Constants from './constants.js';
-import { updateQuantity, removeFromCart, updateProductListCartButtons, updateCartItemCount, detail_updateAddToCartButtonState } from "./handlecart.js";
+import { updateQuantity, removeFromCart, updateProductListCartButtons, updateCartItemCount } from "./handlecart.js";
 import { loadFromStorage } from "./storage/local.js";
 
 // Function to render the shopping cart
-export function renderShoppingCart(data, collapsibleCartContainer) {
+export function renderShoppingCart(data) {
+
+    const collapsibleCartContainer = Constants.collapsibleCartContainer;
     if (!Array.isArray(data) || !collapsibleCartContainer || typeof collapsibleCartContainer !== 'object') return;
 
     let shoppingCartTotal = 0;
+    let shoppingCartCurrency = '';
+
     const shoppingCartStorage = loadFromStorage(Constants.cartKey) || [];
 
     // Clear existing content
@@ -24,8 +28,14 @@ export function renderShoppingCart(data, collapsibleCartContainer) {
     shoppingCartStorage.forEach(cartItem => {
         const product = data.find(item => item.id === cartItem.id);
         if (product) {
-            const totalItemPrice = product.discountedPrice * cartItem.quantity;
+            const productImage = product.images[0].thumbnail;
+            const productName = product.name;
+            const productCurrency = product.prices.currency_prefix.charAt(0).toUpperCase() + product.prices.currency_prefix.slice(1);
+            const salePrice = parseFloat(product.prices.sale_price / 100).toFixed(2);
+            const totalItemPrice = salePrice * cartItem.quantity;
+
             shoppingCartTotal += totalItemPrice;
+            shoppingCartCurrency = productCurrency;
 
             // Create cart item elements
             const itemLink = document.createElement('a');
@@ -36,10 +46,10 @@ export function renderShoppingCart(data, collapsibleCartContainer) {
             itemDiv.id = cartItem.id;
             itemDiv.setAttribute('data-id', cartItem.id);
             itemDiv.innerHTML = `
-                <img src="${product.image}" alt="${product.title}" class="collapsibleCartContainer-image">
+                <img src="${productImage}" alt="${productName}" class="collapsibleCartContainer-image">
                 <div class="collapsibleCartContainer-item-info">
-                    <h2 class="collapsibleCartContainer-title">${product.title}</h2>
-                    <span class="collapsibleCartContainer-price">$${totalItemPrice.toFixed(2)}</span>
+                    <h2 class="collapsibleCartContainer-title">${productName}</h2>
+                    <span class="collapsibleCartContainer-price">${productCurrency} ${totalItemPrice.toFixed(2)}</span>
                 </div>`;
 
             itemLink.appendChild(itemDiv);
@@ -82,8 +92,8 @@ export function renderShoppingCart(data, collapsibleCartContainer) {
         }
     });
 
+    // Update cart buttons
     updateProductListCartButtons(shoppingCartStorage);
-    detail_updateAddToCartButtonState(shoppingCartStorage);
     updateCartItemCount(shoppingCartStorage.length);
 
 
@@ -91,7 +101,21 @@ export function renderShoppingCart(data, collapsibleCartContainer) {
     const footer = document.createElement('div');
     footer.className = 'cart-sticky-footer';
     footer.innerHTML = `
-        <h3>Total in cart: <span>$${shoppingCartTotal.toFixed(2)}</span></h3>
+        <h3>Total in cart: <span>${shoppingCartCurrency} ${shoppingCartTotal.toFixed(2)}</span></h3>
         <a href="checkout.html" class="checkout-button">Checkout</a>`;
+    if (shoppingCartStorage.length === 0) {
+        footer.innerHTML = `
+                <h3>Your cart is empty</h3>`;
+    }
+
+    if (Constants.checkoutContainer) {
+        // Checkout button disabled if in checkout page
+        const checkoutButton = footer.querySelector('.checkout-button');
+        if (checkoutButton) {
+            checkoutButton.href = 'checkout.html';
+            checkoutButton.classList.add('checkout-button-disabled');
+            checkoutButton.removeAttribute('href');
+        }
+    }
     collapsibleCartContainer.appendChild(footer);
 }

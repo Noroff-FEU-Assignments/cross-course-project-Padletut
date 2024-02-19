@@ -16,6 +16,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
+
+
 // Function to remove 'enabled' class from all menu items
 function removeEnabledClassFromMenu() {
     document.querySelectorAll('.nav__container li a').forEach(span => {

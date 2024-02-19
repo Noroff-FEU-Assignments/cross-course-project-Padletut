@@ -8,7 +8,7 @@
     <label for="search-products">Search for Products</label>
     <div class="search">
         <input type="search" id="search-products" placeholder="Search...">
-        <input type="submit" value="Search">
+        <input type="submit" id="search-products-button" value="Search">
     </div>
 </form>
 <input type="checkbox" id="menu-checkbox">
