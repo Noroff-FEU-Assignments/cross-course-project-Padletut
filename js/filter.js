@@ -1,4 +1,6 @@
 import * as Constants from './constants.js';
+import { renderCarousel } from './carousel.js';
+
 // Purpose: Contains functions to filter products based on search term, color and size.
 
 
@@ -144,5 +146,16 @@ export function filterProductsOnInput(data, renderFunction, searchInput, colorFi
         const onSale = Constants.onSale && checkedSizes.length === 0 && (selectedColor === 'All' || selectedColor === null);
         const filteredData = filterProducts(data, searchInput.value, selectedColor, null, onSale, genderFilter);
         renderFunction(filteredData);
+
+    }
+}
+
+// Load carousel products with a random set of 5 products
+export function loadCarouselProducts(data) {
+    if (Constants.carouselContainer) {
+        if (data.length > 0) {
+            const randomProducts = data.sort(() => 0.5 - Math.random()).slice(0, 5);
+            renderCarousel('.carousel__track', randomProducts);
+        }
     }
 }

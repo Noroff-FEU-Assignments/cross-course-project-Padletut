@@ -24,6 +24,15 @@ export function renderShoppingCart(data) {
         <h2 id="cartTitle">Shopping Cart</h2>`;
     collapsibleCartContainer.appendChild(header);
 
+    // Add event listener to close button
+    document.addEventListener('click', (event) => {
+        if (event.target.matches('.cart-close-button')) {
+            // Close the cart
+            collapsibleCartContainer.style.right = '-100%';
+            event.preventDefault();
+        }
+    });
+
     // Add cart items
     shoppingCartStorage.forEach(cartItem => {
         const product = data.find(item => item.id === cartItem.id);
@@ -78,14 +87,6 @@ export function renderShoppingCart(data) {
             buttonsDiv.querySelector('.collapsibleCartContainer-item-remove').addEventListener('click', (event) => {
                 removeFromCart(cartItem.id, collapsibleCartContainer, Constants.checkoutContainer, data);
                 event.stopPropagation();
-            });
-
-            document.addEventListener('click', (event) => {
-                if (event.target.matches('.cart-close-button')) {
-                    // Close the cart
-                    collapsibleCartContainer.style.right = '-100%';
-                    event.preventDefault();
-                }
             });
 
             collapsibleCartContainer.appendChild(buttonsDiv);

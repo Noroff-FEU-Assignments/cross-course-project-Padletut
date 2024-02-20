@@ -56,9 +56,12 @@ if (document.body.classList.contains('product-list-page')) {
 // Go back button
 document.addEventListener('headerLoaded', () => {
     const goBackButton = document.querySelector('.go-back-btn');
-    if (!document.body.classList.contains('product-detail-page')) {
+    const screenWidth = window.innerWidth;
+
+    if (!document.body.classList.contains('product-detail-page') || screenWidth < 1150) {
         goBackButton.style.display = 'none';
     } else {
+        goBackButton.style.display = 'block';
         goBackButton.addEventListener('click', function (event) {
             event.preventDefault();
             window.history.back();

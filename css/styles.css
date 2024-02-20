@@ -106,6 +106,10 @@ input[name="fav-checkbox"] {
   position: relative;
 }
 
+.carousel__header {
+  display: none;
+}
+
 /* Container for the carousel track */
 .carousel__track-container {
   overflow: hidden;
@@ -353,7 +357,7 @@ nav {
 
 nav li {
   display: block;
-  margin: 0 25px;
+  /*margin: 0 25px;*/
   border-radius: 100px;
   background: #00677c;
   font-style: normal;
@@ -362,6 +366,10 @@ nav li {
   font-weight: 500;
   font-size: 14px;
   line-height: 20px;
+}
+
+nav .go-back-btn {
+  display: none;
 }
 
 nav li span, nav li svg {
@@ -836,10 +844,9 @@ legend {
 
 .main-container {
   display: flex;
+  flex: 1;
   flex-direction: column;
   overflow: hidden;
-  align-self: center;
-  flex: 2;
 }
 
 .main-container a {
@@ -878,8 +885,8 @@ legend {
 /* Products */
 
 .products__content {
-  flex: 1;
   display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14em, 1fr)); 
   grid-gap: 3em 5em;
   margin-bottom: 10%;
 }
@@ -904,6 +911,7 @@ legend {
   justify-content: space-between; 
   background-color: #eee;
   transition: transform 0.5s ease;
+  min-width: 100%;
 }
 
 .products__item h2, span {
@@ -913,17 +921,17 @@ legend {
 .products__item-sale-badge {
   display: flex;
   position: absolute;
-  top: 18px;
+  top: 26px;
   background-color: #be3222;
   color: white;
-  padding: 0 25px;
+  padding: 0px 25px;
   border-radius: 0 30px;
   font-size: 0.9em;
   z-index: 1;
   transform: rotateZ(-45deg);
   text-wrap: nowrap;
   cursor: pointer;
-  margin: 0;
+  margin-left: -5px;
   width: fit-content;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 20%);
 }
@@ -1227,6 +1235,7 @@ legend {
   align-items: center;
   color: #be3222;
   letter-spacing: 2px;
+  max-width: 45%;
 }
 
 .color-selection.selected {
@@ -1266,11 +1275,12 @@ legend {
 }
 
 .product-detail__formbuttons {
-  display: flex;
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(162px, 1fr));
   justify-content: space-between;
   margin-top: 1.5em;
-  min-width: 10em;
-  flex-wrap: wrap;
+  grid-gap: 2em;
 }
 
 .product-detail input[type="submit"] {
@@ -1288,6 +1298,7 @@ legend {
 #submit-label, #buy-now-label,
 #checkout-label {
   display: flex;
+  justify-content: center;
   gap: 10px;
   background-color: var(--primary-light-color);
   color: white;
@@ -1299,8 +1310,7 @@ legend {
   line-height: 20px;
   letter-spacing: 0.5px;
   cursor: pointer;
-  align-items: center;
-  align-self: center;
+  align-items: normal;
   white-space: nowrap;
 }
 
@@ -1325,7 +1335,8 @@ legend {
 
 .product-detail__formbuttons a {
   display: flex;
-  align-self: flex-start;
+  width: 100%;
+  justify-content: center;
   gap: 10px;
   background-color: #d4e5f1;
   color: black;
@@ -1337,7 +1348,7 @@ legend {
   line-height: 16px;
   letter-spacing: 0.5px;
   white-space: nowrap;
-  padding: 7px 24px;
+  padding: var(--button-size);
 } 
 
 .product-detail__formbuttons span {
@@ -1346,6 +1357,12 @@ legend {
 }
 
 .product-detail__formbuttons a:not(:disabled):hover {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 3%),
+    0 1px 3px 1px rgba(0, 0, 0, 15%);
+  border-radius: 100px;
+}
+
+.product-detail__formbuttons label:hover {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 3%),
     0 1px 3px 1px rgba(0, 0, 0, 15%);
   border-radius: 100px;
@@ -2000,7 +2017,7 @@ textarea {
 
   .container-checkoutpage {
     display: flex;
-    margin-bottom: 5em;
+    margin-bottom: 10em;
     margin-top: 9em;
     place-items: center;
   }
@@ -2152,9 +2169,9 @@ textarea {
 }
 
   @media screen and (min-width: 800px) {
-    .products__content {
+    /* .products__content {
       grid-template-columns: repeat(2, minmax(14em, 1fr));
-    }
+    } */
   
     .product-detail img {
       padding: 1em;
@@ -2218,10 +2235,6 @@ textarea {
       height: initial;
     }
 
-    .carousel {
-      display: flex;
-    }
-
     /* Header style end */
 
     /* Navigation style */
@@ -2264,6 +2277,7 @@ textarea {
       display: flex;
       flex-direction: row;
       position: relative;
+      justify-content: center;
     }
 
     nav .nav__container>menu {
@@ -2375,7 +2389,6 @@ textarea {
     .products__content {
       padding-top: 0;
       margin: -20px 0 6em;
-      grid-template-columns: repeat(auto-fill, minmax(14em, 1fr));
     }
 
     .container-productdetail {
@@ -2405,6 +2418,10 @@ textarea {
       position: absolute;
       mix-blend-mode: normal;
       top: 10%;
+    }
+
+    .product-detail .product-detail__image img:hover+.product-detail__imageReview {
+      display: none;
     }
 
     .product-detail__image img {
@@ -2486,6 +2503,7 @@ textarea {
 
     .container-checkoutpage {
       margin: 13em 0;
+      margin-bottom: 5em;
       min-width: 65em;
       justify-content: space-around;
     }
