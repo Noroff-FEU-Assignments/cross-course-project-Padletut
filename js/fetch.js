@@ -43,17 +43,25 @@ export async function fetchProducts(productContainer, loaderContainer) {
 export async function fetchSingleProduct(id, detailContainer, url, loaderContainer) {
     try {
         let productStorage = loadFromStorage(Constants.singleProductStorageKey) || { timestamp: 0, data: [] };
-
         let data = productStorage.data.find(product => product.id === Number(id));
 
         // If data is not in local storage or it's more than 1 minute old, fetch it
         if (!data || new Date().getTime() - productStorage.timestamp >= 60000) {
-            const response = await fetch(`${url}/${id}`);
+
+            // Both of the following fetch requests works
+            // const response = await fetch(`${url}/${id}`);
+            const response = await fetch(`${url}?include=${id}`);
             if (!response.ok) {
                 detailContainer.innerHTML = "Error loading page";
                 return;
             }
             data = await response.json();
+
+            // If data is an array, convert data[0] to an object
+            if (Array.isArray(data)) {
+                data = data[0];
+            }
+
             // Update the product in local storage
             const index = productStorage.data.findIndex(product => product.id === id);
             if (index !== -1) {

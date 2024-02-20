@@ -22,13 +22,6 @@ document.addEventListener('headerLoaded', async () => {
     }
 });
 
-/* window.addEventListener('resize', () => {
-    if (window.innerWidth < 1150) {
-        Constants.productContainer.style.gridTemplateColumns = `repeat(auto-fill, minmax(14em, 1fr))`;
-    }
-}); */
-
-
 if (Constants.productContainer) {
     // Initialize the cart on page load
     document.addEventListener('headerLoaded', async () => {
@@ -46,7 +39,6 @@ if (Constants.productContainer) {
 
     });
 }
-
 
 export function renderProductCard(data) {
 

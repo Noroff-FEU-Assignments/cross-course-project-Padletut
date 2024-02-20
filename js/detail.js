@@ -112,18 +112,19 @@ export function renderProductsLeftBar(data) {
   }
 }
 
-export function renderProduct(details) {
+export function renderProduct(data) {
 
   const detailProductContainer = document.querySelector('.product-detail__description');
   const detailProductName = document.createElement('h1');
-  detailProductName.innerHTML = details.name;
+  detailProductName.innerHTML = data.name;
 
   let productGender;
-  for (const attribute of details.attributes) {
+  for (const attribute of data.attributes) {
     if (attribute.name === "Gender") {
       productGender = attribute.terms[0].name;
     }
   }
+
 
   const detailImageContainer = document.createElement('figure');
   detailImageContainer.classList.add('product-detail__image');
@@ -155,7 +156,7 @@ export function renderProduct(details) {
 
   const detailDescription = document.createElement('span');
   // Remove paragraph tags from the description
-  const descriptionWithoutParagraphTags = details.description.replace(/<p>|<\/p>/g, '');
+  const descriptionWithoutParagraphTags = data.description.replace(/<p>|<\/p>/g, '');
   detailDescription.innerHTML = descriptionWithoutParagraphTags;
   const detailGender = document.createElement('div');
   detailGender.classList.add('product-detail__gender');
@@ -163,8 +164,8 @@ export function renderProduct(details) {
 
   const detailPrice = document.createElement('div');
   detailPrice.classList.add('product-detail__price');
-  details.prices.sale_price = Number((details.prices.sale_price) / 100).toFixed(2);
-  detailPrice.innerHTML = `<h2>Price ${details.prices.currency_prefix} ${details.prices.sale_price}</h2>`;
+  data.prices.sale_price = Number((data.prices.sale_price) / 100).toFixed(2);
+  detailPrice.innerHTML = `<h2>Price ${data.prices.currency_prefix} ${data.prices.sale_price}</h2>`;
 
   const detailCheckList = document.createElement('div');
   detailCheckList.classList.add('product-detail__checklist');
@@ -198,7 +199,7 @@ export function renderProduct(details) {
 
 
   // Get the product images from array srcset and extract the links
-  const productImages = details.images[0].srcset;
+  const productImages = data.images[0].srcset;
   const regex = /(https?:\/\/[^\s]+)/g;
   const imageLinks = productImages.match(regex);
   const detailImage = document.createElement('img');
@@ -211,14 +212,14 @@ export function renderProduct(details) {
 
   const detailSelectColorContainer = document.querySelector('.select-color__image__container');
 
-  for (let i = 0; i < details.attributes.length; i++) {
-    if (details.attributes[i].name === "Color") {
-      for (let j = 0; j < details.attributes[i].terms.length; j++) {
+  for (let i = 0; i < data.attributes.length; i++) {
+    if (data.attributes[i].name === "Color") {
+      for (let j = 0; j < data.attributes[i].terms.length; j++) {
         // Create a new color selection element for each color option
         const colorSelectionElement = document.createElement('div');
         colorSelectionElement.innerHTML = `
         <img src="${detailImage.src}" alt="${detailImage.alt}">
-        <p>${details.attributes[i].terms[j].name}</p>`;
+        <p>${data.attributes[i].terms[j].name}</p>`;
         const radioColorSelector = document.createElement('input');
         radioColorSelector.setAttribute('type', 'radio');
         radioColorSelector.setAttribute('name', 'color-selection');
@@ -235,7 +236,7 @@ export function renderProduct(details) {
         // Create a label for the radio button
         const radioLabel = document.createElement('label');
         radioLabel.setAttribute('for', 'select-color-' + j);
-        radioLabel.textContent = details.attributes[i].terms[j].name;
+        radioLabel.textContent = data.attributes[i].terms[j].name;
         radioLabel.style.display = 'none';
 
         // Add the radio button, its label, and the color selection element to the container
