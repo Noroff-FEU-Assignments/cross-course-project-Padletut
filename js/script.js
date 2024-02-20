@@ -2,22 +2,32 @@ import * as Constants from './constants.js';
 import { addToShoppingCart } from "./handlecart.js";
 import { toggleCartVisibility, initializeCart, closeCartOnClickOutside } from "./togglecart.js";
 import { loadFromStorage } from './storage/local.js';
-import { fetchProducts, fetchProductsForCarousel } from './fetch.js';
-import { filterProductsOnInput } from './filter.js';
+import { fetchProducts } from './fetch.js';
+import { filterProductsOnInput, loadCarouselProducts } from './filter.js';
 
 
-// Initialize the carousel on page load
-if (Constants.carouselContainer) {
-    document.addEventListener('headerLoaded', async () => {
-        await fetchProductsForCarousel(Constants.carouselContainer, Constants.loaderContainer);
-    });
-}
-// Initialize products on page load
+
+
+// Initialize products and carousel on page load
 document.addEventListener('headerLoaded', async () => {
     const data = await fetchProducts(Constants.productContainer, Constants.loaderContainer);
     const searchInput = document.getElementById('search-products');
     filterProductsOnInput(data, renderProductCard, searchInput, Constants.colorFilter, Constants.sizeFilter, Constants.onSale, Constants.genderFilter);
+
+    const windowWidth = window.innerWidth;
+    if (Constants.carouselHeader && Constants.carouselContainer && windowWidth >= 800) {
+        loadCarouselProducts(data);
+        Constants.carouselHeader.style.display = "block";
+        Constants.carouselContainer.style.display = "flex";
+    }
 });
+
+/* window.addEventListener('resize', () => {
+    if (window.innerWidth < 1150) {
+        Constants.productContainer.style.gridTemplateColumns = `repeat(auto-fill, minmax(14em, 1fr))`;
+    }
+}); */
+
 
 if (Constants.productContainer) {
     // Initialize the cart on page load
@@ -61,6 +71,10 @@ export function renderProductCard(data) {
     const searchInput = document.getElementById('search-products');
     const selectedColorFilter = Array.from(Constants.colorFilter).find(element => element.checked)?.value;
     const selectedSizeFilter = Array.from(Constants.sizeFilter).find(element => element.checked)?.value;
+
+    // Get screen width and if it changes
+    let screenWidth = window.innerWidth;
+
     if (searchInput.value || selectedColorFilter !== 'All' || selectedSizeFilter) {
         cardBody.innerHTML = `<div class="products__content__header">
                                 <h2 id="product-header">Search Results</h2>
@@ -71,7 +85,7 @@ export function renderProductCard(data) {
             Constants.carouselContainer.style.display = "none";
         }
     } else {
-        if (Constants.carouselHeader && Constants.carouselContainer) {
+        if (Constants.carouselHeader && Constants.carouselContainer && screenWidth > 1150) {
             Constants.carouselHeader.style.display = "block";
             Constants.carouselContainer.style.display = "flex";
         }

@@ -1,8 +1,9 @@
 import * as Constants from './constants.js';
 import { addToShoppingCart, detail_updateAddToCartButtonState } from "./handlecart.js";
-import { fetchProducts, fetchProductsForCarousel, fetchSingleProduct } from "./fetch.js";
+import { fetchProducts, fetchSingleProduct } from "./fetch.js";
 import { loadFromStorage } from "./storage/local.js";
 import { initializeCart, toggleCartVisibility, closeCartOnClickOutside } from './togglecart.js';
+import { loadCarouselProducts } from './filter.js';
 
 // Initialize the product detail page
 if (Constants.detailContainer) {
@@ -21,9 +22,13 @@ if (Constants.leftBarContainer) {
 }
 
 // Initialize the carousel on page load
-if (Constants.carouselContainer) {
-  document.addEventListener('DOMContentLoaded', async () => {
-    await fetchProductsForCarousel(Constants.carouselContainer, Constants.loaderContainer);
+const windowWidth = window.innerWidth;
+
+if (Constants.carouselContainer && windowWidth >= 800) {
+  document.addEventListener('headerLoaded', async () => {
+    const data = await fetchProducts(Constants.carouselContainer, Constants.carouselLoaderContainer);
+    loadCarouselProducts(data);
+    Constants.carouselContainer.style.display = 'flex';
   });
 }
 
@@ -271,6 +276,8 @@ if (Constants.detailContainer) {
     const formButtonsContainer = document.querySelector(".product-detail__formbuttons");
 
     // Create the Buy Now button
+    const buyNowContainer = document.createElement('div');
+    buyNowContainer.className = 'buynow-container';
     const buyNowLabel = document.createElement('label');
     buyNowLabel.id = 'buy-now-label';
     buyNowLabel.htmlFor = 'buy-now-button';
@@ -284,6 +291,8 @@ if (Constants.detailContainer) {
     buyNowLabel.append(buyNowButton, buyNowObject, 'Buy Now');
 
     // Create the Add to Cart button
+    const addToCartContainer = document.createElement('div');
+    addToCartContainer.className = 'addtocart-container';
     const addToCartButton = document.createElement('a');
     addToCartButton.className = 'addToCart';
     addToCartButton.href = '#';
@@ -295,7 +304,10 @@ if (Constants.detailContainer) {
     addToCartButton.append(addToCartObject, addToCartSpan);
 
     // Add the buttons to the container
-    formButtonsContainer.append(buyNowLabel, addToCartButton);
+    formButtonsContainer.append(buyNowContainer);
+    buyNowContainer.append(buyNowLabel);
+    formButtonsContainer.append(addToCartContainer);
+    addToCartContainer.append(addToCartButton);
 
     // Add event listener to the Add to Cart button
     addToCartButton.addEventListener("click", (event) => {
