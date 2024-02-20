@@ -41,8 +41,8 @@
     </span>
     <div class="nav__container">
         <menu>
-            <li>
-                <a href="" class="go-back-btn">
+            <li class="go-back-btn">
+                <a href="">
                 <span>Go Back</span>
                 </a>
             </li>
