@@ -297,6 +297,7 @@ if (Constants.detailContainer) {
     // Add the buttons to the container
     formButtonsContainer.append(buyNowLabel, addToCartButton);
 
+    // Add event listener to the Add to Cart button
     addToCartButton.addEventListener("click", (event) => {
       event.preventDefault();
       if (!addToCartButton.disabled) {
@@ -313,6 +314,24 @@ if (Constants.detailContainer) {
         detail_updateAddToCartButtonState(shoppingCart);
         initializeCart(Constants.collapsibleCartContainer, Constants.loaderContainer);
       }
+    });
+
+    // Buy Now button event listener
+    buyNowButton.addEventListener("click", (event) => {
+      event.preventDefault();
+      const shoppingCart = loadFromStorage(Constants.cartKey) || [];
+      const productInCart = shoppingCart.find(item => item.id === Number(Constants.id));
+
+      if (!productInCart) {
+        addToShoppingCart(Number(Constants.id), fetchProducts.data, Constants.collapsibleCartContainer);
+        // empty shopping cart array and load from storage
+        shoppingCart.length = 0;
+        shoppingCart.push(...loadFromStorage(Constants.cartKey));
+      }
+      // updateButton();
+      detail_updateAddToCartButtonState(shoppingCart);
+      initializeCart(Constants.collapsibleCartContainer, Constants.loaderContainer);
+      window.location.href = "/checkout.html";
     });
 
     // Initial button update
