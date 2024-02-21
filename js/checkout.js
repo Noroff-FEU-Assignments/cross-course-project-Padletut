@@ -92,6 +92,7 @@ export function renderCheckout(data) {
       // Create quantity selector
       const quantitySelector = document.createElement('select');
       quantitySelector.dataset.id = cartItem.id;
+      quantitySelector.id = cartItem.id;
       quantitySelector.className = 'quantity-selector';
       for (let i = 1; i <= 10; i++) {
         const option = document.createElement('option');
@@ -138,7 +139,7 @@ export function renderCheckout(data) {
   checkoutContainer.appendChild(summaryDiv);
 
   // Checkout Now button
-  const checkoutLabel = document.createElement('label');
+  const checkoutLabel = document.createElement('span');
   checkoutLabel.id = 'checkout-label';
   checkoutLabel.innerHTML = `
     <object data="/svg/creditcard.svg"></object>Checkout Now

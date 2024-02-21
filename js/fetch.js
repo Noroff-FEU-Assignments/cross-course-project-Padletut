@@ -12,6 +12,7 @@ export async function fetchProducts(productContainer, loaderContainer) {
         } else {
             const response = await fetch(Constants.url);
             const data = await response.json();
+            data.sort((a, b) => a.id - b.id);
             if (!response.ok) {
                 productContainer.innerHTML = `<div class="${productContainer}"><h2>Ooops...something went wrong while loading the page</h2></div>`;
                 return;

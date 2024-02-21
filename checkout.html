@@ -46,8 +46,8 @@
           <div class="loader"></div>
           <h2>Items to Checkout</h2>
           <div class="paymentinfo__mobilecheckoutbuttons">
-            <label for="checkoutnow" id="checkout-label" class="hamburger-invisible">
-              <object data="/svg/creditcard.svg"></object>Checkout Now</label>
+            <span for="checkoutnow" id="checkout-label" class="hamburger-invisible">
+              <object data="/svg/creditcard.svg"></object>Checkout Now</span>
             <a href="/products.html">
               <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -59,14 +59,14 @@
         </aside>
         <aside class="item right-bar right-bar-checkoutpage">
           <h2>Please enter shipment information below</h2>
-          <form action="checkout_success.html">
+          <form id="checkout-form" action="checkout_success.html">
             <div class="shipmentinfo">
               <label for="firstname">First name</label>
               <input type="text" id="firstname">
               <label for="lastname">Last name</label>
               <input type="text" id="lastname">
               <label for="address">Address</label>
-              <input type="text" id="address">
+              <input type="text" id="address" autocomplete="address-level1">
               <div class="shipmentinfo__postandcity">
                 <div>
                   <label for="postalcode">Postal Code</label>

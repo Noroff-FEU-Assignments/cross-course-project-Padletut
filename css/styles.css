@@ -929,7 +929,6 @@ legend {
   font-size: 0.9em;
   z-index: 1;
   transform: rotateZ(-45deg);
-  text-wrap: nowrap;
   cursor: pointer;
   margin-left: -5px;
   width: fit-content;
@@ -1059,7 +1058,6 @@ legend {
   padding: 10px;
   align-items: flex-start;
   gap: 0.5em;
-  text-wrap: nowrap;
   height: inherit;
 }
 
@@ -1067,7 +1065,6 @@ legend {
   margin: 0;
   padding-left: 0;
   font-size: 16px;
-  text-wrap: pretty;
 }
 
 .products__item-textArea span {
