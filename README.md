@@ -1,6 +1,6 @@
 # Rainy Days
 
-![image](https://user-images.githubusercontent.com/52622303/164316813-4b12d99f-aeb7-4069-85cf-e72b3a50ac99.png)
+![image]([https://user-images.githubusercontent.com/52622303/164316813-4b12d99f-aeb7-4069-85cf-e72b3a50ac99.png](https://github.com/Noroff-FEU-Assignments/cross-course-project-Padletut/blob/main/rainydays.jpg?raw=true))
 
 A simple overview of the use/purpose of the project.
 
