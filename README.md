@@ -2,69 +2,85 @@
 
 ![image](https://github.com/Noroff-FEU-Assignments/cross-course-project-Padletut/blob/main/rainydays.jpg)
 
-A simple overview of the use/purpose of the project.
+Rainy Days is an e-commerce website designed for selling stylish rainwear. The website provides a dynamic and interactive user experience, with products being fetched and displayed from a remote server.
 
-## Description
+Description
+Rainy Days is a modern e-commerce site built using HTML, CSS, and JavaScript. It fetches product data from an API and displays it dynamically. The website features a clean and responsive design, product search functionality, and seamless user interactions. It ensures accessibility and usability, adhering to best practices and standards.
 
-Add a more detailed description of what your project entails and set out to do.
+- Provides detailed product information and images
+- Implements dynamic product fetching and rendering
+- Ensures accessibility and usability with WCAG compliance
+- Enhances user experience with a responsive and interactive design
 
-You can add some bullet points if you'd like to:
-
-- List item 1
-- List item 2
-- List item 3
 
 ## Built With
 
-![HTML5](https://img.shields.io/badge/-HTML5-white?style=for-the-badge&logo=html5)
-![CSS3](https://img.shields.io/badge/-CSS3-white?style=for-the-badge&logo=css3&logoColor=264de4)
-![JavaScript](https://img.shields.io/badge/-JavaScript-white?style=for-the-badge&logo=javascript)
-![WordPress](https://img.shields.io/badge/-WordPress-white?style=for-the-badge&logo=wordpress&logoColor=00749c)
+- [HTML5](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5)
+- [CSS3](https://developer.mozilla.org/en-US/docs/Web/CSS)
+- [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+
 
 ## Getting Started
 
 ### Installing
 
-This is where you list how to get the project started. It typically just includes telling a person to clone the repo and then to install the dependencies e.g.
+To get the project started, follow these steps:
 
 1. Clone the repo:
 
 ```bash
-git clone git@github.com:NoroffFEU/portfolio-1-example.git
+git clone https://github.com/Noroff-FEU-Assignments/project-exam-1-Padletut.git
 ```
 
-2. Install the dependencies:
-
-```
-npm install
-```
-
-### Running
-
-Here is where you detail how to run the app. It typically involves the commands you'd need to run to start the project e.g.
-
-To run the app, run the following commands:
+2. Navigate to the project directory:
 
 ```bash
-npm run start
+cd supercar-blog
 ```
 
-## Contributing
 
-Here you can detail any information you want to provide regarding contributing to the project. For big projects you will usually have a separate `CONTRIBUTING.md` and link to it, but for smaller projects you can simply include instructions here. These instructions can simply detail the process you want a person to take, such as to make sure to open a pull request so code can be reviewed.
+### Running
+To run the app, follow these steps:
+
+1. Ensure you have a running WordPress installation with the REST API enabled.
+
+2. Open the project in VSCODE and run live server.
+
+3. Configure the API endpoint in constans.js JavaScript code to point to your WordPress REST API.
+
+
+## Contributing
+If you would like to contribute to this project, please fork the repository and use a feature branch. Pull requests are warmly welcome.
+
+1. Fork the repo:
+
+```bash
+git fork https://github.com/Noroff-FEU-Assignments/project-exam-1-Padletut.git
+```
+
+2. Create a feature branch:
+
+```bash
+git checkout -b feature-branch-name
+```
+
+3. Commit your changes:
+
+```bash
+git commit -m 'Add some feature'
+```
+4. Push to the branch:
+
+```bash
+git push origin feature-branch-name
+```
+
+5. Open a pull request.
+
 
 ## Contact
 
-This is where you can leave your social links for people to contact you, such as a LinkedIn profile or Twitter link e.g.
-
-[My Twitter page](www.twitter.com)
-
-[My LinkedIn page](www.linkedin.com)
 
 ## License
 
-You can link to your license file here if you're using one, or mention what license the codebase falls under. If you're unsure then you can simply delete this section.
-
 ## Acknowledgments
-
-This is where you can add any acknowledgements if you'd like, such as to people who have helped you or any code snippets you'd like to mention. You can delete this section if you don't have any acknowledgements to make.
