@@ -29,13 +29,13 @@ To get the project started, follow these steps:
 1. Clone the repo:
 
 ```bash
-git clone https://github.com/Noroff-FEU-Assignments/project-exam-1-Padletut.git
+git clone https://github.com/Noroff-FEU-Assignments/cross-course-project-Padletut.git
 ```
 
 2. Navigate to the project directory:
 
 ```bash
-cd supercar-blog
+cd cross-course-project-Padletut
 ```
 
 
@@ -56,7 +56,7 @@ If you would like to contribute to this project, please fork the repository and 
 1. Fork the repo:
 
 ```bash
-git fork https://github.com/Noroff-FEU-Assignments/project-exam-1-Padletut.git
+git fork https://github.com/Noroff-FEU-Assignments/cross-course-project-Padletut.git
 ```
 
 2. Create a feature branch:
