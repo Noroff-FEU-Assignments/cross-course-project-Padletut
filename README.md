@@ -4,7 +4,7 @@
 
 Rainy Days is an e-commerce website designed for selling stylish rainwear. The website provides a dynamic and interactive user experience, with products being fetched and displayed from a remote server.
 
-Description
+## Description
 Rainy Days is a modern e-commerce site built using HTML, CSS, and JavaScript. It fetches product data from an API and displays it dynamically. The website features a clean and responsive design, product search functionality, and seamless user interactions. It ensures accessibility and usability, adhering to best practices and standards.
 
 - Provides detailed product information and images
@@ -40,13 +40,14 @@ cd supercar-blog
 
 
 ### Running
+
 To run the app, follow these steps:
 
-1. Ensure you have a running WordPress installation with the REST API enabled.
+Ensure you have a running server providing the product data.
 
-2. Open the project in VSCODE and run live server.
+Open the project in your preferred code editor and run a live server (e.g., Live Server in VSCode).
 
-3. Configure the API endpoint in constans.js JavaScript code to point to your WordPress REST API.
+Configure the API endpoint in the constants.js file to point to your server's API.
 
 
 ## Contributing
