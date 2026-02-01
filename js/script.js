@@ -90,7 +90,7 @@ export function renderProductCard(data) {
         const salePrice = parseFloat(product.prices.sale_price / 100).toFixed(2);
         const regularPrice = parseFloat(product.prices.regular_price / 100).toFixed(2);
         const productCurrency = product.prices.currency_prefix.charAt(0).toUpperCase() + product.prices.currency_prefix.slice(1);
-        const productImage = product.images[0].thumbnail;
+        const productImage = (product.images && product.images.length > 0) ? product.images[0].thumbnail : 'images/placeholder.jpg';
         const productId = product.id;
         const productName = product.name;
 
@@ -143,8 +143,17 @@ export function renderProductCard(data) {
         const productGender = document.createElement('div');
         productGender.classList.add('products__item-gender');
 
-        productGender.innerText = `Gender: ${product.attributes[0].terms[0].name}`;
-        productGender.setAttribute('aria-label', `Product gender Men`);
+        let genderText = 'Unisex';
+        if (product.attributes && product.attributes.length > 0) {
+            for (const attribute of product.attributes) {
+                if (attribute.name === "Gender" && attribute.terms && attribute.terms.length > 0) {
+                    genderText = attribute.terms[0].name;
+                    break;
+                }
+            }
+        }
+        productGender.innerText = `Gender: ${genderText}`;
+        productGender.setAttribute('aria-label', `Product gender ${genderText}`);
 
         const originalCardPrice = document.createElement('span');
         originalCardPrice.classList.add('products__item-price');

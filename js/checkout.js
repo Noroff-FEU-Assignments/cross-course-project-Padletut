@@ -67,10 +67,12 @@ export function renderCheckout(data) {
       checkoutItemDiv.className = 'left-bar__checkout';
       checkoutItemDiv.dataset.id = cartItem.id;
 
+      const productImageSrc = (product.images && product.images.length > 0) ? product.images[0].thumbnail : 'images/placeholder.jpg';
+
       // Populate the checkout item with product data
       checkoutItemDiv.innerHTML = `
         <figure class="left-bar__checkout-imageArea">
-          <img src="${product.images[0].thumbnail}" alt="${product.name}">
+          <img src="${productImageSrc}" alt="${product.name}">
         </figure>
         <div class="left-bar__checkout-textArea">
           <h3>${product.name}</h3>

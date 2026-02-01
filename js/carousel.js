@@ -38,12 +38,15 @@ export function renderCarousel(trackSelector, data) {
 
     const salePrice = parseFloat(product.prices.sale_price / 100).toFixed(2);
     const regularPrice = parseFloat(product.prices.regular_price / 100).toFixed(2);
-    const productImage = product.images[0].thumbnail;
+    const productImage = (product.images && product.images.length > 0) ? product.images[0].thumbnail : 'images/placeholder.jpg';
 
-    let gender;
-    for (const attribute of product.attributes) {
-      if (attribute.name === "Gender") {
-        gender = attribute.terms[0].name;
+    let gender = 'Unisex';
+    if (product.attributes && product.attributes.length > 0) {
+      for (const attribute of product.attributes) {
+        if (attribute.name === "Gender" && attribute.terms && attribute.terms.length > 0) {
+          gender = attribute.terms[0].name;
+          break;
+        }
       }
     }
 

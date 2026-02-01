@@ -75,11 +75,14 @@ export function renderProductsLeftBar(data) {
       }
 
       product.prices.sale_price = Number((product.prices.sale_price) / 100).toFixed(2);
-      let productGender;
-      const productImage = product.images[0].thumbnail;
-      for (const attribute of product.attributes) {
-        if (attribute.name === "Gender") {
-          productGender = attribute.terms[0].name;
+      let productGender = 'Unisex';
+      const productImage = (product.images && product.images.length > 0) ? product.images[0].thumbnail : 'images/placeholder.jpg';
+      if (product.attributes && product.attributes.length > 0) {
+        for (const attribute of product.attributes) {
+          if (attribute.name === "Gender" && attribute.terms && attribute.terms.length > 0) {
+            productGender = attribute.terms[0].name;
+            break;
+          }
         }
       }
 
@@ -118,10 +121,13 @@ export function renderProduct(data) {
   const detailProductName = document.createElement('h1');
   detailProductName.innerHTML = data.name;
 
-  let productGender;
-  for (const attribute of data.attributes) {
-    if (attribute.name === "Gender") {
-      productGender = attribute.terms[0].name;
+  let productGender = 'Unisex';
+  if (data.attributes && data.attributes.length > 0) {
+    for (const attribute of data.attributes) {
+      if (attribute.name === "Gender" && attribute.terms && attribute.terms.length > 0) {
+        productGender = attribute.terms[0].name;
+        break;
+      }
     }
   }
 
@@ -199,12 +205,22 @@ export function renderProduct(data) {
 
 
   // Get the product images from array srcset and extract the links
-  const productImages = data.images[0].srcset;
-  const regex = /(https?:\/\/[^\s]+)/g;
-  const imageLinks = productImages.match(regex);
-  const detailImage = document.createElement('img');
-
-  detailImage.src = imageLinks[1];
+  let detailImage = document.createElement('img');
+  
+  if (data.images && data.images.length > 0 && data.images[0].srcset) {
+    const productImages = data.images[0].srcset;
+    const regex = /(https?:\/\/[^\s]+)/g;
+    const imageLinks = productImages.match(regex);
+    if (imageLinks && imageLinks.length > 1) {
+      detailImage.src = imageLinks[1];
+    } else if (data.images[0].src) {
+      detailImage.src = data.images[0].src;
+    } else {
+      detailImage.src = 'images/placeholder.jpg';
+    }
+  } else {
+    detailImage.src = 'images/placeholder.jpg';
+  }
   detailImage.alt = detailProductName.textContent;
 
   const detailTitle = document.createElement('h2');
@@ -212,50 +228,52 @@ export function renderProduct(data) {
 
   const detailSelectColorContainer = document.querySelector('.select-color__image__container');
 
-  for (let i = 0; i < data.attributes.length; i++) {
-    if (data.attributes[i].name === "Color") {
-      for (let j = 0; j < data.attributes[i].terms.length; j++) {
-        // Create a new color selection element for each color option
-        const colorSelectionElement = document.createElement('div');
-        colorSelectionElement.innerHTML = `
+  if (data.attributes && data.attributes.length > 0) {
+    for (let i = 0; i < data.attributes.length; i++) {
+      if (data.attributes[i].name === "Color" && data.attributes[i].terms && data.attributes[i].terms.length > 0) {
+        for (let j = 0; j < data.attributes[i].terms.length; j++) {
+          // Create a new color selection element for each color option
+          const colorSelectionElement = document.createElement('div');
+          colorSelectionElement.innerHTML = `
         <img src="${detailImage.src}" alt="${detailImage.alt}">
         <p>${data.attributes[i].terms[j].name}</p>`;
-        const radioColorSelector = document.createElement('input');
-        radioColorSelector.setAttribute('type', 'radio');
-        radioColorSelector.setAttribute('name', 'color-selection');
-        radioColorSelector.setAttribute('id', 'select-color-' + j);
-        radioColorSelector.style.display = 'none';
+          const radioColorSelector = document.createElement('input');
+          radioColorSelector.setAttribute('type', 'radio');
+          radioColorSelector.setAttribute('name', 'color-selection');
+          radioColorSelector.setAttribute('id', 'select-color-' + j);
+          radioColorSelector.style.display = 'none';
 
-        // Only check the first radio button
-        if (j === 0) {
-          radioColorSelector.checked = true;
-          colorSelectionElement.classList.add('selected');
-        }
-        colorSelectionElement.classList.add('color-selection'); // Add a class for styling
+          // Only check the first radio button
+          if (j === 0) {
+            radioColorSelector.checked = true;
+            colorSelectionElement.classList.add('selected');
+          }
+          colorSelectionElement.classList.add('color-selection'); // Add a class for styling
 
-        // Create a label for the radio button
-        const radioLabel = document.createElement('label');
-        radioLabel.setAttribute('for', 'select-color-' + j);
-        radioLabel.textContent = data.attributes[i].terms[j].name;
-        radioLabel.style.display = 'none';
+          // Create a label for the radio button
+          const radioLabel = document.createElement('label');
+          radioLabel.setAttribute('for', 'select-color-' + j);
+          radioLabel.textContent = data.attributes[i].terms[j].name;
+          radioLabel.style.display = 'none';
 
-        // Add the radio button, its label, and the color selection element to the container
-        colorSelectionElement.appendChild(radioColorSelector);
-        colorSelectionElement.appendChild(radioLabel);
-        detailSelectColorContainer.appendChild(colorSelectionElement);
+          // Add the radio button, its label, and the color selection element to the container
+          colorSelectionElement.appendChild(radioColorSelector);
+          colorSelectionElement.appendChild(radioLabel);
+          detailSelectColorContainer.appendChild(colorSelectionElement);
 
-        // Trigger a click on the radio button when the container is clicked
-        colorSelectionElement.addEventListener('click', () => {
-          // Remove the 'selected' class from all color selection elements
-          const colorSelectionElements = document.querySelectorAll('.color-selection');
-          colorSelectionElements.forEach(element => {
-            element.classList.remove('selected');
+          // Trigger a click on the radio button when the container is clicked
+          colorSelectionElement.addEventListener('click', () => {
+            // Remove the 'selected' class from all color selection elements
+            const colorSelectionElements = document.querySelectorAll('.color-selection');
+            colorSelectionElements.forEach(element => {
+              element.classList.remove('selected');
+            });
+
+            // Add the 'selected' class to the clicked color selection element
+            colorSelectionElement.classList.add('selected');
+            radioColorSelector.click();
           });
-
-          // Add the 'selected' class to the clicked color selection element
-          colorSelectionElement.classList.add('selected');
-          radioColorSelector.click();
-        });
+        }
       }
     }
   }

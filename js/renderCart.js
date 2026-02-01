@@ -37,7 +37,7 @@ export function renderShoppingCart(data) {
     shoppingCartStorage.forEach(cartItem => {
         const product = data.find(item => item.id === cartItem.id);
         if (product) {
-            const productImage = product.images[0].thumbnail;
+            const productImage = (product.images && product.images.length > 0) ? product.images[0].thumbnail : 'images/placeholder.jpg';
             const productName = product.name;
             const productCurrency = product.prices.currency_prefix.charAt(0).toUpperCase() + product.prices.currency_prefix.slice(1);
             const salePrice = parseFloat(product.prices.sale_price / 100).toFixed(2);
