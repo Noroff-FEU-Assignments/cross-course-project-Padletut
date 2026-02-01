@@ -57,8 +57,14 @@ export function renderProductsLeftBar(data) {
 
   Constants.leftBarContainer.innerHTML = '<h2>Other Customers Also Bought</h2>';
 
-  for (let i = 0; i < 4; i++) {
+  // Limit to max 4 products or available products, whichever is smaller
+  const maxProducts = Math.min(4, data.length);
+  let attempts = 0;
+  const maxAttempts = 50; // Prevent infinite loop
+
+  for (let i = 0; i < maxProducts && attempts < maxAttempts; i++) {
     const randomProduct = Math.floor(Math.random() * data.length);
+    attempts++;
 
     if (!randomProducts.includes(randomProduct)) {
       randomProducts.push(randomProduct);
