@@ -57,6 +57,7 @@ export async function fetchSingleProduct(id, detailContainer, url, loaderContain
                 return;
             }
             data = await response.json();
+            console.log(data);
 
             // If data is an array, convert data[0] to an object
             if (Array.isArray(data)) {
