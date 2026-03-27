@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="The product detail page">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="images/favicon.ico" sizes="16x16 32x32" type="image/x-icon">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
+    <!-- Hotjar Tracking Code for https://inquisitive-lily-bba2a7.netlify.app -->
+    <script>
+      (function (h, o, t, j, a, r) {
+        h.hj = h.hj || function () { (h.hj.q = h.hj.q || []).push(arguments) };
+        h._hjSettings = { hjid: 3790420, hjsv: 6 };
+        a = o.getElementsByTagName('head')[0];
+        r = o.createElement('script'); r.async = 1;
+        r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+        a.appendChild(r);
+      })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
+    </script>
+
+    <!-- "defer" makes the script file to be read at the end of HTML, "type" allows for import and export data -->
+    <script defer type="module" src="/js/header.js"></script>
+    <script defer type="module" src="js/detail.js"></script>
+
+    <title>Product detail | RainyDays</title>
+  </head>
+
+  <body class="product-detail-page">
+    <header class="header-style header-styleProductspage" id="header-placeholder">
+      <!-- Dynamic header content will be loaded here -->
+    </header>
+    <main>
+      <div id="collapsible-cart" class="collapsible-cart">
+        <div class="loader-cart"></div>
+        <!-- Cart Content Will Be Dynamically Loaded Here -->
+      </div>
+      <h1 class="h1-invisible">Product detail site</h1>
+
+      <section class="container container-productdetail">
+
+        <!-- Main (center products) -->
+
+        <div class="item main-container main-container__detail">
+          <section class="product-detail">
+            <div class="loader-detail"></div>
+            <!-- Detail Product Content Will Be Dynamically Loaded Here -->
+            <div class="product-detail__description">
+              <form action="checkout.html">
+                <div>
+                  <div class="select-color__image__container">
+
+                  </div>
+                </div>
+                <div>
+                  <div>
+                    <label for="select-size">Select your size</label>
+                  </div>
+                  <select name="select-size" id="select-size">
+                    <option value="XS">X - Small</option>
+                    <option value="S">Small</option>
+                    <option value="M" selected>Medium</option>
+                    <option value="L">Large</option>
+                    <option value="XL">X - Large</option>
+                    <option value="XXL">XX - Large</option>
+                    <option value="XXXL">XXX - Large</option>
+                    <option value="XXXXL">XXXX - Large</option>
+                  </select>
+                </div>
+                <div class="product-detail__formbuttons">
+
+                </div>
+              </form>
+            </div>
+            <hr class="mobile-seperator">
+          </section>
+
+          <!-- Carousel container -->
+          <div class="carousel">
+            <button class="carousel__arrow carousel__arrow--left">
+              <i class="fas fa-chevron-left" aria-hidden="true"></i>
+              <span class="visually-hidden">Previous Slide</span>
+            </button>
+            <div class="carousel__track-container">
+              <ul class="carousel__track" id="carouselTrack">
+                <!-- Carousel items will be inserted here by JavaScript -->
+              </ul>
+            </div>
+            <button class="carousel__arrow carousel__arrow--right">
+              <i class="fas fa-chevron-right" aria-hidden="true"></i>
+              <span class="visually-hidden">Next Slide</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Left bar -->
+        <aside class="item left-bar left-bar-productpage">
+          <div class="left-bar__loader"></div>
+        </aside>
+
+        <!--  Right bar  -->
+
+        <aside class="item right-bar right-bar-productpage right-bar-detail">
+          <div>
+            <h2>Customer reviews</h2>
+            <div class="right-bar__reviews">
+              <div>
+                <object data="/svg/review-profile.svg"></object>
+              </div>
+              <div>
+                <h3>Jane Cooper</h3>
+                <object data="/svg/review-stars-0.svg"></object>
+              </div>
+              <div>
+                <span>01/01/2023</span>
+              </div>
+            </div>
+            <h3>Title</h3>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit
+              architecto est animi qui! Expedita error libero dolores corporis
+              voluptates nobis architecto facere consequatur aperiam laboriosam?
+              Expedita sit sequi nulla quidem.
+            </p>
+          </div>
+          <div>
+            <div class="right-bar__reviews">
+              <div>
+                <object data="/svg/review-profile.svg"></object>
+              </div>
+              <div>
+                <h3>Jane Cooper</h3>
+                <object data="/svg/review-stars-0.svg"></object>
+              </div>
+              <div>
+                <span>01/01/2023</span>
+              </div>
+            </div>
+            <h3>Title</h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit
+              architecto est animi qui! Expedita error libero dolores corporis
+              voluptates nobis architecto facere consequatur aperiam laboriosam?
+              Expedita sit sequi nulla quidem.</p>
+          </div>
+          <div>
+            <div class="right-bar__reviews">
+              <div>
+                <object data="/svg/review-profile.svg"></object>
+              </div>
+              <div>
+                <h3>Jane Cooper</h3>
+                <object data="/svg/review-stars-0.svg"></object>
+              </div>
+              <div>
+                <span>01/01/2023</span>
+              </div>
+            </div>
+            <h3>Title</h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit
+              architecto est animi qui! Expedita error libero dolores corporis
+              voluptates nobis architecto facere consequatur aperiam laboriosam?
+              Expedita sit sequi nulla quidem.</p>
+          </div>
+          <div>
+            <a href="">See more reviews</a>
+          </div>
+        </aside>
+      </section>
+    </main>
+    <footer>
+      <img src="images/RainyDays_Logo.png" alt="Rainydays logo">
+      <div class="footer">
+        <div class="footer__copyright">Copyright 2022 Company Name.</div>
+        <div class="footer__links">
+          <a href="">Privacy Policy</a>
+          <a href="">Terms & Conditions</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+        </div>
+        <div class="mobile-footer__links">
+          <a href="index.html">
+            <div class="svg">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M22.1836 11.8359L13.1273 2.78437L12.5203 2.17734C12.382 2.03994 12.1949 1.96283 12 1.96283C11.805 1.96283 11.618 2.03994 11.4797 2.17734L1.81639 11.8359C1.67467 11.9771 1.56266 12.1452 1.48698 12.3304C1.41131 12.5156 1.37349 12.714 1.37577 12.9141C1.38514 13.7391 2.07186 14.3977 2.89686 14.3977H3.89296V22.0312H20.107V14.3977H21.1242C21.525 14.3977 21.9023 14.2406 22.1859 13.957C22.3256 13.8178 22.4362 13.6523 22.5114 13.4701C22.5867 13.2878 22.625 13.0925 22.6242 12.8953C22.6242 12.4969 22.4672 12.1195 22.1836 11.8359ZM13.3125 20.3437H10.6875V15.5625H13.3125V20.3437ZM18.4195 12.7102V20.3437H14.8125V15C14.8125 14.482 14.393 14.0625 13.875 14.0625H10.125C9.60702 14.0625 9.18749 14.482 9.18749 15V20.3437H5.58046V12.7102H3.33046L12.0023 4.04531L12.5437 4.58672L20.6719 12.7102H18.4195Z"
+                  fill="#40484B" />
+              </svg>
+            </div>
+            <div>Home</div>
+          </a>
+        </div>
+        <div class="mobile-footer__links">
+          <a href="products_man.html">
+            <div class="svg">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M19.5 7.3125H16.3125V6.9375C16.3125 4.55625 14.3813 2.625 12 2.625C9.61875 2.625 7.6875 4.55625 7.6875 6.9375V7.3125H4.5C4.08516 7.3125 3.75 7.64766 3.75 8.0625V20.625C3.75 21.0398 4.08516 21.375 4.5 21.375H19.5C19.9148 21.375 20.25 21.0398 20.25 20.625V8.0625C20.25 7.64766 19.9148 7.3125 19.5 7.3125ZM9.375 6.9375C9.375 5.48672 10.5492 4.3125 12 4.3125C13.4508 4.3125 14.625 5.48672 14.625 6.9375V7.3125H9.375V6.9375ZM18.5625 19.6875H5.4375V9H7.6875V11.0625C7.6875 11.1656 7.77187 11.25 7.875 11.25H9.1875C9.29063 11.25 9.375 11.1656 9.375 11.0625V9H14.625V11.0625C14.625 11.1656 14.7094 11.25 14.8125 11.25H16.125C16.2281 11.25 16.3125 11.1656 16.3125 11.0625V9H18.5625V19.6875Z"
+                  fill="#061E25" />
+              </svg>
+            </div>
+            <div>Men's Gear</div>
+          </a>
+        </div>
+        <div class="mobile-footer__links">
+          <a href="products_woman.html">
+            <div class="svg">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M19.5 7.3125H16.3125V6.9375C16.3125 4.55625 14.3813 2.625 12 2.625C9.61875 2.625 7.6875 4.55625 7.6875 6.9375V7.3125H4.5C4.08516 7.3125 3.75 7.64766 3.75 8.0625V20.625C3.75 21.0398 4.08516 21.375 4.5 21.375H19.5C19.9148 21.375 20.25 21.0398 20.25 20.625V8.0625C20.25 7.64766 19.9148 7.3125 19.5 7.3125ZM9.375 6.9375C9.375 5.48672 10.5492 4.3125 12 4.3125C13.4508 4.3125 14.625 5.48672 14.625 6.9375V7.3125H9.375V6.9375ZM18.5625 19.6875H5.4375V9H7.6875V11.0625C7.6875 11.1656 7.77187 11.25 7.875 11.25H9.1875C9.29063 11.25 9.375 11.1656 9.375 11.0625V9H14.625V11.0625C14.625 11.1656 14.7094 11.25 14.8125 11.25H16.125C16.2281 11.25 16.3125 11.1656 16.3125 11.0625V9H18.5625V19.6875Z"
+                  fill="#061E25" />
+              </svg>
+            </div>
+            <div>Women's Gear</div>
+          </a>
+        </div>
+        <div class="mobile-footer__links">
+          <a href="">
+            <div class="svg">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M20.1211 17.8969C19.679 16.8496 19.0374 15.8984 18.232 15.0961C17.4291 14.2915 16.478 13.65 15.4312 13.207C15.4219 13.2023 15.4125 13.2 15.4031 13.1953C16.8633 12.1406 17.8125 10.4227 17.8125 8.48438C17.8125 5.27344 15.2109 2.67188 12 2.67188C8.78906 2.67188 6.1875 5.27344 6.1875 8.48438C6.1875 10.4227 7.13672 12.1406 8.59687 13.1977C8.5875 13.2023 8.57812 13.2047 8.56875 13.2094C7.51875 13.6523 6.57656 14.2875 5.76797 15.0984C4.96338 15.9013 4.32188 16.8524 3.8789 17.8992C3.44372 18.924 3.20902 20.0228 3.1875 21.1359C3.18687 21.161 3.19126 21.1858 3.2004 21.2091C3.20954 21.2324 3.22326 21.2537 3.24073 21.2716C3.2582 21.2895 3.27909 21.3037 3.30214 21.3134C3.3252 21.3231 3.34998 21.3281 3.375 21.3281H4.78125C4.88437 21.3281 4.9664 21.2461 4.96875 21.1453C5.01562 19.3359 5.74219 17.6414 7.02656 16.357C8.35547 15.0281 10.1203 14.2969 12 14.2969C13.8797 14.2969 15.6445 15.0281 16.9734 16.357C18.2578 17.6414 18.9844 19.3359 19.0312 21.1453C19.0336 21.2484 19.1156 21.3281 19.2187 21.3281H20.625C20.65 21.3281 20.6748 21.3231 20.6979 21.3134C20.7209 21.3037 20.7418 21.2895 20.7593 21.2716C20.7767 21.2537 20.7905 21.2324 20.7996 21.2091C20.8087 21.1858 20.8131 21.161 20.8125 21.1359C20.7891 20.0156 20.557 18.9258 20.1211 17.8969ZM12 12.5156C10.9242 12.5156 9.91172 12.0961 9.15 11.3344C8.38828 10.5727 7.96875 9.56016 7.96875 8.48438C7.96875 7.40859 8.38828 6.39609 9.15 5.63437C9.91172 4.87266 10.9242 4.45312 12 4.45312C13.0758 4.45312 14.0883 4.87266 14.85 5.63437C15.6117 6.39609 16.0312 7.40859 16.0312 8.48438C16.0312 9.56016 15.6117 10.5727 14.85 11.3344C14.0883 12.0961 13.0758 12.5156 12 12.5156Z"
+                  fill="#40484B" />
+              </svg>
+            </div>
+            <div>Account</div>
+          </a>
+        </div>
+      </div>
+    </footer>
+  </body>
+
+</html>
